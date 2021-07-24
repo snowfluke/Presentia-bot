@@ -1,0 +1,24 @@
+{
+	"name": "presentia",
+	"version": "1.0.0",
+	"description": "Bot untuk mengintegrasikan server presentia",
+	"main": "main.js",
+	"scripts": {
+		"start": "node main.js",
+		"test": "test"
+	},
+	"keywords": [
+		"presentia"
+	],
+	"author": "Sulaimu",
+	"license": "MIT",
+	"dependencies": {
+		"cron": "^1.8.2",
+		"discord.js": "^12.3.1",
+		"firebase-admin": "^9.10.0",
+		"nanoid": "^3.1.23",
+		"node-fetch": "^2.6.1",
+		"simple-excel-to-json": "^2.3.0",
+		"xlsx": "^0.17.0"
+	}
+}
