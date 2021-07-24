@@ -26,11 +26,11 @@ module.exports = {
 
 			const locationStatus =
 				instanceData.areaCoords.length >= 3 ? ":white_check_mark:" : ":x:";
-
-			const finalStatus =
-				message.guild.roles.cache.find((r) => r.name === "Dosen").length == 0
-					? ":x:"
-					: ":white_check_mark:";
+ 			
+                        const finalStatus =
+				message.guild.roles.cache.find((r) => r.name === "Dosen")
+					? ":white_check_mark:"
+					: ":x:";
 
 			const prosedurEmbed = normalEmbed(
 				"Prosedur Konfigurasi Server",
