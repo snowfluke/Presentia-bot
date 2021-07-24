@@ -22,7 +22,7 @@ module.exports = {
 			const absentRef = admin.firestore().collection("absent");
 			const absentSnap = await absentRef.doc(instanceId).listCollections();
 
-			const absentStatus = absentSnap.size > 0 ? ":white_check_mark:" : ":x:";
+			const absentStatus = absentSnap?.length > 0 ? ":white_check_mark:" : ":x:";
 
 			const locationStatus =
 				instanceData.areaCoords.length >= 3 ? ":white_check_mark:" : ":x:";
