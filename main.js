@@ -77,4 +77,4 @@ client.on("message", async (message) => {
 });
 
 // * Login the bot
-client.login(BOT_TOKEN);
+client.login(process.env.BOT_TOKEN);
