@@ -128,6 +128,10 @@ module.exports = {
 								id: dosenRole.id,
 								allow: 137481792,
 							},
+							{
+								id: roleAdmin.id,
+								allow: 137481792,
+							},
 						],
 					});
 				});
@@ -155,11 +159,11 @@ module.exports = {
 								permissionOverwrites: [
 									{
 										id: message.guild.id,
-										allow: 137481792,
+										deny: ["VIEW_CHANNEL"],
 									},
 									{
 										id: roleAdmin.id,
-										deny: ["VIEW_CHANNEL"],
+										allow: 137481792,
 									},
 									{
 										id: mmm.id,
