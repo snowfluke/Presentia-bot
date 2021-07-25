@@ -23,7 +23,7 @@ module.exports = {
 		if (args.length == 0 || args.length > 1) {
 			const cmdEmbedBantuan = cmdEmbed(
 				"Bantuan",
-				"Penjelasan lebih mendetail tersedia di buku panduan: http://presentia.stmikkomputama.ac.id/index.html#panduan"
+				"Penjelasan lebih mendetail tersedia di buku panduan: http://presentia.stmikkomputama.ac.id/#panduan"
 			)
 				.addField("1. Bantuan Admin", "` pr bantuan admin `")
 				.addField("2. Bantuan Dosen", "` pr bantuan dosen `")
