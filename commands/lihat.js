@@ -45,6 +45,7 @@ module.exports = {
 					return;
 				}
 
+				message.channel.send("Mempersiapkan...");
 				let kelas = args.slice(1).join(" ");
 
 				const isJadwalExist = await scheduleRef
@@ -61,6 +62,7 @@ module.exports = {
 
 				const jadwalData = await isJadwalExist.docs
 					.map((doc) => doc.data())
+					.filter((el) => el.start.length > 0)
 					.sort((a, b) => a.id - b.id);
 
 				const normalEmbedJadwal = normalEmbed(
@@ -70,7 +72,7 @@ module.exports = {
 
 				console.log(jadwalData);
 
-				for (let data of jadwalData) {
+				jadwalData.forEach((data) => {
 					let jadwalString = data.name
 						.map(
 							(el, id) => `${id + 1}.${el} (${data.start[el]}-${data.end[el]})`
@@ -78,10 +80,8 @@ module.exports = {
 						.join("\n");
 					console.log(data.day, jadwalString);
 					normalEmbedJadwal.addField(data.day, jadwalString);
-				}
+				});
 
-				message.channel.send("debugging");
-				return;
 				message.channel.send(normalEmbedJadwal);
 
 				return;
@@ -95,6 +95,8 @@ module.exports = {
 
 		const execLihatKelas = async () => {
 			try {
+				message.channel.send("Mempersiapkan...");
+
 				const kelasSnap = await mhsRef.doc(instanceId).get();
 				if (!kelasSnap.exists) {
 					message.channel.send(":worried: Maaf, tidak terdapat data kelas");
@@ -128,6 +130,8 @@ module.exports = {
 					message.channel.send(exampleEmbedMatkul);
 					return;
 				}
+
+				message.channel.send("Mempersiapkan...");
 
 				let kelas = args.slice(1).join(" ");
 				const listMatkulSnap = await absentRef
