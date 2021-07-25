@@ -68,15 +68,20 @@ module.exports = {
 					"Dengan perubahan terbaru"
 				).setAuthor(`Kelas: ${kelas}`);
 
+				console.log(jadwalData);
+
 				for (let data of jadwalData) {
 					let jadwalString = data.name
 						.map(
 							(el, id) => `${id + 1}.${el} (${data.start[el]}-${data.end[el]})`
 						)
 						.join("\n");
+					console.log(data.day, jadwalString);
 					normalEmbedJadwal.addField(data.day, jadwalString);
 				}
 
+				message.channel.send("debugging");
+				return;
 				message.channel.send(normalEmbedJadwal);
 
 				return;
@@ -125,17 +130,19 @@ module.exports = {
 				}
 
 				let kelas = args.slice(1).join(" ");
-				const listMatkul = await absentRef
+				const listMatkulSnap = await absentRef
 					.doc(instanceId)
 					.collection(kelas)
 					.doc("absensi")
 					.get();
-				if (!listMatkul.exists) {
+				if (!listMatkulSnap.exists) {
 					message.channel.send(
 						":worried: Maaf, daftar mata kuliah tidak ditemukan. Periksa kembali penulisan kelas atau lihat daftar kelas terlebih dahulu."
 					);
 					return;
 				}
+
+				const listMatkul = listMatkulSnap.data();
 
 				let matkulString = Object.keys(listMatkul)
 					.map((el, id) => `${id + 1}. ${el}`)

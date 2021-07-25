@@ -104,37 +104,6 @@ module.exports = {
 			);
 
 			let dosenRole = message.guild.roles.cache.find((r) => r.name === "Dosen");
-			message.guild.channels
-				.create("Laporan", {
-					type: "category",
-					position: categoryTotal - 2 + 1,
-					permissionOverwrites: [
-						{
-							id: message.guild.id,
-							deny: ["VIEW_CHANNEL"],
-						},
-					],
-				})
-				.then((cat) => {
-					message.guild.channels.create("laporan", {
-						type: "text",
-						parent: cat,
-						permissionOverwrites: [
-							{
-								id: message.guild.id,
-								deny: ["VIEW_CHANNEL"],
-							},
-							{
-								id: dosenRole.id,
-								allow: 137481792,
-							},
-							{
-								id: roleAdmin.id,
-								allow: 137481792,
-							},
-						],
-					});
-				});
 
 			for (let kk of matkul) {
 				message.guild.channels
