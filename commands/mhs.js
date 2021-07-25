@@ -5,7 +5,7 @@ const cmdEmbed = require("../cmdEmbed");
 module.exports = {
 	name: "mhs",
 	description: "Perintah untuk mengatur mahasiswa.\n` pr mhs `",
-	type: "dosen",
+	type: "all",
 	async execute(message, args, instanceId) {
 		if (!message.member.roles.cache.find((r) => r.name === "Admin")) {
 			message.channel.send(
@@ -94,6 +94,8 @@ module.exports = {
 					message.channel.send(`Perangkat ${mhsData.name} belum teregistrasi`);
 					return;
 				}
+				const deviceRef = admin.firestore().collection("devices");
+				await deviceRef.doc(mhsData.device).delete();
 				await mhsRef.doc(instanceId).collection("mhs").doc(NIM).update({
 					device: "",
 				});
