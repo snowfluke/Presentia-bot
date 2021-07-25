@@ -70,15 +70,13 @@ module.exports = {
 					"Dengan perubahan terbaru"
 				).setAuthor(`Kelas: ${kelas}`);
 
-				console.log(jadwalData);
-
 				jadwalData.forEach((data) => {
 					let jadwalString = data.name
 						.map(
-							(el, id) => `${id + 1}.${el} (${data.start[id]}-${data.end[id]})`
+							(el, id) => `${id + 1}. ${el} (${data.start[id]}-${data.end[id]})`
 						)
 						.join("\n");
-					console.log(data.day, jadwalString);
+
 					normalEmbedJadwal.addField(data.day, jadwalString);
 				});
 

@@ -5,7 +5,7 @@ const cmdEmbed = require("../cmdEmbed");
 module.exports = {
 	name: "mhs",
 	description: "Perintah untuk mengatur mahasiswa.\n` pr mhs `",
-	type: "admin",
+	type: "dosen",
 	async execute(message, args, instanceId) {
 		if (!message.member.roles.cache.find((r) => r.name === "Admin")) {
 			message.channel.send(
@@ -21,18 +21,22 @@ module.exports = {
 			)
 				.addField(
 					"1. Mempercayakan Mahasiswa Untuk Menerima Titipan Absen",
-					`pr mhs terpercaya <NIM>`
+					"` pr mhs terpercaya <NIM> `"
 				)
 				.addField(
 					"2. Menandai Mahasiswa yang terkendala perangkat",
 					"` pr mhs terkendala <NIM> `"
+				)
+				.addField(
+					"3. Mengatur ulang perangkat mahasiswa yang terdaftar",
+					"` pr mhs reset <NIM> `"
 				);
 
 			message.channel.send(cmdEmbedMhs);
 			return;
 		}
 
-		let validArgs = ["terpercaya", "terkendala"];
+		let validArgs = ["terpercaya", "terkendala", "reset"];
 		let tipe = args[0];
 
 		if (!validArgs.includes(tipe)) {
@@ -68,19 +72,36 @@ module.exports = {
 			if (tipe == "terpercaya") {
 				mhsData.trouble = false;
 				mhsData.trusted = !mhsData.trusted;
+				await mhsRef.doc(instanceId).collection("mhs").doc(NIM).set(mhsData);
 				message.channel.send(
 					`Berhasil menandai **${mhsData.name}** sebagai mahasiswa terpercaya :partying_face:`
 				);
+				return;
 			}
 
 			if (tipe == "terkendala") {
 				mhsData.trusted = false;
 				mhsData.trouble = !mhsData.trouble;
+				await mhsRef.doc(instanceId).collection("mhs").doc(NIM).set(mhsData);
 				message.channel.send(
 					`Berhasil menandai **${mhsData.name}** sebagai mahasiswa terkendala perangkat`
 				);
+				return;
 			}
-			await mhsRef.doc(instanceId).collection("mhs").doc(NIM).set(mhsData);
+
+			if (tipe == "reset") {
+				if (mhsData.device.length == 0) {
+					message.channel.send(`Perangkat ${mhsData.name} belum teregistrasi`);
+					return;
+				}
+				await mhsRef.doc(instanceId).collection("mhs").doc(NIM).update({
+					device: "",
+				});
+				message.channel.send(
+					`Berhasil mereset perangkat milik **${mhsData.name}** :partying_face:`
+				);
+				return;
+			}
 		} catch (error) {
 			console.log(error);
 			message.channel.send(

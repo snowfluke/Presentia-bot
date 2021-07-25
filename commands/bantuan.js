@@ -50,9 +50,8 @@ module.exports = {
 			// * Filter based on tipe & all
 			if (cmd.type == tipe || cmd.type == "all") {
 				helpEmbed.addField(`${index}. ${cmd.name}`, cmd.description);
+				index++;
 			}
-
-			index++;
 		}
 
 		message.channel.send(helpEmbed);
