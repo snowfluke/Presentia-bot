@@ -33,7 +33,7 @@ module.exports = {
 		const scheduleRef = admin.firestore().collection("schedule");
 		const absentRef = admin.firestore().collection("absent");
 
-		const execLihatJadwal = () => {
+		const execLihatJadwal = async () => {
 			try {
 				if (args.length == 1) {
 					const exampleEmbedJadwal = exampleEmbed(
@@ -87,7 +87,7 @@ module.exports = {
 			}
 		};
 
-		const execLihatKelas = () => {
+		const execLihatKelas = async () => {
 			try {
 				const kelas = mhsRef.doc(instanceId).get();
 				if (!kelas.exists) {
@@ -109,7 +109,7 @@ module.exports = {
 			}
 		};
 
-		const execLihatMatkul = () => {
+		const execLihatMatkul = async () => {
 			try {
 				if (args.length == 1) {
 					const exampleEmbedMatkul = exampleEmbed(
