@@ -71,7 +71,7 @@ module.exports = {
 				nameStatus = false;
 			}
 
-			const getStat = (mhs) => {
+			const getStat = async (mhs) => {
 				const absentRecords = await absentRef
 					.doc(instanceId)
 					.collection(mhs.kelas)
@@ -116,7 +116,7 @@ module.exports = {
 					normalEmbedMhs.addField("Status Spesial", "Dipercayai Titipan");
 				}
 
-				const stat = getStat(mhsData);
+				const stat = await getStat(mhsData);
 
 				normalEmbedMhs.addField(
 					"Statistik Absensi",
@@ -149,7 +149,7 @@ module.exports = {
 					normalEmbedMhs.addField("Status Spesial", "Dipercayai Titipan");
 				}
 
-				const stat = getStat(mhsData);
+				const stat = await getStat(mhsData);
 
 				normalEmbedMhs.addField(
 					"Statistik Absensi",
