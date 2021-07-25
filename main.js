@@ -6,7 +6,12 @@ const fs = require("fs");
 const cron = require("cron");
 
 // * Import configuration
-const { botPrefix } = require("./config.json");
+const {
+	botPrefix,
+	botAuthor,
+	botYear,
+	botAuthorLogo,
+} = require("./config.json");
 
 // * Import custom independence command
 const registrasi = require("./registrasi");
@@ -78,3 +83,21 @@ client.on("message", async (message) => {
 
 // * Login the bot
 client.login(process.env.BOT_TOKEN);
+
+client.on("guildMemberAdd", (member) => {
+	const welcomeChannel = member.guild.channels.cache.find(
+		(channel) => channel.name === "selamat-datang"
+	);
+	if (!welcomeChannel) return;
+
+	const welcomeEmbed = new Discord.MessageEmbed()
+		.setTitle(`Halo, ${member.user.username}`)
+		.setDescription(
+			`Selamat datang di server ${member.guild.name}. Silakan mengunjungi channel **#ampu-matkul** untuk mengampu mata kuliah. Untuk bantuan, ketikkan perintah \` pr bantuan \` pada channel **#ampu-matkul**.\n**:wave: Selamat bergabung, ${member}**`
+		)
+		.setThumbnail(member.user.displayAvatarURL())
+		.setColor("#119DA4")
+		.setFooter(`Dipersembahkan oleh. ${botAuthor} - ${botYear}`, botAuthorLogo);
+
+	welcomeChannel.send(welcomeEmbed);
+});
