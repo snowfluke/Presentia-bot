@@ -1,6 +1,6 @@
 const admin = require("../firebase");
 const check3 = require("../check3");
-const xlsx = require("xlsx");
+const XLSX = require("xlsx");
 
 module.exports = {
 	name: "laporan",
@@ -27,6 +27,12 @@ module.exports = {
 			message.channel.send(
 				":worried: Maaf, channel **laporan** tidak ditemukan, silakan tanyakan pada admin untuk membuat channel laporan."
 			);
+		}
+
+		const status = await check3(instanceId);
+		if (!status.status) {
+			message.channel.send(status.data);
+			return;
 		}
 
 		const data = [
