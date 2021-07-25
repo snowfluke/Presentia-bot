@@ -77,9 +77,18 @@ module.exports = {
 				mhsData.trouble = false;
 				mhsData.trusted = !mhsData.trusted;
 				await mhsRef.doc(instanceId).collection("mhs").doc(NIM).set(mhsData);
+
+				if (mhsData.trusted) {
+					message.channel.send(
+						`Berhasil menandai **${mhsData.name}** sebagai mahasiswa terpercaya :partying_face:`
+					);
+
+					return;
+				}
 				message.channel.send(
-					`Berhasil menandai **${mhsData.name}** sebagai mahasiswa terpercaya :partying_face:`
+					`Berhasil melepas tanda mahasiswa terpercaya dari **${mhsData.name}** :worried:`
 				);
+
 				return;
 			}
 
@@ -87,8 +96,14 @@ module.exports = {
 				mhsData.trusted = false;
 				mhsData.trouble = !mhsData.trouble;
 				await mhsRef.doc(instanceId).collection("mhs").doc(NIM).set(mhsData);
+				if (mhsData.trouble) {
+					message.channel.send(
+						`Berhasil menandai **${mhsData.name}** sebagai mahasiswa terkendala perangkat :worried:`
+					);
+					return;
+				}
 				message.channel.send(
-					`Berhasil menandai **${mhsData.name}** sebagai mahasiswa terkendala perangkat`
+					`Berhasil melepas tanda mahasiswa terkendala dari **${mhsData.name}** :partying_face:`
 				);
 				return;
 			}
