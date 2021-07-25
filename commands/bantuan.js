@@ -7,9 +7,7 @@ const { botPrefix } = require("../config.json");
 // * Import command file from commands folder
 const commandFiles = fs
 	.readdirSync("./commands")
-	.filter((file) => file.endsWith(".js"))
-	.sort((a, b) => a.id - b.id);
-
+	.filter((file) => file.endsWith(".js"));
 const cmdEmbed = require("../cmdEmbed");
 
 module.exports = {
@@ -44,9 +42,9 @@ module.exports = {
 		).addField("Awalan", `\` ${botPrefix}<perintah> \``);
 
 		let index = 1;
-
+		let newSortCommand = commandFiles.sort((a, b) => a.id - b.id);
 		// * Loop the command file
-		for (const com of commandFiles) {
+		for (const com of newSortCommand) {
 			const cmd = require(`./${com}`);
 
 			// * Filter based on tipe & all
