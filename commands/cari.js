@@ -44,7 +44,7 @@ module.exports = {
 			}
 
 			let keyword = args
-				.toLowerCase()
+				.map((el) => el.toLowerCase())
 				.map((el) => el[0].toUpperCase() + el.substring(1))
 				.join(" ")
 				.trim();
