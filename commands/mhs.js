@@ -69,7 +69,7 @@ module.exports = {
 				mhsData.trouble = false;
 				mhsData.trusted = !mhsData.trusted;
 				message.channel.send(
-					`Berhasil menjadikan ${mhsData.name} sebagai mahasiswa terpercaya :partying_face:`
+					`Berhasil menandai **${mhsData.name}** sebagai mahasiswa terpercaya :partying_face:`
 				);
 			}
 
@@ -77,7 +77,7 @@ module.exports = {
 				mhsData.trusted = false;
 				mhsData.trouble = !mhsData.trouble;
 				message.channel.send(
-					`Berhasil menandai ${mhsData.name} sebagai mahasiswa terkendala perangkat`
+					`Berhasil menandai **${mhsData.name}** sebagai mahasiswa terkendala perangkat`
 				);
 			}
 			await mhsRef.doc(instanceId).collection("mhs").doc(NIM).set(mhsData);

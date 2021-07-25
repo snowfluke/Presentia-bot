@@ -75,7 +75,7 @@ module.exports = {
 				jadwalData.forEach((data) => {
 					let jadwalString = data.name
 						.map(
-							(el, id) => `${id + 1}.${el} (${data.start[el]}-${data.end[el]})`
+							(el, id) => `${id + 1}.${el} (${data.start[id]}-${data.end[id]})`
 						)
 						.join("\n");
 					console.log(data.day, jadwalString);
