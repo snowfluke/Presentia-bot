@@ -76,8 +76,11 @@ module.exports = {
 			const absentRef = admin.firestore().collection("absent");
 			const scheduleRef = admin.firestore().collection("schedule");
 
-			let dayId = new Date().getDay().toLocaleString("id");
+			let dayId = new Date()
+				.getDay()
+				.toLocaleString("id", { timeZone: "Asia/Jakarta" });
 			day = day[dayId];
+
 			let kelas = message.channel.parent.name;
 			let matkul = message.channel.name;
 			if (matkul.length >= 4) {
@@ -117,8 +120,12 @@ module.exports = {
 			}
 
 			let index = todayData.name.indexOf(matkul);
-			let jam = new Date().getHours().toLocaleString("id");
-			let menit = new Date().getMinutes().toLocaleString("id");
+			let jam = new Date()
+				.getHours()
+				.toLocaleString("id", { timeZone: "Asia/Jakarta" });
+			let menit = new Date()
+				.getMinutes()
+				.toLocaleString("id", { timeZone: "Asia/Jakarta" });
 
 			let todayTime =
 				jam + "." + (menit.toString().length == 1 ? "0" + menit : menit);
@@ -141,7 +148,9 @@ module.exports = {
 				.addField("Tipe Absen", tipeAbsen);
 
 			const execMulai = async () => {
-				let date = new Date().toLocaleString("id").split(" ")[0];
+				let date = new Date()
+					.toLocaleString("id", { timeZone: "Asia/Jakarta" })
+					.split(" ")[0];
 				const msg = {
 					notification: {
 						title: "Absensi Dimulai!",
