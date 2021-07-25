@@ -146,10 +146,10 @@ module.exports = {
 
 					listMatkul.forEach((el) => {
 						let stat = {
-							H: statAbsen.filter((el) => el == "H").length,
-							S: statAbsen.filter((el) => el[0] == "S").length,
-							I: statAbsen.filter((el) => el[0] == "I").length,
-							A: statMeet.length - statAbsen.filter((el) => true).length,
+							H: data[el].filter((el) => el == "H").length,
+							S: data[el].filter((el) => el[0] == "S").length,
+							I: data[el].filter((el) => el[0] == "I").length,
+							A: matkulData[el].length - data[el].filter((el) => true).length,
 						};
 
 						let kehadiranString = `H:${stat.H} - S:${stat.S} - I:${stat.I} - A:${stat.A} `;
