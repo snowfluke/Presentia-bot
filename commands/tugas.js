@@ -8,6 +8,7 @@ const check3 = require("../check3");
 module.exports = {
 	name: "tugas",
 	type: "dosen",
+	id: "7",
 	description:
 		"Perintah untuk mengirimkan tugas ke kelas mahasiswa.\n` pr tugas `",
 	async execute(message, args, instanceId) {

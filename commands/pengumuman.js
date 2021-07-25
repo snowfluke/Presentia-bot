@@ -10,6 +10,7 @@ module.exports = {
 	type: "admin",
 	description:
 		"Perintah untuk mengirimkan pengumuman ke semua mahasiswa.\n` pr pengumuman `",
+	id: "7",
 	async execute(message, args, instanceId) {
 		if (!message.member.roles.cache.find((r) => r.name === "Admin")) {
 			message.channel.send(

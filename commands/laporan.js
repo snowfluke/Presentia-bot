@@ -3,6 +3,7 @@ const check3 = require("../check3");
 
 module.exports = {
 	name: "laporan",
+	id: "97",
 	description:
 		"Perintah untuk menampilkan laporan absensi (dalam format file excel).\n` pr laporan `",
 	type: "all",

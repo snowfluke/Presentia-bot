@@ -6,6 +6,7 @@ const check3 = require("../check3");
 
 module.exports = {
 	name: "jadwal",
+	id: "1",
 	description: "Perintah untuk mengatur jadwal.\n` pr jadwal `",
 	type: "dosen",
 	async execute(message, args, instanceId) {

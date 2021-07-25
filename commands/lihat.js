@@ -9,6 +9,7 @@ module.exports = {
 	description:
 		"Perintah untuk melihat jadwal, daftar kelas dan daftar mata kuliah.\n` pr lihat `",
 	type: "all",
+	id: "6",
 	async execute(message, args, instanceId) {
 		const status = await check3(instanceId);
 		if (!status.status) {

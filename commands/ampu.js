@@ -3,6 +3,7 @@ const exampleEmbed = require("../exampleEmbed");
 module.exports = {
 	name: "ampu",
 	description: "Perintah untuk mengampu channel mata kuliah.\n` pr ampu `",
+	id: "0",
 	type: "dosen",
 	async execute(message, args) {
 		if (message.member.roles.cache.find((r) => r.name === "Admin")) {

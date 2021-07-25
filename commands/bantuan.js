@@ -8,13 +8,14 @@ const { botPrefix } = require("../config.json");
 const commandFiles = fs
 	.readdirSync("./commands")
 	.filter((file) => file.endsWith(".js"))
-	.sort((a, b) => a?.id - b?.id);
+	.sort((a, b) => a.id - b.id);
 
 const cmdEmbed = require("../cmdEmbed");
 
 module.exports = {
 	name: "bantuan",
 	type: "all",
+	id: "99",
 	description: "Perintah untuk menampilkan menu bantuan.\n` pr bantuan `",
 	async execute(message, args) {
 		// parameter:
