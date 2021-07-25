@@ -635,10 +635,10 @@ module.exports = {
 			};
 
 			const upReset = async () => {
-				// if (message.author.id != message.guild.ownerID)
-				// 	return message.channel.send(
-				// 		":worried: Maaf, Anda bukan pemilik server"
-				// 	);
+				if (message.author.id != message.guild.ownerID)
+					return message.channel.send(
+						":worried: Maaf, Anda bukan pemilik server"
+					);
 
 				const filter = (reaction, user) => {
 					return (
