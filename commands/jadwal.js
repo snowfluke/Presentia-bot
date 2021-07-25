@@ -300,7 +300,54 @@ module.exports = {
 				}
 			};
 
-			const execLihat = async () => {};
+			const execLihat = async () => {
+				try {
+					message.channel.send("Mempersiapkan...");
+					let kelas = args.slice(1).join(" ");
+
+					const isJadwalExist = await scheduleRef
+						.doc(instanceId)
+						.collection(kelas)
+						.get();
+
+					if (isJadwalExist.docs.length == 0) {
+						message.channel.send(
+							":worried: Maaf, jadwal tidak ditemukan. Periksa kembali penulisan kelas atau lihat daftar kelas terlebih dahulu."
+						);
+						return;
+					}
+
+					const jadwalData = await isJadwalExist.docs
+						.map((doc) => doc.data())
+						.filter((el) => el.start.length > 0)
+						.sort((a, b) => a.id - b.id);
+
+					const normalEmbedJadwal = normalEmbed(
+						"Jadwal Perkuliahan",
+						"Dengan perubahan terbaru"
+					).setAuthor(`Kelas: ${kelas}`);
+
+					jadwalData.forEach((data) => {
+						let jadwalString = data.name
+							.map(
+								(el, id) =>
+									`${id + 1}. ${el} (${data.start[id]}-${data.end[id]})`
+							)
+							.join("\n");
+
+						normalEmbedJadwal.addField(data.day, jadwalString);
+					});
+
+					message.channel.send(normalEmbedJadwal);
+
+					return;
+				} catch (error) {
+					console.log(error);
+					message.channel.send(
+						`:worried: Maaf, terjadi kesalahan. Silakan mencoba beberapa saat lagi`
+					);
+				}
+			};
 
 			switch (args[0]) {
 				case "ubah":

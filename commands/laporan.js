@@ -1,5 +1,6 @@
 const admin = require("../firebase");
 const check3 = require("../check3");
+const xlsx = require("xlsx");
 
 module.exports = {
 	name: "laporan",
@@ -27,8 +28,33 @@ module.exports = {
 				":worried: Maaf, channel **laporan** tidak ditemukan, silakan tanyakan pada admin untuk membuat channel laporan."
 			);
 		}
+
+		const data = [
+			{ name: "John", city: "Seattle" },
+			{ name: "Mike", city: "Los Angeles" },
+			{ name: "Zach", city: "New York" },
+		];
+
 		try {
-			wadah.channel.send("Test mengirim di channel laporan");
+			const workbook = XLSX.utils.book_new();
+			const filename = "Laporan";
+			const dataSheet = XLSX.utils.json_to_sheet(data);
+			XLSX.utils.book_append_sheet(
+				workbook,
+				dataSheet,
+				filename.replace("/", "")
+			);
+			const f = XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
+
+			wadah.send(`Test mengirim di channel laporan <@!${message.author.id}>`);
+			wadah.send({
+				files: [
+					{
+						attachment: f,
+						name: "laporan.xlsx",
+					},
+				],
+			});
 		} catch (error) {
 			console.log(error);
 			message.channel.send(
