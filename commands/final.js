@@ -2,8 +2,9 @@ const check3 = require("../check3");
 const admin = require("../firebase");
 
 module.exports = {
-	name: "[konfigurasi-3] final",
+	name: "final",
 	type: "admin",
+	config: true,
 	description:
 		"Perintah untuk finalisasi konfigurasi server presentia.\n` pr final `",
 	async execute(message, args, instanceId) {

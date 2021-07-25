@@ -44,6 +44,7 @@ module.exports = {
 		// * Loop the command file
 		for (const com of commandFiles) {
 			const cmd = require(`./${com}`);
+			if (cmd.config) return;
 
 			// * Filter based on tipe & all
 			if (cmd.type == tipe || cmd.type == "all") {

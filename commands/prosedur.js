@@ -2,7 +2,7 @@ const normalEmbed = require("../normalEmbed");
 const admin = require("../firebase");
 
 module.exports = {
-	name: "prosedur",
+	name: "[wajib] prosedur",
 	type: "admin",
 	description:
 		"Perintah untuk melihat prosedur konfigurasi server Presentia.\n` pr prosedur `",
