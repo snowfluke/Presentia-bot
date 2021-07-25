@@ -117,8 +117,8 @@ module.exports = {
 			}
 
 			let index = todayData.name.indexOf(matkul);
-			let jam = new Date().getHours();
-			let menit = new Date().getMinutes();
+			let jam = new Date().getHours().toLocaleString("id");
+			let menit = new Date().getMinutes().toLocaleString("id");
 
 			let todayTime =
 				jam + "." + (menit.toString().length == 1 ? "0" + menit : menit);

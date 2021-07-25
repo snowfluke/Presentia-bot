@@ -55,6 +55,7 @@ module.exports = {
 		}
 
 		const mhsRef = admin.firestore().collection("mahasiswa");
+		const absentRef = admin.firestore().collection("absent");
 		const generateLaporan = (pesanFile, namaFile, dataFile) => {
 			const workbook = XLSX.utils.book_new();
 			const filename = namaFile;
@@ -89,6 +90,8 @@ module.exports = {
 			}
 			let kelas = args.slice(1).join(" ");
 			try {
+				message.channel.send("Mempersiapkan laporan...");
+
 				const snapKelas = await mhsRef.doc(instanceId).get();
 				const data = snapKelas.data();
 				let checker = data.kelas.map((el) => el.toLowerCase());
@@ -103,7 +106,49 @@ module.exports = {
 				let indexKelas = checker.indexOf(kelas.toLowerCase());
 				kelas = data.kelas[indexKelas];
 
-				message.channel.send("Mempersiapkan laporan...");
+				const dataPerKelas = await mhsRef
+					.doc(instanceId)
+					.collection("mhs")
+					.where("kelas", "==", kelas)
+					.get();
+
+				if (dataPerKelas.docs.length == 0) {
+					message.channel.send(`:worried: Maaf, data kelas tidak ditemukan`);
+					return;
+				}
+
+				const matkulSnap = await absentRef
+					.doc(instanceId)
+					.collection(kelas)
+					.doc("absensi")
+					.get();
+
+				if (!matkulSnap.exists) {
+					message.channel.send(`:worried: Maaf, data absensi tidak ditemukan`);
+					return;
+				}
+
+				const matkulData = matkulSnap.data();
+				const listMatkul = Object.keys(matkulData);
+
+				const obj = [];
+				const dataNya = await dataPerKelas.docs
+					.map((doc) => doc.data())
+					.sort((a, b) => a.name - b.name);
+				dataNya.forEach((data, id) => {
+					let tempObj = {
+						No: id + 1,
+						Nama: data.name,
+					};
+
+					listMatkul.forEach((el) => {
+						tempObj[el] = "";
+					});
+
+					obj.push(tempObj);
+				});
+				let name = "Laporan-" + new Date().toLocaleDateString("id");
+				generateLaporan(kelas, name, obj);
 				return;
 			} catch (error) {
 				console.log(error);
@@ -114,7 +159,22 @@ module.exports = {
 		};
 
 		const execLaporMatkul = async () => {
-			let kelas = message.channel.name;
+			let matkul = message.channel.name;
+			if (matkul.length >= 4) {
+				matkul = matkul
+					.toLowerCase()
+					.split("-")
+					.slice(0, 6)
+					.map((e) =>
+						e.length >= 3
+							? e[0].toUpperCase() + e.substring(1)
+							: e.toUpperCase()
+					)
+					.join(" ")
+					.substring(0, 50);
+			} else {
+				matkul = matkul.split("-").join(" ").toUpperCase();
+			}
 
 			try {
 				message.channel.send("Mempersiapkan laporan...");
