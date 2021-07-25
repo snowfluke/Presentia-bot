@@ -22,8 +22,8 @@ module.exports = {
 				"Lihat daftar kelas, daftar mata kuliah dan jadwal sebelum Anda melakukan perintah lainnya."
 			)
 				.addField("1. Melihat Jadwal", ` pr lihat jadwal`)
-				.addField("1. Melihat Daftar Kelas", ` pr lihat kelas`)
-				.addField("1. Melihat Daftar Mata Kuliah", ` pr lihat matkul`);
+				.addField("2. Melihat Daftar Kelas", ` pr lihat kelas`)
+				.addField("3. Melihat Daftar Mata Kuliah", ` pr lihat matkul`);
 
 			message.channel.send(cmdEmbedLihat);
 			return;
