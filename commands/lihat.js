@@ -59,7 +59,7 @@ module.exports = {
 					return;
 				}
 
-				let indexKelas = checker.indexOf(kelas);
+				let indexKelas = checker.indexOf(kelas.toLowerCase());
 				kelas = data.kelas[indexKelas];
 
 				const isJadwalExist = await scheduleRef
@@ -157,7 +157,7 @@ module.exports = {
 					return;
 				}
 
-				let indexKelas = checker.indexOf(kelas);
+				let indexKelas = checker.indexOf(kelas.toLowerCase());
 				kelas = data.kelas[indexKelas];
 
 				const listMatkulSnap = await absentRef
@@ -165,6 +165,7 @@ module.exports = {
 					.collection(kelas)
 					.doc("absensi")
 					.get();
+
 				if (!listMatkulSnap.exists) {
 					message.channel.send(
 						":worried: Maaf, daftar mata kuliah tidak ditemukan. Periksa kembali penulisan kelas atau lihat daftar kelas terlebih dahulu."

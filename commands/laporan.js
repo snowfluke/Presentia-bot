@@ -100,7 +100,7 @@ module.exports = {
 					return;
 				}
 
-				let indexKelas = checker.indexOf(kelas);
+				let indexKelas = checker.indexOf(kelas.toLowerCase());
 				kelas = data.kelas[indexKelas];
 
 				message.channel.send("Mempersiapkan laporan...");
