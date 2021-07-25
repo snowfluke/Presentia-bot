@@ -149,6 +149,7 @@ module.exports = {
 					obj.push(tempObj);
 				});
 				let name = "Laporan-" + new Date().toLocaleDateString("id");
+				name = name.split("/").join("");
 				generateLaporan(kelas, name, obj);
 				return;
 			} catch (error) {
