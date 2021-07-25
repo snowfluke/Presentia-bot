@@ -139,11 +139,21 @@ module.exports = {
 				dataNya.forEach((data, id) => {
 					let tempObj = {
 						No: id + 1,
+						NIM: data.uniqueId,
 						Nama: data.name,
+						Kelas: data.kelas,
 					};
 
 					listMatkul.forEach((el) => {
-						tempObj[el] = "";
+						let stat = {
+							H: statAbsen.filter((el) => el == "H").length,
+							S: statAbsen.filter((el) => el[0] == "S").length,
+							I: statAbsen.filter((el) => el[0] == "I").length,
+							A: statMeet.length - statAbsen.filter((el) => true).length,
+						};
+
+						let kehadiranString = `H:${stat.H} - S:${stat.S} - I:${stat.I} - A:${stat.A} `;
+						tempObj[el] = kehadiranString;
 					});
 
 					obj.push(tempObj);
