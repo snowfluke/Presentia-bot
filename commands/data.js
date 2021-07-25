@@ -450,6 +450,14 @@ module.exports = {
 					}
 				}
 
+				const announcementRef = admin
+					.firestore()
+					.collection("announcement")
+					.doc(instanceId);
+				const taskRef = admin.firestore().collection("task").doc(instanceId);
+				batch.set(announcementRef, { init: "init" });
+				batch.set(taskRef, { init: "init" });
+
 				message.channel.send(":white_check_mark: Membuat database jadwal");
 
 				try {

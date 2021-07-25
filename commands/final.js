@@ -48,9 +48,17 @@ module.exports = {
 
 			message.channel.send(":white_check_mark: Mempersiapkan pembuatan role");
 			let checkRole = message.guild.roles.cache.find((r) => r.name === "Dosen");
+			let roleAdmin = message.guild.roles.cache.find((r) => r.name === "Admin");
 
 			if (checkRole) {
 				message.channel.send(":x: Sudah terdapat role Dosen");
+				return;
+			}
+
+			if (!roleAdmin) {
+				message.channel.send(
+					":x: Tidak terdapat role Admin. Silakan buat role Admin (lihat buku panduan)"
+				);
 				return;
 			}
 
@@ -147,6 +155,10 @@ module.exports = {
 								permissionOverwrites: [
 									{
 										id: message.guild.id,
+										allow: 137481792,
+									},
+									{
+										id: roleAdmin.id,
 										deny: ["VIEW_CHANNEL"],
 									},
 									{

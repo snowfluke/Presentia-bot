@@ -17,6 +17,7 @@ module.exports = {
 			}
 
 			const mhsRef = admin.firestore().collection("mahasiswa");
+			const absentRef = admin.firestore().collection("absent");
 			if (args.length == 0) {
 				const exampleEmbedMhs = exampleEmbed(
 					"pr cari <Nama Lengkap/NIM>",
@@ -70,6 +71,30 @@ module.exports = {
 				nameStatus = false;
 			}
 
+			const getStat = (mhs) => {
+				const absentRecords = await absentRef
+					.doc(instanceId)
+					.collection(mhs.kelas)
+					.doc("absensi")
+					.get();
+				const meet = absentRecords.data();
+
+				const statAbsen = Object.keys(meet)
+					.map((el) => mhs[el])
+					.flat();
+
+				const statMeet = Object.keys(meet)
+					.map((el) => meet[el])
+					.flat();
+
+				return {
+					H: statAbsen.filter((el) => el == "H").length,
+					S: statAbsen.filter((el) => el[0] == "S").length,
+					I: statAbsen.filter((el) => el[0] == "I").length,
+					A: statMeet.length - statAbsen.filter((el) => true).length,
+				};
+			};
+
 			if (nameStatus) {
 				const mhsSnapshot = await mhsByNameSnap.docs[0].ref.get();
 				const mhsData = mhsSnapshot.data();
@@ -90,6 +115,13 @@ module.exports = {
 				if (mhsData.trusted) {
 					normalEmbedMhs.addField("Status Spesial", "Dipercayai Titipan");
 				}
+
+				const stat = getStat(mhsData);
+
+				normalEmbedMhs.addField(
+					"Statistik Absensi",
+					`H: ${stat.H} | S: ${stat.S} | I: ${stat.I} | A: ${stat.A}`
+				);
 
 				message.channel.send(normalEmbedMhs);
 				return;
@@ -116,6 +148,13 @@ module.exports = {
 				if (mhsData.trusted) {
 					normalEmbedMhs.addField("Status Spesial", "Dipercayai Titipan");
 				}
+
+				const stat = getStat(mhsData);
+
+				normalEmbedMhs.addField(
+					"Statistik Absensi",
+					`H: ${stat.H} | S: ${stat.S} | I: ${stat.I} | A: ${stat.A}`
+				);
 
 				message.channel.send(normalEmbedMhs);
 				return;
