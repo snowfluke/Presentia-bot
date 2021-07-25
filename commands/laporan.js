@@ -2,6 +2,7 @@ const admin = require("../firebase");
 const check3 = require("../check3");
 const XLSX = require("xlsx");
 const exampleEmbed = require("../exampleEmbed");
+const cmdEmbed = require("../cmdEmbed");
 
 module.exports = {
 	name: "laporan",
@@ -37,7 +38,7 @@ module.exports = {
 		}
 
 		if (args.length == 0) {
-			const cmdEmbedLihat = cmdEmbed(
+			const cmdEmbedLaporan = cmdEmbed(
 				"Laporan",
 				"Presentia akan membuatkan laporan dalam bentuk file excel (.xlsx). Selain itu mengirimkan statistik absensi mahasiswa per minggu pukul 20.00 dan per bulan tanggal 30 pukul 20.00"
 			)
@@ -50,7 +51,7 @@ module.exports = {
 					"Laporan per mata kuliah hanya boleh dijalankan di dalam channel mata kuliah yang bersangkutan."
 				);
 
-			message.channel.send(cmdEmbedLihat);
+			message.channel.send(cmdEmbedLaporan);
 			return;
 		}
 
