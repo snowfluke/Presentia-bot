@@ -7,7 +7,8 @@ const { botPrefix } = require("../config.json");
 // * Import command file from commands folder
 const commandFiles = fs
 	.readdirSync("./commands")
-	.filter((file) => file.endsWith(".js"));
+	.filter((file) => file.endsWith(".js"))
+	.sort((a, b) => a?.id - b?.id);
 
 const cmdEmbed = require("../cmdEmbed");
 

@@ -3,6 +3,7 @@ const admin = require("../firebase");
 
 module.exports = {
 	name: "final",
+	id: "3",
 	type: "admin",
 	description:
 		"Perintah untuk finalisasi konfigurasi server presentia.\n` pr final `",

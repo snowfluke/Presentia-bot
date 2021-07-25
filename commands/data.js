@@ -5,6 +5,7 @@ const cmdEmbed = require("../cmdEmbed");
 
 module.exports = {
 	name: "data",
+	id: "2",
 	type: "admin",
 	description:
 		"Perintah untuk mengunggah data keperluan konfigurasi Presentia.\n` pr data `",

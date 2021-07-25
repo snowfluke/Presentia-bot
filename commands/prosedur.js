@@ -4,6 +4,7 @@ const admin = require("../firebase");
 module.exports = {
 	name: "prosedur",
 	type: "admin",
+	id: "0",
 	description:
 		"Perintah untuk melihat prosedur konfigurasi server Presentia.\n` pr prosedur `",
 	async execute(message, args, instanceId) {
@@ -22,15 +23,17 @@ module.exports = {
 			const absentRef = admin.firestore().collection("absent");
 			const absentSnap = await absentRef.doc(instanceId).listCollections();
 
-			const absentStatus = absentSnap?.length > 0 ? ":white_check_mark:" : ":x:";
+			const absentStatus =
+				absentSnap?.length > 0 ? ":white_check_mark:" : ":x:";
 
 			const locationStatus =
 				instanceData.areaCoords.length >= 3 ? ":white_check_mark:" : ":x:";
- 			
-                        const finalStatus =
-				message.guild.roles.cache.find((r) => r.name === "Dosen")
-					? ":white_check_mark:"
-					: ":x:";
+
+			const finalStatus = message.guild.roles.cache.find(
+				(r) => r.name === "Dosen"
+			)
+				? ":white_check_mark:"
+				: ":x:";
 
 			const prosedurEmbed = normalEmbed(
 				"Prosedur Konfigurasi Server",
