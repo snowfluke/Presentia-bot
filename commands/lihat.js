@@ -2,9 +2,9 @@ const admin = require("../firebase");
 const check3 = require("../check3");
 
 module.exports = {
-	name: "laporan",
+	name: "lihat",
 	description:
-		"Perintah untuk menampilkan laporan absensi (dalam format file excel).\n` pr laporan `",
+		"Perintah untuk melihat jadwal, daftar kelas dan daftar mata kuliah.\n` pr lihat `",
 	type: "all",
 	async execute(message, args, instanceId) {
 		message.channel.send("Memulai pembuatan laporan");

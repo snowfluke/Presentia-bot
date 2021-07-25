@@ -1,6 +1,7 @@
 const admin = require("../firebase");
 const exampleEmbed = require("../exampleEmbed");
 const normalEmbed = require("../normalEmbed");
+const check3 = require("../check3");
 
 module.exports = {
 	name: "cari",
@@ -9,6 +10,12 @@ module.exports = {
 	type: "all",
 	async execute(message, args, instanceId) {
 		try {
+			const status = await check3(instanceId);
+			if (!status.status) {
+				message.channel.send(status.data);
+				return;
+			}
+
 			const mhsRef = admin.firestore().collection("mahasiswa");
 			if (args.length == 0) {
 				const exampleEmbedMhs = exampleEmbed(

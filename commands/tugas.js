@@ -3,6 +3,7 @@ const cmdEmbed = require("../cmdEmbed");
 const normalEmbed = require("../normalEmbed");
 const exampleEmbed = require("../exampleEmbed");
 const { nanoid } = require("nanoid");
+const check3 = require("../check3");
 
 module.exports = {
 	name: "tugas",
@@ -32,6 +33,11 @@ module.exports = {
 			return;
 		}
 		try {
+			const status = await check3(instanceId);
+			if (!status.status) {
+				message.channel.send(status.data);
+				return;
+			}
 			const tugasRef = admin
 				.firestore()
 				.collection("task")

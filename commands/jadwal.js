@@ -2,6 +2,7 @@ const exampleEmbed = require("../exampleEmbed");
 const admin = require("../firebase");
 const normalEmbed = require("../normalEmbed");
 const cmdEmbed = require("../cmdEmbed");
+const check3 = require("../check3");
 
 module.exports = {
 	name: "jadwal",
@@ -15,7 +16,7 @@ module.exports = {
 				)
 			) {
 				message.channel.send(
-					":worried: Maaf, Anda bukan admin, tidak boleh mengakses perintah"
+					":worried: Maaf, Anda bukan Dosen, tidak boleh mengakses perintah"
 				);
 				return;
 			}
@@ -28,7 +29,13 @@ module.exports = {
 					.addField("1. Mengubah Jadwal", "` pr jadwal ubah `")
 					.addField("2. Melihat Jadwal", "` pr jadwal lihat `");
 
-				return message.channel.send(cmdEmbedLokasi);
+				return message.channel.send(cmdEmbedJadwal);
+			}
+
+			const status = await check3(instanceId);
+			if (!status.status) {
+				message.channel.send(status.data);
+				return;
 			}
 
 			const scheduleRef = admin.firestore().collection("schedule");

@@ -1,6 +1,7 @@
 const exampleEmbed = require("../exampleEmbed");
 const admin = require("../firebase");
 const normalEmbed = require("../normalEmbed");
+const check3 = require("../check3");
 
 module.exports = {
 	name: "mulai",
@@ -20,13 +21,19 @@ module.exports = {
 				return;
 			}
 
-			if (!args || args?.length != 1) {
+			if (args?.length != 1) {
 				const exampleEmbedMulai = exampleEmbed(
 					"pr mulai <daring/lokasi>",
 					"pr mulai lokasi",
 					"Dosen"
 				);
 				message.channel.send(exampleEmbedMulai);
+				return;
+			}
+
+			const status = await check3(instanceId);
+			if (!status.status) {
+				message.channel.send(status.data);
 				return;
 			}
 
@@ -110,8 +117,10 @@ module.exports = {
 			let index = todayData.name.indexOf(matkul);
 			let jam = new Date().getHours();
 			let menit = new Date().getMinutes();
+
 			let todayTime =
 				jam + "." + (menit.toString().length == 1 ? "0" + menit : menit);
+
 			let start = todayData.start[index];
 			let end = todayData.end[index];
 			let newAbsentTypeArr = todayData.onlineAbsent;

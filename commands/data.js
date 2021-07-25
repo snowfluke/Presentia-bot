@@ -35,6 +35,8 @@ module.exports = {
 			const mhsRef = admin.firestore().collection("mahasiswa");
 			const mhsSnap = await mhsRef.doc(instanceId).get();
 			const isMhsExist = mhsSnap.exists;
+			const tugasRef = admin.firestore().collection("task");
+			const umumRef = admin.firestore().collection("announcement");
 			const jadwalRef = admin.firestore().collection("schedule");
 			const jadwalSnap = await jadwalRef.doc(instanceId).listCollections();
 			const isJadwalExist = jadwalSnap.length > 0 ? true : false;
@@ -536,6 +538,14 @@ module.exports = {
 					await mhsRef.doc(instanceId).delete();
 					message.channel.send(
 						":white_check_mark: Menghapus seluruh data mahasiswa"
+					);
+
+					await deleteCollection(tugasRef.doc(instanceId).collection("tugas"));
+					await deleteCollection(
+						umumRef.doc(instanceId).collection("pengumuman")
+					);
+					message.channel.send(
+						":white_check_mark: Menghapus seluruh data tugas dan pengumuman"
 					);
 
 					for (let k of kelas) {
