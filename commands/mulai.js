@@ -37,8 +37,10 @@ module.exports = {
 				return;
 			}
 
-			if (args[0] != "daring") {
-				if (args[0] != "lokasi") {
+			let tipe = args[0].toLowerCase().trim();
+
+			if (tipe != "daring") {
+				if (tipe != "lokasi") {
 					const exampleEmbedMulai = exampleEmbed(
 						"pr mulai <daring/lokasi>",
 						"pr mulai lokasi",
@@ -51,12 +53,12 @@ module.exports = {
 
 			let tipeAbsen;
 			let onlineAbsent;
-			if (args[0] == "daring") {
+			if (tipe == "daring") {
 				tipeAbsen = "Daring";
 				onlineAbsent = true;
 			}
 
-			if (args[0] == "lokasi") {
+			if (tipe == "lokasi") {
 				tipeAbsen = "Lokasi";
 				onlineAbsent = false;
 			}
@@ -178,7 +180,9 @@ module.exports = {
 				});
 				await admin.messaging().send(msg);
 
-				message.channel.send("Berhasil memulai absensi :partying_face:");
+				message.channel.send(
+					"Berhasil memulai absensi :partying_face:\nSilakan melihat laporan dengan `pr laporan ` setelah jam mata kuliah selesai."
+				);
 				return;
 			};
 

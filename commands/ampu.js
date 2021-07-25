@@ -31,7 +31,7 @@ module.exports = {
 			args.slice(1).join(" ").toLowerCase();
 
 		let role = message.guild.roles.cache.find(
-			(r) => r.name.toLowerCase() === roleInput
+			(r) => r.name.toLowerCase() === roleInput.trim()
 		);
 		if (!role) {
 			message.channel.send(
@@ -44,7 +44,8 @@ module.exports = {
 
 		let roleDosen = message.guild.roles.cache.find((r) => r.name === "Dosen");
 		let roleKelas = message.guild.roles.cache.find(
-			(r) => r.name.toLowerCase() === args.slice(1).join(" ").toLowerCase()
+			(r) =>
+				r.name.toLowerCase() === args.slice(1).join(" ").trim().toLowerCase()
 		);
 
 		if (!roleKelas) {

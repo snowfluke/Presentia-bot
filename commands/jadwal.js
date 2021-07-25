@@ -38,6 +38,7 @@ module.exports = {
 				return;
 			}
 
+			const mhsRef = admin.firestore().collection("mahasiswa");
 			const scheduleRef = admin.firestore().collection("schedule");
 			const absentRef = admin.firestore().collection("absent");
 
@@ -312,8 +313,21 @@ module.exports = {
 						return;
 					}
 					message.channel.send("Mempersiapkan...");
-					let kelas = args.slice(1).join(" ");
 
+					let kelas = args.slice(1).join(" ").trim();
+					const snapKelas = await mhsRef.doc(instanceId).get();
+					const data = snapKelas.data();
+					let checker = data.kelas.map((el) => el.toLowerCase());
+
+					if (!checker.includes(kelas.toLowerCase())) {
+						message.channel.send(
+							`:worried: Maaf, kelas ${kelas} tidak ditemukan`
+						);
+						return;
+					}
+
+					let indexKelas = checker.indexOf(kelas);
+					kelas = data.kelas[indexKelas];
 					const isJadwalExist = await scheduleRef
 						.doc(instanceId)
 						.collection(kelas)

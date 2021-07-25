@@ -37,16 +37,17 @@ module.exports = {
 					"pr cari <Nama/NIM>",
 					"pr cari Melly Goeslaw",
 					"Masing-masing"
-				).addField(
-					"Perhatian",
-					"Perhatikan besar/kecil huruf pada nama. Huruf pertama tiap kata pada nama adalah huruf kapital"
 				);
 
 				message.channel.send(exampleEmbedMhs);
 				return;
 			}
 
-			let keyword = args.join(" ");
+			let keyword = args
+				.toLowerCase()
+				.map((el) => el[0].toUpperCase() + el.substring(1))
+				.join(" ")
+				.trim();
 
 			const mhsByNimSnap = await mhsRef
 				.doc(instanceId)
