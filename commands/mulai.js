@@ -76,7 +76,7 @@ module.exports = {
 			const absentRef = admin.firestore().collection("absent");
 			const scheduleRef = admin.firestore().collection("schedule");
 
-			let dayId = new Date().getDay();
+			let dayId = new Date().getDay().toLocaleString("id");
 			day = day[dayId];
 			let kelas = message.channel.parent.name;
 			let matkul = message.channel.name;
