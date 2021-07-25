@@ -302,6 +302,15 @@ module.exports = {
 
 			const execLihat = async () => {
 				try {
+					if (args.length == 1) {
+						const exampleEmbedJadwal = exampleEmbed(
+							"pr jadwal lihat <kelas>",
+							"pr jadwal lihat TIA",
+							"Dosen"
+						);
+						message.channel.send(exampleEmbedJadwal);
+						return;
+					}
 					message.channel.send("Mempersiapkan...");
 					let kelas = args.slice(1).join(" ");
 
