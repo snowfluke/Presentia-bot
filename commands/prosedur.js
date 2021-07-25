@@ -15,6 +15,7 @@ module.exports = {
 		}
 
 		try {
+			console.log("Step 1: Instansiasi ref");
 			const instanceRef = admin.firestore().collection("instance");
 			const instanceSnap = await instanceRef.doc(instanceId).get();
 			const instanceData = instanceSnap.data();
@@ -22,17 +23,21 @@ module.exports = {
 			const absentRef = admin.firestore().collection("absent");
 			const absentSnap = await absentRef.doc(instanceId).listCollections();
 
+			console.log("Step 2: Calculate Absent status");
 			const absentStatus = absentSnap.length > 0 ? ":white_check_mark:" : ":x:";
 
+			console.log("Step 3: Calculate Location status");
 			const locationStatus =
 				instanceData.areaCoords.length >= 3 ? ":white_check_mark:" : ":x:";
 
+			console.log("Step 4: Calculate Final status");
 			const finalStatus = message.guild.roles.cache.find(
 				(r) => r.name === "Dosen"
 			)
 				? ":white_check_mark:"
 				: ":x:";
 
+			console.log("Step 5: Create Embed");
 			const prosedurEmbed = normalEmbed(
 				"Prosedur Konfigurasi Server",
 				"Menampilkan langkah-langkah konfigurasi dan status dari konfigurasi server"
@@ -45,9 +50,10 @@ module.exports = {
 				.addField("3. Menambahkan Data", absentStatus + "` pr data `")
 				.addField("4. Finalisasi", finalStatus + " ` pr final `");
 
+			console.log("Step 6: Send Embed");
 			message.channel.send(prosedurEmbed);
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.error(error);
 			message.channel.send(
 				":x: Terjadi kesalahan, mohon coba beberapa saat lagi."
 			);
