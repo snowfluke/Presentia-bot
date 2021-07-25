@@ -59,9 +59,10 @@ module.exports = {
 					return;
 				}
 
-				const jadwalData = isJadwalExist.docs
+				const jadwalData = await isJadwalExist.docs
 					.map((doc) => doc.data())
 					.sort((a, b) => a.id - b.id);
+
 				const normalEmbedJadwal = normalEmbed(
 					"Jadwal Perkuliahan",
 					"Dengan perubahan terbaru"
@@ -89,11 +90,13 @@ module.exports = {
 
 		const execLihatKelas = async () => {
 			try {
-				const kelas = mhsRef.doc(instanceId).get();
-				if (!kelas.exists) {
+				const kelasSnap = await mhsRef.doc(instanceId).get();
+				if (!kelasSnap.exists) {
 					message.channel.send(":worried: Maaf, tidak terdapat data kelas");
+					return;
 				}
 
+				let kelas = kelasSnap.data();
 				let kelasString = kelas.kelas
 					.map((el, id) => `${id + 1}. ${el}`)
 					.join("\n");
@@ -137,11 +140,13 @@ module.exports = {
 				let matkulString = Object.keys(listMatkul)
 					.map((el, id) => `${id + 1}. ${el}`)
 					.join("\n");
+
 				const normalEmbedMatkul = normalEmbed(
 					"Daftar Mata Kuliah",
 					matkulString
 				).setAuthor(`Kelas: ${kelas}`);
 
+				message.channel.send(normalEmbedMatkul);
 				return;
 			} catch (error) {
 				console.log(error);
