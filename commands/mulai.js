@@ -8,7 +8,6 @@ module.exports = {
 	description:
 		"Perintah untuk memulai absensi jika sudah memasuki waktu matkul.\n` pr mulai `",
 	type: "dosen",
-	id: "4",
 	async execute(message, args, instanceId) {
 		try {
 			if (

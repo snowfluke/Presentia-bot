@@ -8,7 +8,6 @@ module.exports = {
 	description:
 		"Perintah untuk mencari mahasiswa berdasarkan nama atau NIM.\n` pr cari `",
 	type: "all",
-	id: "5",
 	async execute(message, args, instanceId) {
 		try {
 			const status = await check3(instanceId);

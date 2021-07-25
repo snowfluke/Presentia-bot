@@ -5,7 +5,6 @@ module.exports = {
 	name: "ping",
 	type: "all",
 	description: "Perintah melakukan ping koneksi.\n` pr ping `",
-	id: "98",
 	async execute(message) {
 		// parameter:
 		// 1. message: message object

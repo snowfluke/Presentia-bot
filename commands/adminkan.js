@@ -4,7 +4,6 @@ module.exports = {
 	name: "adminkan",
 	description:
 		"Perintah untuk memberi role admin kepada _user_ yang di _mention_.\n` pr adminkan `",
-	id: "4",
 	type: "admin",
 	async execute(message, args, instanceId) {
 		if (!message.member.roles.cache.find((r) => r.name === "Admin")) {

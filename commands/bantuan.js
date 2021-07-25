@@ -13,7 +13,6 @@ const cmdEmbed = require("../cmdEmbed");
 module.exports = {
 	name: "bantuan",
 	type: "all",
-	id: "99",
 	description: "Perintah untuk menampilkan menu bantuan.\n` pr bantuan `",
 	async execute(message, args) {
 		// parameter:
@@ -42,9 +41,8 @@ module.exports = {
 		).addField("Awalan", `\` ${botPrefix}<perintah> \``);
 
 		let index = 1;
-		let newSortCommand = commandFiles.sort((a, b) => a.id - b.id);
 		// * Loop the command file
-		for (const com of newSortCommand) {
+		for (const com of commandFiles) {
 			const cmd = require(`./${com}`);
 
 			// * Filter based on tipe & all

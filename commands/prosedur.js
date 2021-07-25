@@ -4,7 +4,6 @@ const admin = require("../firebase");
 module.exports = {
 	name: "prosedur",
 	type: "admin",
-	id: "0",
 	description:
 		"Perintah untuk melihat prosedur konfigurasi server Presentia.\n` pr prosedur `",
 	async execute(message, args, instanceId) {

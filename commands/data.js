@@ -4,8 +4,7 @@ const admin = require("../firebase");
 const cmdEmbed = require("../cmdEmbed");
 
 module.exports = {
-	name: "data",
-	id: "2",
+	name: "[konfigurasi-2] data",
 	type: "admin",
 	description:
 		"Perintah untuk mengunggah data keperluan konfigurasi Presentia.\n` pr data `",

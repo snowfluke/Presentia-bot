@@ -2,8 +2,7 @@ const check3 = require("../check3");
 const admin = require("../firebase");
 
 module.exports = {
-	name: "final",
-	id: "3",
+	name: "[konfigurasi-3] final",
 	type: "admin",
 	description:
 		"Perintah untuk finalisasi konfigurasi server presentia.\n` pr final `",

@@ -5,8 +5,7 @@ const exampleEmbed = require("../exampleEmbed");
 const normalEmbed = require("../normalEmbed");
 
 module.exports = {
-	name: "area",
-	id: "1",
+	name: "[konfigurasi-1] area",
 	type: "admin",
 	description:
 		"Perintah untuk mengatur koordinat mode absensi area.\n` pr area `",
