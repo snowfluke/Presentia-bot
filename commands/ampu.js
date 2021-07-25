@@ -1,7 +1,7 @@
 const exampleEmbed = require("../exampleEmbed");
 
 module.exports = {
-	name: "[wajib] ampu",
+	name: "ampu",
 	description: "Perintah untuk mengampu channel mata kuliah.\n` pr ampu `",
 	type: "dosen",
 	async execute(message, args) {
