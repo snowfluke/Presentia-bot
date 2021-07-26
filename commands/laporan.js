@@ -236,7 +236,9 @@ module.exports = {
 					.get();
 
 				if (dataPerKelas.docs.length == 0) {
-					message.channel.send(`:worried: Maaf, data kelas tidak ditemukan`);
+					message.channel.send(
+						`:worried: Maaf, data kelas **${kelas}** tidak ditemukan`
+					);
 					return;
 				}
 
@@ -247,7 +249,9 @@ module.exports = {
 					.get();
 
 				if (!matkulSnap.exists) {
-					message.channel.send(`:worried: Maaf, data absensi tidak ditemukan`);
+					message.channel.send(
+						`:worried: Maaf, data absensi untuk kelas ${kelas} tidak ditemukan`
+					);
 					return;
 				}
 
