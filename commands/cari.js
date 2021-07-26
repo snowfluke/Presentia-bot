@@ -23,9 +23,6 @@ module.exports = {
 					"pr cari <Nama Lengkap/NIM>",
 					"pr cari Melly Goeslaw",
 					"Masing-masing"
-				).addField(
-					"Perhatian",
-					"Perhatikan besar/kecil huruf pada nama. Huruf pertama tiap kata pada nama adalah huruf kapital"
 				);
 
 				message.channel.send(exampleEmbedMhs);
