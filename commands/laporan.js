@@ -240,8 +240,14 @@ module.exports = {
 
 					let lastMeetIndex = currentMatkul.length - 1;
 					let statRef = data[matkul][lastMeetIndex];
-					tempObj[statRef] = "1";
-					if (statRef.length > 1) {
+
+					if (!statRef) {
+						tempObj["A"] = 1;
+					} else {
+						tempObj[statRef] = "1";
+					}
+
+					if (statRef?.length > 1) {
 						tempObj["Bukti Pendukung"] = statRef.split(":")[1];
 					}
 					obj.push(tempObj);
