@@ -414,7 +414,7 @@ module.exports = {
 				const data = snapKelas.data();
 
 				let obj = await data.kelas.map(async (el) => {
-					return getDataLaporan(el);
+					return await getDataLaporan(el);
 				});
 
 				console.log(obj);
