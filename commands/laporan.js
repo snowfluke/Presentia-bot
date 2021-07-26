@@ -55,7 +55,7 @@ module.exports = {
 			return;
 		}
 
-		message.channel.send("Mempersiapkan laporan di channel **#laporan**");
+		message.channel.send(`Mempersiapkan laporan di channel <#${wadah.id}>`);
 		const mhsRef = admin.firestore().collection("mahasiswa");
 		const absentRef = admin.firestore().collection("absent");
 
