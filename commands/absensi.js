@@ -111,6 +111,8 @@ module.exports = {
 
 				const currentAbsentRecords = absentData[matkul];
 				const currentMhsRecords = mhs[matkul];
+				console.log(currentMhsRecords);
+				console.log(currentAbsentRecords);
 
 				if (currentAbsentRecords.length == 0) {
 					message.channel.send(
@@ -127,7 +129,7 @@ module.exports = {
 
 				currentAbsentRecords.forEach((el, id) => {
 					let statusString;
-					if (!currentMhsRecords[id]) {
+					if (currentMhsRecords[id] == undefined) {
 						statusString = "A";
 					} else {
 						statusString = currentMhsRecords[id];
