@@ -58,9 +58,10 @@ module.exports = {
 		message.channel.send("Mempersiapkan laporan...");
 		const mhsRef = admin.firestore().collection("mahasiswa");
 		const absentRef = admin.firestore().collection("absent");
+
 		const generateLaporan = (pesanFile, namaFile, dataFile) => {
 			const workbook = XLSX.utils.book_new();
-			const filename = namaFile;
+			const filename = namaFile.substring(0, 30);
 			const dataSheet = XLSX.utils.json_to_sheet(dataFile);
 			XLSX.utils.book_append_sheet(
 				workbook,
