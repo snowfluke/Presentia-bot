@@ -3,7 +3,12 @@ const check3 = require("../check3");
 const cmdEmbed = require("../cmdEmbed");
 const { PaginatedEmbed } = require("embed-paginator");
 const normalEmbed = require("../normalEmbed");
-const { botLogo } = require("../config.json");
+const {
+	botLogo,
+	botAuthor,
+	botAuthorLogo,
+	botYear,
+} = require("../config.json");
 
 module.exports = {
 	name: "absensi",
@@ -151,7 +156,7 @@ module.exports = {
 						}
 					}
 
-					pObj.descriptions.push(`**Pertemuan ke-${id + 1}**`),
+					pObj.descriptions.push(`**Pertemuan ke-${id + 1}**\n`),
 						pObj.descriptions.push(
 							`**Tgl:** ${el}\n**Status:** ${statusString}`
 						);
@@ -159,6 +164,10 @@ module.exports = {
 
 				const embed = new PaginatedEmbed(pObj)
 					.setTitle(mhs.name)
+					.setAuthor(
+						`Dipersembahkan oleh. ${botAuthor} - ${botYear}`,
+						botAuthorLogo
+					)
 					.setThumbnail(botLogo);
 
 				embed.send(message.channel, "Menampilkan hasil");
