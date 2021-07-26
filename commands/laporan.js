@@ -281,7 +281,7 @@ module.exports = {
 					if (!statRef) {
 						tempObj["A"] = 1;
 					} else {
-						tempObj[statRef] = "1";
+						tempObj[statRef[0]] = "1";
 						if (statRef.length > 1) {
 							tempObj["Bukti Pendukung"] = statRef.split(":")[1];
 						}
