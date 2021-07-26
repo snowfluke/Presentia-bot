@@ -2,7 +2,7 @@ const admin = require("../firebase");
 const check3 = require("../check3");
 const cmdEmbed = require("../cmdEmbed");
 const normalEmbed = require("../normalEmbed");
-const paginationEmbed = require("discord.js-pagination");
+const { PaginatedEmbed } = require("embed-paginator");
 
 module.exports = {
 	name: "absensi",
@@ -134,6 +134,14 @@ module.exports = {
 					`**Kelas:** ${mhs.kelas}`
 				).setAuthor(NIM);
 
+				let pObj = {
+					colours: ["#119DA4"],
+					descriptions: [],
+					duration: 60 * 1000,
+					itemsPerPage: 2,
+					paginationType: "description",
+				};
+
 				currentAbsentRecords.forEach((el, id) => {
 					let statusString;
 					if (currentMhsRecords[id] == undefined) {
@@ -146,13 +154,17 @@ module.exports = {
 						}
 					}
 
-					normalEmbedRecord.addField(
-						`Pertemuan ke-${id + 1}`,
-						`**Tgl:** ${el}\n**Status:** ${statusString}`
-					);
+					pObj.descriptions.push(`Pertemuan ke-${id + 1}`),
+						pObj.descriptions.push(
+							`**Tgl:** ${el}\n**Status:** ${statusString}`
+						);
 				});
 
-				message.channel.send(normalEmbedRecord);
+				const embed = new PaginatedEmbed(pObj)
+					.setTitle(mhs.name)
+					.setAuthor(`${NIM} • ${kelas}`);
+				embed.send(message.channel);
+
 				return;
 			} catch (error) {
 				console.log(error);
