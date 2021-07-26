@@ -413,8 +413,11 @@ module.exports = {
 				const snapKelas = await mhsRef.doc(instanceId).get();
 				const data = snapKelas.data();
 
-				let obj = await data.kelas.map(async (el) => {
-					return await getDataLaporan(el);
+				let obj = [];
+
+				await data.kelas.forEach(async (el) => {
+					let datas = await getDataLaporan(el);
+					obj.push(datas);
 				});
 
 				console.log(obj);
