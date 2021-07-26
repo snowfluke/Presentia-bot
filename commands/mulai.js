@@ -128,14 +128,16 @@ module.exports = {
 				.toLocaleString("id", { timeZone: "Asia/Jakarta" });
 
 			let todayTime =
-				jam + "." + (menit.toString().length == 1 ? "0" + menit : menit);
+				(jam.toString().length == 1 ? "0" + jam : jam) +
+				"." +
+				(menit.toString().length == 1 ? "0" + menit : menit);
 
 			let start = todayData.start[index];
 			let end = todayData.end[index];
 			let newAbsentTypeArr = todayData.onlineAbsent;
 			newAbsentTypeArr[index] = onlineAbsent;
 
-			if (!(todayTime > start && todayTime < end)) {
+			if (!(start < todayTime && todayTime < end)) {
 				message.channel.send(todayTime);
 				message.channel.send(
 					`:worried: Maaf, di luar jam mata kuliah ${matkul}(${start}-${end})`

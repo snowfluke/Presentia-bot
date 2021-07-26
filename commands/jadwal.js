@@ -209,6 +209,8 @@ module.exports = {
 						return;
 					}
 
+					console.log(DataRef);
+
 					DataRef.name[IndexDataRef] = undefined;
 					DataRef.start[IndexDataRef] = undefined;
 					DataRef.end[IndexDataRef] = undefined;
@@ -221,6 +223,8 @@ module.exports = {
 						(el) => el != undefined
 					);
 
+					console.log(DataRef);
+
 					await scheduleRef
 						.doc(instanceId)
 						.collection(kelas)
@@ -232,36 +236,44 @@ module.exports = {
 							onlineAbsent: DataRef.onlineAbsent,
 						});
 
-					destinationData.start.push(waktuMulai);
-					destinationData.end.push(waktuBerakhir);
-					destinationData.name.push(matkul);
-					destinationData.onlineAbsent.push(false);
+					const redestination = await scheduleRef
+						.doc(instanceId)
+						.collection(kelas)
+						.doc(hari)
+						.get();
 
-					let tempObj = destinationData.start
+					redestinationData = redestination.data();
+
+					redestinationData.start.push(waktuMulai);
+					redestinationData.end.push(waktuBerakhir);
+					redestinationData.name.push(matkul);
+					redestinationData.onlineAbsent.push(false);
+
+					let tempObj = redestinationData.start
 						.map((e, i) => {
 							return {
-								name: destinationData.name[i],
-								start: destinationData.start[i],
-								end: destinationData.end[i],
-								onlineAbsent: destinationData.onlineAbsent[i],
+								name: redestinationData.name[i],
+								start: redestinationData.start[i],
+								end: redestinationData.end[i],
+								onlineAbsent: redestinationData.onlineAbsent[i],
 							};
 						})
 						.sort((a, b) => a.start - b.start);
 
-					destinationData.start = tempObj.map((el) => el.start);
-					destinationData.end = tempObj.map((el) => el.end);
-					destinationData.name = tempObj.map((el) => el.name);
-					destinationData.onlineAbsent = tempObj.map((el) => el.onlineAbsent);
+					redestinationData.start = tempObj.map((el) => el.start);
+					redestinationData.end = tempObj.map((el) => el.end);
+					redestinationData.name = tempObj.map((el) => el.name);
+					redestinationData.onlineAbsent = tempObj.map((el) => el.onlineAbsent);
 
 					let tanggalHariIni = new Date().toLocaleString("id").split(" ")[0];
 
 					await scheduleRef.doc(instanceId).collection(kelas).doc(hari).update({
-						name: destinationData.name,
-						start: destinationData.start,
-						end: destinationData.end,
+						name: redestinationData.name,
+						start: redestinationData.start,
+						end: redestinationData.end,
 						changed: true,
 						lastChangedAt: tanggalHariIni,
-						onlineAbsent: destinationData.onlineAbsent,
+						onlineAbsent: redestinationData.onlineAbsent,
 					});
 
 					const msg = {
