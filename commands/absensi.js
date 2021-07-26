@@ -2,6 +2,7 @@ const admin = require("../firebase");
 const check3 = require("../check3");
 const cmdEmbed = require("../cmdEmbed");
 const { PaginatedEmbed } = require("embed-paginator");
+const normalEmbed = require("../normalEmbed");
 
 module.exports = {
 	name: "absensi",
@@ -128,6 +129,10 @@ module.exports = {
 				let pObj = {
 					colours: ["#119DA4"],
 					descriptions: [],
+					fields: [
+						{ name: "NIM", value: `${NIM}`, inline: true },
+						{ name: "Kelas", value: `${kelas}`, inline: true },
+					],
 					duration: 60 * 1000,
 					itemsPerPage: 2,
 					paginationType: "description",
@@ -145,16 +150,15 @@ module.exports = {
 						}
 					}
 
-					pObj.descriptions.push(`Pertemuan ke-${id + 1}`),
+					pObj.descriptions.push(`**Pertemuan ke-${id + 1}**`),
 						pObj.descriptions.push(
 							`**Tgl:** ${el}\n**Status:** ${statusString}`
 						);
 				});
 
-				const embed = new PaginatedEmbed(pObj)
-					.setTitle(mhs.name)
-					.setAuthor(`${NIM} • ${kelas}`);
-				embed.send(message.channel);
+				const embed = new PaginatedEmbed(pObj).setTitle(mhs.name);
+
+				embed.send(message.channel, "Menampilkan hasil");
 
 				return;
 			} catch (error) {
@@ -176,6 +180,136 @@ module.exports = {
 				return;
 			}
 			try {
+				const mhsSnap = await mhsRef
+					.doc(instanceId)
+					.collection("mhs")
+					.doc(NIM)
+					.get();
+
+				if (!mhsSnap.exists) {
+					message.channel.send(
+						`:worried: Maaf, mahasiswa dengan NIM ${NIM} tidak ditemukan.`
+					);
+					return;
+				}
+
+				const mhs = mhsSnap.data();
+
+				if (mhs[matkul] == undefined) {
+					message.channel.send(
+						`:worried: Maaf, Mahasiswa **${mhs.name}** tidak mempelajari mata kuliah ${matkul}`
+					);
+					return;
+				}
+
+				const absentSnap = await absentRef
+					.doc(instanceId)
+					.collection(kelas)
+					.doc("absensi")
+					.get();
+
+				if (!absentSnap.exists) {
+					message.channel.send(
+						`:worried: Maaf, data absensi untuk kelas ${kelas} tidak ditemukan`
+					);
+					return;
+				}
+
+				const absentData = absentSnap.data();
+				const listMatkul = Object.keys(absentData);
+
+				if (!listMatkul.includes(matkul)) {
+					message.channel.send(
+						`:worried: Maaf, mata kuliah ${matkul} tidak ada.`
+					);
+					return;
+				}
+
+				const currentAbsentRecords = absentData[matkul];
+				let currentMhsRecords = mhs[matkul];
+				const filter = (m) => m.author.id == message.author.id;
+
+				message.channel.send("**Pertemuan berapa yang ingin diubah?**");
+				const pertemuan = await message.channel.awaitMessages(filter, {
+					max: 1,
+					time: 60 * 1000,
+					errors: ["time"],
+				});
+
+				if (currentAbsentRecords[pertemuan - 1] == undefined) {
+					message.channel.send(
+						`:worried: Maaf, jumlah pertemuan hanya ${currentAbsentRecords.length}`
+					);
+					return;
+				}
+
+				let statusString;
+				if (currentMhsRecords[pertemuan - 1] == undefined) {
+					statusString = "A";
+				} else {
+					statusString = currentMhsRecords[pertemuan - 1];
+					if (statusString.length > 1) {
+						statusString =
+							statusString[0] + `\n**Bukti**: ${statusString.substring(2)}`;
+					}
+				}
+
+				const normalEmbed = normalEmbed(mhs.name, `**Kelas:** ${kelas}`)
+					.setAuthor(`NIM: ${NIM}`)
+					.addField(
+						`Pertemuan ke-${pertemuan}`,
+						`**Tgl:** ${el}\n**Status:** ${statusString}`
+					);
+
+				const execChangeRecord = async (emoji) => {
+					let newStat;
+					if (emoji === "🇭") newStat = "H";
+					if (emoji === "🇸") newStat = "S";
+					if (emoji === "🇮") newStat = "I";
+					if (emoji === "🇦") newStat = "A";
+
+					currentMhsRecords[pertemuan - 1] = newStat;
+					await mhsRef
+						.doc(instanceId)
+						.collection("mhs")
+						.doc(NIM)
+						.update({
+							[matkul]: currentMhsRecords,
+						});
+
+					message.channel.send(
+						"Berhasil mengubah riwayat absensi :partying_face:"
+					);
+				};
+
+				const filter2 = (reaction, user) => {
+					return (
+						["🇭", "🇸", "🇮", "🇦", "❎"].includes(reaction.emoji.name) &&
+						user.id === message.author.id
+					);
+				};
+
+				message.channel.send(normalEmbed).then((m) => {
+					["🇭", "🇸", "🇮", "🇦", "❎"].forEach((el) => m.react(el));
+					m.awaitReactions(filter2, {
+						max: 1,
+						time: 15 * 1000,
+						errors: ["time"],
+					})
+						.then((collected) => {
+							const reaction = collected.first();
+							if (reaction.emoji.name !== "❎") {
+								return execChangeRecord(reaction.emoji.name);
+							}
+
+							return m.channel.send(":x: Perintah dibatalkan");
+						})
+						.catch((collected) => {
+							message.channel.send(
+								":worried: Maaf, waktu tunggu habis. Silakan mulai ulang perintah"
+							);
+						});
+				});
 			} catch (error) {
 				console.log(error);
 				message.channel.send(
