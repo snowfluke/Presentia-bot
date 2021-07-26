@@ -59,26 +59,129 @@ module.exports = {
 		const mhsRef = admin.firestore().collection("mahasiswa");
 		const absentRef = admin.firestore().collection("absent");
 
-		const generateLaporan = (pesanFile, namaFile, dataFile) => {
-			const workbook = XLSX.utils.book_new();
-			const filename = namaFile.substring(0, 30);
-			const dataSheet = XLSX.utils.json_to_sheet(dataFile);
-			XLSX.utils.book_append_sheet(
-				workbook,
-				dataSheet,
-				filename.replace("/", "")
-			);
-			const f = XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
+		const generateLaporan = (
+			pesanFile,
+			namaFile,
+			dataFile,
+			multiple = false
+		) => {
+			if (!multiple) {
+				const workbook = XLSX.utils.book_new();
+				const filename = namaFile.substring(0, 30);
+				const dataSheet = XLSX.utils.json_to_sheet(dataFile);
+				XLSX.utils.book_append_sheet(
+					workbook,
+					dataSheet,
+					filename.replace("/", "")
+				);
+				const f = XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
 
-			wadah.send(`<@!${message.author.id}> Laporan ${pesanFile}.`);
+				wadah.send(`<@!${message.author.id}> Laporan ${pesanFile}.`);
+				wadah.send({
+					files: [
+						{
+							attachment: f,
+							name: `${namaFile}.xlsx`,
+						},
+					],
+				});
+				return;
+			}
+
+			const wb = XLSX.utils.book_new();
+			dataFile.forEach((el, id) => {
+				let sheetname = el.kelas.substring(0, 30);
+				let ws = XLSX.utils.json_to_sheet(el.obj);
+				XLSX.utils.book_append_sheet(wb, ws, sheetname.replace("/", ""));
+			});
+
+			const f = XLSX.write(wb, { type: "buffer", bookType: "xlsx" });
+			let d = new Date().toLocaleDateString("id");
+			d = d.split("/").join("_");
+
+			wadah.send(`<@!${message.author.id}> Laporan lengkap semua kelas.`);
 			wadah.send({
 				files: [
 					{
 						attachment: f,
-						name: `${namaFile}.xlsx`,
+						name: `Laporan_Lengkap_${d}.xlsx`,
 					},
 				],
 			});
+			return;
+		};
+
+		const getDataLaporan = async (kelas) => {
+			const snapKelas = await mhsRef.doc(instanceId).get();
+			const data = snapKelas.data();
+			let checker = data.kelas.map((el) => el.toLowerCase());
+
+			if (!checker.includes(kelas.toLowerCase())) {
+				message.channel.send(`:worried: Maaf, kelas ${kelas} tidak ditemukan`);
+				return;
+			}
+
+			let indexKelas = checker.indexOf(kelas.toLowerCase());
+			kelas = data.kelas[indexKelas];
+
+			const dataPerKelas = await mhsRef
+				.doc(instanceId)
+				.collection("mhs")
+				.where("kelas", "==", kelas)
+				.get();
+
+			if (dataPerKelas.docs.length == 0) {
+				message.channel.send(
+					`:worried: Maaf, data kelas **${kelas}** tidak ditemukan`
+				);
+				return;
+			}
+
+			const matkulSnap = await absentRef
+				.doc(instanceId)
+				.collection(kelas)
+				.doc("absensi")
+				.get();
+
+			if (!matkulSnap.exists) {
+				message.channel.send(`:worried: Maaf, data absensi tidak ditemukan`);
+				return;
+			}
+
+			const matkulData = matkulSnap.data();
+			const listMatkul = Object.keys(matkulData);
+
+			const obj = [];
+			const dataNya = await dataPerKelas.docs
+				.map((doc) => doc.data())
+				.sort((a, b) => a.name - b.name);
+
+			dataNya.forEach((data, id) => {
+				let tempObj = {
+					No: id + 1,
+					NIM: data.uniqueId,
+					Nama: data.name,
+					Kelas: data.kelas,
+				};
+
+				listMatkul.forEach((el) => {
+					let stat = {
+						H: data[el].filter((el) => el == "H").length,
+						S: data[el].filter((el) => el[0] == "S").length,
+						I: data[el].filter((el) => el[0] == "I").length,
+						A: matkulData[el].length - data[el].filter((el) => true).length,
+					};
+
+					let kehadiranString = `H:${stat.H} - S:${stat.S} - I:${stat.I} - A:${stat.A} `;
+					tempObj[el] = kehadiranString;
+				});
+
+				obj.push(tempObj);
+			});
+
+			let name = "Laporan_" + kelas + "_" + new Date().toLocaleDateString("id");
+			name = name.split("/").join("_");
+			return { name: name, obj: obj, kelas: kelas };
 		};
 
 		const execLaporKelas = async () => {
@@ -93,78 +196,8 @@ module.exports = {
 			}
 			let kelas = args.slice(1).join(" ");
 			try {
-				const snapKelas = await mhsRef.doc(instanceId).get();
-				const data = snapKelas.data();
-				let checker = data.kelas.map((el) => el.toLowerCase());
-
-				if (!checker.includes(kelas.toLowerCase())) {
-					message.channel.send(
-						`:worried: Maaf, kelas ${kelas} tidak ditemukan`
-					);
-					return;
-				}
-
-				let indexKelas = checker.indexOf(kelas.toLowerCase());
-				kelas = data.kelas[indexKelas];
-
-				const dataPerKelas = await mhsRef
-					.doc(instanceId)
-					.collection("mhs")
-					.where("kelas", "==", kelas)
-					.get();
-
-				if (dataPerKelas.docs.length == 0) {
-					message.channel.send(
-						`:worried: Maaf, data kelas **${kelas}** tidak ditemukan`
-					);
-					return;
-				}
-
-				const matkulSnap = await absentRef
-					.doc(instanceId)
-					.collection(kelas)
-					.doc("absensi")
-					.get();
-
-				if (!matkulSnap.exists) {
-					message.channel.send(`:worried: Maaf, data absensi tidak ditemukan`);
-					return;
-				}
-
-				const matkulData = matkulSnap.data();
-				const listMatkul = Object.keys(matkulData);
-
-				const obj = [];
-				const dataNya = await dataPerKelas.docs
-					.map((doc) => doc.data())
-					.sort((a, b) => a.name - b.name);
-				dataNya.forEach((data, id) => {
-					let tempObj = {
-						No: id + 1,
-						NIM: data.uniqueId,
-						Nama: data.name,
-						Kelas: data.kelas,
-					};
-
-					listMatkul.forEach((el) => {
-						let stat = {
-							H: data[el].filter((el) => el == "H").length,
-							S: data[el].filter((el) => el[0] == "S").length,
-							I: data[el].filter((el) => el[0] == "I").length,
-							A: matkulData[el].length - data[el].filter((el) => true).length,
-						};
-
-						let kehadiranString = `H:${stat.H} - S:${stat.S} - I:${stat.I} - A:${stat.A} `;
-						tempObj[el] = kehadiranString;
-					});
-
-					obj.push(tempObj);
-				});
-
-				let name = "Laporan_" + new Date().toLocaleDateString("id");
-				name = name.split("/").join("_");
-
-				generateLaporan(`kelas ${kelas}`, name, obj);
+				const lap = await getDataLaporan(kelas);
+				generateLaporan(`kelas ${lap.kelas}`, lap.name, lap.obj);
 
 				return;
 			} catch (error) {
@@ -377,6 +410,15 @@ module.exports = {
 
 		const execLaporSemua = async () => {
 			try {
+				const snapKelas = await mhsRef.doc(instanceId).get();
+				const data = snapKelas.data();
+
+				let obj = await data.kelas.map(async (el) => {
+					return getDataLaporan(el);
+				});
+
+				generateLaporan(``, ``, obj, true);
+
 				return;
 			} catch (error) {
 				console.log(error);
