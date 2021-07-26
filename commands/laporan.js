@@ -55,7 +55,7 @@ module.exports = {
 			return;
 		}
 
-		message.channel.send("Mempersiapkan laporan...");
+		message.channel.send("Mempersiapkan laporan di channel ");
 		const mhsRef = admin.firestore().collection("mahasiswa");
 		const absentRef = admin.firestore().collection("absent");
 
@@ -114,7 +114,9 @@ module.exports = {
 					.get();
 
 				if (dataPerKelas.docs.length == 0) {
-					message.channel.send(`:worried: Maaf, data kelas tidak ditemukan`);
+					message.channel.send(
+						`:worried: Maaf, data kelas **${kelas}** tidak ditemukan`
+					);
 					return;
 				}
 
@@ -276,7 +278,7 @@ module.exports = {
 		};
 
 		const execLaporMhs = async () => {
-			if (args.length <= 1 || args.length >= 5) {
+			if (args.length != 2) {
 				const exampleEmbedMhs = exampleEmbed(
 					"pr laporan mhs <NIM>",
 					"pr laporan mhs 195540001",
@@ -286,7 +288,84 @@ module.exports = {
 				return;
 			}
 
+			const NIM = args[1];
+
 			try {
+				const mhsSnap = await mhsRef
+					.doc(instanceId)
+					.collection("mhs")
+					.doc(NIM)
+					.get();
+
+				if (!mhsSnap.exists) {
+					message.channel.send(
+						`:worried: Maaf, mahasiswa dengan NIM ${NIM} tidak ditemukan`
+					);
+					return;
+				}
+
+				const mhs = mhsSnap.data();
+				let kelas = mhs.kelas;
+
+				const matkulSnap = await absentRef
+					.doc(instanceId)
+					.collection(kelas)
+					.doc("absensi")
+					.get();
+
+				if (!matkulSnap.exists) {
+					message.channel.send(`:worried: Maaf, data absensi tidak ditemukan`);
+					return;
+				}
+
+				const matkulData = matkulSnap.data();
+				const obj = [];
+
+				Object.keys(matkulData).forEach((el, id) => {
+					let tempData = {
+						NIM: "",
+						Nama: "",
+						Kelas: "",
+						Matkul: "",
+						H: "",
+						S: "",
+						I: "",
+						A: "",
+						Total: "",
+					};
+
+					if (id == 0) {
+						tempData.NIM = mhs.uniqueId;
+						tempData.Nama = mhs.nama;
+						tempData.Kelas = mhs.kelas;
+					}
+
+					tempData.Matkul = el;
+					let stat = {
+						H: mhs[el].filter((el) => el == "H").length,
+						S: mhs[el].filter((el) => el[0] == "S").length,
+						I: mhs[el].filter((el) => el[0] == "I").length,
+						A: matkulData[el].length - mhs[el].filter((el) => true).length,
+					};
+
+					tempData.H = stat.H;
+					tempData.S = stat.S;
+					tempData.I = stat.I;
+					tempData.A = stat.A;
+
+					tempData.Total =
+						parseInt(stat.H) +
+						parseInt(stat.S) +
+						parseInt(stat.I) +
+						parseInt(stat.A);
+
+					obj.push(tempData);
+				});
+
+				let name = "Laporan_" + NIM + new Date().toLocaleDateString("id");
+				name = name.split("/").join("_");
+
+				generateLaporan(`mahasiswa ${mhs.name}`, name, obj);
 				return;
 			} catch (error) {
 				console.log(error);
