@@ -3,12 +3,7 @@ const check3 = require("../check3");
 const cmdEmbed = require("../cmdEmbed");
 const { PaginatedEmbed } = require("embed-paginator");
 const normalEmbed = require("../normalEmbed");
-const {
-	botLogo,
-	botAuthor,
-	botAuthorLogo,
-	botYear,
-} = require("../config.json");
+const { botAuthor, botAuthorLogo, botYear } = require("../config.json");
 
 module.exports = {
 	name: "absensi",
@@ -167,8 +162,7 @@ module.exports = {
 					.setAuthor(
 						`Dipersembahkan oleh. ${botAuthor} - ${botYear}`,
 						botAuthorLogo
-					)
-					.setThumbnail(botLogo);
+					);
 
 				embed.send(message.channel, "Menampilkan hasil");
 
@@ -239,14 +233,24 @@ module.exports = {
 
 				const currentAbsentRecords = absentData[matkul];
 				let currentMhsRecords = mhs[matkul];
+
 				const filter = (m) => m.author.id == message.author.id;
 
 				message.channel.send("**Pertemuan berapa yang ingin diubah?**");
-				const pertemuan = await message.channel.awaitMessages(filter, {
+				const rawPertemuan = await message.channel.awaitMessages(filter, {
 					max: 1,
 					time: 60 * 1000,
 					errors: ["time"],
 				});
+
+				let pertemuan = rawPertemuan.first().content;
+
+				if (!/^[0-9]*$/.test(pertemuan)) {
+					message.channel.send(
+						`:worried: Maaf, penulisan pertemuan hanya menerima angka`
+					);
+					return;
+				}
 
 				if (currentAbsentRecords[pertemuan - 1] == undefined) {
 					message.channel.send(
