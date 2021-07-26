@@ -119,10 +119,28 @@ module.exports = {
 				return;
 			}
 
+			const absentSnap = await absentRef
+				.doc(instanceId)
+				.collection(kelas)
+				.doc("absensi")
+				.get();
+			const absentData = absentSnap.data();
+			let curabdata = absentData[matkul];
+
+			let tglHariini = new Date().toLocaleDateString("id").split(" ")[0];
+
+			if (tglHariini == curabdata[curabdata.length - 1]) {
+				message.channel.send(
+					`:worried: Maaf, mata kuliah ${matkul} sudah memulai absensi hari ini`
+				);
+				return;
+			}
+
 			let index = todayData.name.indexOf(matkul);
 			let jam = new Date()
 				.getHours()
 				.toLocaleString("id", { timeZone: "Asia/Jakarta" });
+
 			let menit = new Date()
 				.getMinutes()
 				.toLocaleString("id", { timeZone: "Asia/Jakarta" });
