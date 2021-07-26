@@ -232,6 +232,7 @@ module.exports = {
 						Nama: data.name,
 						Kelas: data.kelas,
 						Matkul: matkul,
+						Tanggal: currentMatkul,
 						H: "",
 						I: "",
 						S: "",
@@ -257,7 +258,7 @@ module.exports = {
 				let matkulName = matkul.split(" ").join("_");
 				let kelasName = kelas.split(" ").join("_");
 				let name =
-					"Laporan_matkul_" +
+					"Laporan_" +
 					matkulName +
 					kelasName +
 					new Date().toLocaleDateString("id");
