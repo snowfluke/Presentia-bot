@@ -209,8 +209,6 @@ module.exports = {
 						return;
 					}
 
-					console.log(DataRef);
-
 					DataRef.name[IndexDataRef] = undefined;
 					DataRef.start[IndexDataRef] = undefined;
 					DataRef.end[IndexDataRef] = undefined;
@@ -222,8 +220,6 @@ module.exports = {
 					DataRef.onlineAbsent = DataRef.onlineAbsent.filter(
 						(el) => el != undefined
 					);
-
-					console.log(DataRef);
 
 					await scheduleRef
 						.doc(instanceId)
