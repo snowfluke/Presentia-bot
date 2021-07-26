@@ -1,7 +1,7 @@
 const admin = require("../firebase");
 const check3 = require("../check3");
 const cmdEmbed = require("../cmdEmbed");
-const { MessageEmbed } = require("discord.js");
+const normalEmbed = require("../normalEmbed");
 const paginationEmbed = require("discord.js-pagination");
 
 module.exports = {
@@ -88,7 +88,7 @@ module.exports = {
 
 				if (mhs[matkul] == undefined) {
 					message.channel.send(
-						`:worried: Maaf, Mahasiswa **${mhs.name}** tidak mempelajari mata kuliah **${matkul}**`
+						`:worried: Maaf, Mahasiswa **${mhs.name}** tidak mempelajari mata kuliah ${matkul}`
 					);
 					return;
 				}
@@ -129,12 +129,10 @@ module.exports = {
 					return;
 				}
 
-				let embedList = [];
-				let normalEmbedRecord = new MessageEmbed()
-					.setTitle(mhs.name)
-					.setDescription(`**Kelas:** ${mhs.kelas}`)
-					.setColor("#119DA4")
-					.setAuthor(NIM);
+				let normalEmbedRecord = normalEmbed(
+					mhs.name,
+					`**Kelas:** ${mhs.kelas}`
+				).setAuthor(NIM);
 
 				currentAbsentRecords.forEach((el, id) => {
 					let statusString;
@@ -152,13 +150,9 @@ module.exports = {
 						`Pertemuan ke-${id + 1}`,
 						`**Tgl:** ${el}\n**Status:** ${statusString}`
 					);
-
-					if ((id + 1) % 4 == 0) {
-						embedList.push(normalEmbedRecord);
-					}
 				});
 
-				paginationEmbed(message, embedList);
+				message.channel.send(normalEmbedRecord);
 				return;
 			} catch (error) {
 				console.log(error);
