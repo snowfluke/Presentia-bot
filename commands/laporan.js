@@ -282,11 +282,11 @@ module.exports = {
 						tempObj["A"] = 1;
 					} else {
 						tempObj[statRef] = "1";
+						if (statRef.length > 1) {
+							tempObj["Bukti Pendukung"] = statRef.split(":")[1];
+						}
 					}
 
-					if (statRef?.length > 1) {
-						tempObj["Bukti Pendukung"] = statRef.split(":")[1];
-					}
 					obj.push(tempObj);
 				});
 
@@ -369,7 +369,7 @@ module.exports = {
 
 					if (id == 0) {
 						tempData.NIM = mhs.uniqueId;
-						tempData.Nama = mhs.nama;
+						tempData.Nama = mhs.name;
 						tempData.Kelas = mhs.kelas;
 					}
 
@@ -419,8 +419,6 @@ module.exports = {
 					let datas = await getDataLaporan(data.kelas[i]);
 					obj.push(datas);
 				}
-
-				console.log(obj);
 
 				generateLaporan(``, ``, obj, true);
 
