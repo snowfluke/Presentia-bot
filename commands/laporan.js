@@ -70,7 +70,7 @@ module.exports = {
 			);
 			const f = XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
 
-			wadah.send(`Laporan ${pesanFile} <@!${message.author.id}>`);
+			wadah.send(`<@!${message.author.id}> Laporan ${pesanFile}.`);
 			wadah.send({
 				files: [
 					{
@@ -226,13 +226,14 @@ module.exports = {
 				const obj = [];
 
 				dataNya.forEach((data, id) => {
+					let lastMeetIndex = currentMatkul.length - 1;
 					let tempObj = {
 						No: id + 1,
 						NIM: data.uniqueId,
 						Nama: data.name,
 						Kelas: data.kelas,
 						Matkul: matkul,
-						Tanggal: currentMatkul,
+						Tanggal: currentMatkul[lastMeetIndex],
 						H: "",
 						I: "",
 						S: "",
@@ -240,7 +241,6 @@ module.exports = {
 						"Bukti Pendukung": "",
 					};
 
-					let lastMeetIndex = currentMatkul.length - 1;
 					let statRef = data[matkul][lastMeetIndex];
 
 					if (!statRef) {
