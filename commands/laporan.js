@@ -415,10 +415,10 @@ module.exports = {
 
 				let obj = [];
 
-				await data.kelas.forEach(async (el) => {
-					let datas = await getDataLaporan(el);
+				for (let i = 0; i < data.kelas.length; i++) {
+					let datas = await getDataLaporan(data.kelas[i]);
 					obj.push(datas);
-				});
+				}
 
 				console.log(obj);
 
