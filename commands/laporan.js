@@ -417,6 +417,8 @@ module.exports = {
 					return getDataLaporan(el);
 				});
 
+				console.log(obj);
+
 				generateLaporan(``, ``, obj, true);
 
 				return;
