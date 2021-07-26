@@ -86,6 +86,13 @@ module.exports = {
 
 				const mhs = mhsSnap.data();
 
+				if (mhs[matkul] == undefined) {
+					message.channel.send(
+						`:worried: Maaf, Mahasiswa **${mhs.name}** tidak mempelajari mata kuliah ${matkul}`
+					);
+					return;
+				}
+
 				const absentSnap = await absentRef
 					.doc(instanceId)
 					.collection(kelas)
@@ -111,6 +118,7 @@ module.exports = {
 
 				const currentAbsentRecords = absentData[matkul];
 				const currentMhsRecords = mhs[matkul];
+
 				console.log(currentMhsRecords);
 				console.log(currentAbsentRecords);
 
