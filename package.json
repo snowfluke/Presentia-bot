@@ -19,7 +19,6 @@
 		"firebase-admin": "^9.10.0",
 		"nanoid": "^3.1.23",
 		"node-fetch": "^2.6.1",
-		"simple-excel-to-json": "^2.3.0",
 		"xlsx": "^0.17.0"
 	}
 }
