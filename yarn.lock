@@ -495,12 +495,7 @@ dicer@^0.3.0:
   dependencies:
     streamsearch "0.1.2"
 
-discord.js-pagination@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/discord.js-pagination/-/discord.js-pagination-1.0.3.tgz#b637d9b547f6de0187c58b22ad07dc9e532583f2"
-  integrity sha512-n6wuNo3CclZdwRfc5LMInjcrN23iKnKQTtlpX3VXGRtNofawBeQroYhl7xotSmpkIlL2Uqwo13T11+hHdNJ/bQ==
-
-discord.js@^12.3.1:
+discord.js@^12.3.1, discord.js@^12.5.3:
   version "12.5.3"
   resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-12.5.3.tgz#56820d473c24320871df9ea0bbc6b462f21cf85c"
   integrity sha512-D3nkOa/pCkNyn6jLZnAiJApw2N9XrIsXUAdThf01i7yrEuqUmDGc7/CexVWwEcgbQR97XQ+mcnqJpmJ/92B4Aw==
@@ -537,6 +532,13 @@ ecdsa-sig-formatter@1.0.11, ecdsa-sig-formatter@^1.0.11:
   integrity sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==
   dependencies:
     safe-buffer "^5.0.1"
+
+embed-paginator@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/embed-paginator/-/embed-paginator-1.0.2.tgz#c46d3b627fb0ddf9e7e50b6002999cd00340ef86"
+  integrity sha512-VNHMZeUVIaBMAs9l35ij0r4wh33XwkZpdIY5HnEM9SIGIFLRIOhEb1b8OPbnpu1I0e3c/CQJCg2XEKFgu+MXGA==
+  dependencies:
+    discord.js "^12.5.3"
 
 emoji-regex@^8.0.0:
   version "8.0.0"
