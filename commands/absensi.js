@@ -40,6 +40,7 @@ module.exports = {
 		}
 
 		const mhsRef = admin.firestore().collection("mahasiswa");
+		const absentRef = admin.firestore().collection("absent");
 		let NIM = args[1];
 
 		let matkul = message.channel.name;
@@ -126,10 +127,10 @@ module.exports = {
 
 				currentAbsentRecords.forEach((el, id) => {
 					let statusString;
-					if (!currentAbsentRecords[id]) {
+					if (!currentMhsRecords[id]) {
 						statusString = "A";
 					} else {
-						statusString = currentAbsentRecords[id];
+						statusString = currentMhsRecords[id];
 						if (statusString.length > 1) {
 							statusString =
 								statusString[0] + `\n**Bukti**: ${statusString.substring(2)}`;
