@@ -48,13 +48,14 @@ module.exports = {
 				.addField("4. Semua laporan", ` pr laporan semua `)
 				.addField(
 					"Perhatian",
-					"Laporan per mata kuliah hanya boleh dijalankan di dalam channel mata kuliah yang bersangkutan."
+					"Laporan per mata kuliah hanya boleh dijalankan di dalam channel mata kuliah yang bersangkutan dan hanya akan mengeluarkan laporan absensi untuk pertemuan terakhir."
 				);
 
 			message.channel.send(cmdEmbedLaporan);
 			return;
 		}
 
+		message.channel.send("Mempersiapkan laporan...");
 		const mhsRef = admin.firestore().collection("mahasiswa");
 		const absentRef = admin.firestore().collection("absent");
 		const generateLaporan = (pesanFile, namaFile, dataFile) => {
@@ -68,7 +69,7 @@ module.exports = {
 			);
 			const f = XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
 
-			wadah.send(`Mengirimkan laporan ${pesanFile} <@!${message.author.id}>`);
+			wadah.send(`Laporan ${pesanFile} <@!${message.author.id}>`);
 			wadah.send({
 				files: [
 					{
@@ -91,8 +92,6 @@ module.exports = {
 			}
 			let kelas = args.slice(1).join(" ");
 			try {
-				message.channel.send("Mempersiapkan laporan...");
-
 				const snapKelas = await mhsRef.doc(instanceId).get();
 				const data = snapKelas.data();
 				let checker = data.kelas.map((el) => el.toLowerCase());
@@ -162,7 +161,7 @@ module.exports = {
 				let name = "Laporan_" + new Date().toLocaleDateString("id");
 				name = name.split("/").join("_");
 
-				generateLaporan(kelas, name, obj);
+				generateLaporan(`kelas ${kelas}`, name, obj);
 
 				return;
 			} catch (error) {
@@ -191,8 +190,74 @@ module.exports = {
 				matkul = matkul.split("-").join(" ").toUpperCase();
 			}
 
+			let kelas = message.channel.parent.name;
+
 			try {
-				message.channel.send("Mempersiapkan laporan...");
+				const dataPerKelas = await mhsRef
+					.doc(instanceId)
+					.collection("mhs")
+					.where("kelas", "==", kelas)
+					.get();
+
+				if (dataPerKelas.docs.length == 0) {
+					message.channel.send(`:worried: Maaf, data kelas tidak ditemukan`);
+					return;
+				}
+
+				const matkulSnap = await absentRef
+					.doc(instanceId)
+					.collection(kelas)
+					.doc("absensi")
+					.get();
+
+				if (!matkulSnap.exists) {
+					message.channel.send(`:worried: Maaf, data absensi tidak ditemukan`);
+					return;
+				}
+
+				const matkulData = matkulSnap.data();
+				const currentMatkul = matkulData[matkul];
+
+				const dataNya = await dataPerKelas.docs
+					.map((doc) => doc.data())
+					.sort((a, b) => a.name - b.name);
+
+				const obj = [];
+
+				dataNya.forEach((data, id) => {
+					let tempObj = {
+						No: id + 1,
+						NIM: data.uniqueId,
+						Nama: data.name,
+						Kelas: data.kelas,
+						Matkul: matkul,
+						H: "",
+						I: "",
+						S: "",
+						A: "",
+						"Bukti Pendukung": "",
+					};
+
+					let lastMeetIndex = currentMatkul.length - 1;
+					let statRef = data[matkul][lastMeetIndex];
+					tempObj[statRef] = "1";
+					if (statRef.length > 1) {
+						tempObj["Bukti Pendukung"] = statRef.split(":")[1];
+					}
+					obj.push(tempObj);
+				});
+
+				let matkulName = matkul.split(" ").join("_");
+				let kelasName = kelas.split(" ").join("_");
+				let name =
+					"Laporan_matkul_" +
+					matkulName +
+					kelasName +
+					new Date().toLocaleDateString("id");
+				name = name.split("/").join("_");
+
+				generateLaporan(`mata kuliah ${matkul}, kelas ${kelas}`, name, obj);
+
 				return;
 			} catch (error) {
 				console.log(error);
@@ -214,7 +279,6 @@ module.exports = {
 			}
 
 			try {
-				message.channel.send("Mempersiapkan laporan...");
 				return;
 			} catch (error) {
 				console.log(error);
@@ -226,7 +290,6 @@ module.exports = {
 
 		const execLaporSemua = async () => {
 			try {
-				message.channel.send("Mempersiapkan laporan...");
 				return;
 			} catch (error) {
 				console.log(error);
