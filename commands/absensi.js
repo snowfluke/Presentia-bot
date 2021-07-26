@@ -1,7 +1,6 @@
 const admin = require("../firebase");
 const check3 = require("../check3");
 const cmdEmbed = require("../cmdEmbed");
-const normalEmbed = require("../normalEmbed");
 const { PaginatedEmbed } = require("embed-paginator");
 
 module.exports = {
@@ -119,20 +118,12 @@ module.exports = {
 				const currentAbsentRecords = absentData[matkul];
 				const currentMhsRecords = mhs[matkul];
 
-				console.log(currentMhsRecords);
-				console.log(currentAbsentRecords);
-
 				if (currentAbsentRecords.length == 0) {
 					message.channel.send(
 						`:worried: Maaf, belum ada pertemuan di mata kuliah ${matkul}`
 					);
 					return;
 				}
-
-				let normalEmbedRecord = normalEmbed(
-					mhs.name,
-					`**Kelas:** ${mhs.kelas}`
-				).setAuthor(NIM);
 
 				let pObj = {
 					colours: ["#119DA4"],
