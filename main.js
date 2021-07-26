@@ -15,6 +15,7 @@ const {
 
 // * Import custom independence command
 const registrasi = require("./registrasi");
+const normalEmbed = require("./normalEmbed");
 
 // * Genereate discord client and command collection
 const client = new Discord.Client();
@@ -101,3 +102,20 @@ client.on("guildMemberAdd", (member) => {
 
 	welcomeChannel.send(welcomeEmbed);
 });
+
+const cronMingguan = new cron.CronJob(
+	"0 20 * * 0",
+	() => {
+		const wadah = message.guild.channels.cache.find(
+			(channel) => channel.name === "laporan"
+		);
+		if (!wadah) return;
+
+		const haloEmbed = new normalEmbed("Halo semua", "Testing cron mingguan");
+
+		wadah.send(haloEmbed);
+	},
+	null,
+	true,
+	"Asia/Jakarta"
+);

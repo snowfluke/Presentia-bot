@@ -209,9 +209,6 @@ module.exports = {
 						return;
 					}
 
-					console.log(waktuMulai);
-					console.log(waktuBerakhir);
-
 					DataRef.name[IndexDataRef] = undefined;
 					DataRef.start[IndexDataRef] = undefined;
 					DataRef.end[IndexDataRef] = undefined;
@@ -259,14 +256,11 @@ module.exports = {
 						})
 						.sort((a, b) => a.start - b.start);
 
-					console.log(tempObj);
-
 					redestinationData.start = tempObj.map((el) => el.start);
 					redestinationData.end = tempObj.map((el) => el.end);
 					redestinationData.name = tempObj.map((el) => el.name);
 					redestinationData.onlineAbsent = tempObj.map((el) => el.onlineAbsent);
 
-					console.log(redestination);
 					let tanggalHariIni = new Date().toLocaleString("id").split(" ")[0];
 
 					await scheduleRef.doc(instanceId).collection(kelas).doc(hari).update({

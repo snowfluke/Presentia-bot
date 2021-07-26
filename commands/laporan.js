@@ -29,6 +29,7 @@ module.exports = {
 			message.channel.send(
 				":worried: Maaf, channel **laporan** tidak ditemukan, silakan tanyakan pada admin untuk membuat channel laporan."
 			);
+			return;
 		}
 
 		const status = await check3(instanceId);
