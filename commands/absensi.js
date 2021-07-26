@@ -3,6 +3,7 @@ const check3 = require("../check3");
 const cmdEmbed = require("../cmdEmbed");
 const { PaginatedEmbed } = require("embed-paginator");
 const normalEmbed = require("../normalEmbed");
+const { botLogo } = require("../config.json");
 
 module.exports = {
 	name: "absensi",
@@ -156,7 +157,9 @@ module.exports = {
 						);
 				});
 
-				const embed = new PaginatedEmbed(pObj).setTitle(mhs.name);
+				const embed = new PaginatedEmbed(pObj)
+					.setTitle(mhs.name)
+					.setThumbnail(botLogo);
 
 				embed.send(message.channel, "Menampilkan hasil");
 
@@ -254,7 +257,7 @@ module.exports = {
 					}
 				}
 
-				const normalEmbed = normalEmbed(mhs.name, `**Kelas:** ${kelas}`)
+				const normalEmbedUbah = normalEmbed(mhs.name, `**Kelas:** ${kelas}`)
 					.setAuthor(`NIM: ${NIM}`)
 					.addField(
 						`Pertemuan ke-${pertemuan}`,
@@ -289,7 +292,7 @@ module.exports = {
 					);
 				};
 
-				message.channel.send(normalEmbed).then((m) => {
+				message.channel.send(normalEmbedUbah).then((m) => {
 					["🇭", "🇸", "🇮", "🇦", "❎"].forEach((el) => m.react(el));
 					m.awaitReactions(filter2, {
 						max: 1,
