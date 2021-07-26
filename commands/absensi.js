@@ -274,7 +274,9 @@ module.exports = {
 					.setAuthor(`NIM: ${NIM}`)
 					.addField(
 						`Pertemuan ke-${pertemuan}`,
-						`**Tgl:** ${el}\n**Status:** ${statusString}`
+						`**Tgl:** ${
+							currentAbsentRecords[pertemuan - 1]
+						}\n**Status:** ${statusString}`
 					);
 
 				const execChangeRecord = async (emoji) => {
