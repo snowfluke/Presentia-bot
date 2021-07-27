@@ -104,7 +104,7 @@ client.on("guildMemberAdd", (member) => {
 	welcomeChannel.send(welcomeEmbed);
 });
 
-const getDataLaporan = async (kelas, weekly = true) => {
+const getDataLaporan = async (kelas, weekly, instanceId) => {
 	const snapKelas = await mhsRef.doc(instanceId).get();
 	const data = snapKelas.data();
 	let checker = data.kelas.map((el) => el.toLowerCase());
@@ -196,7 +196,7 @@ const getDataLaporan = async (kelas, weekly = true) => {
 };
 
 const cronMingguan = new cron.CronJob(
-	"46 16 * * 2",
+	"51 16 * * 2",
 	() => {
 		client.guilds.cache.forEach(async (g) => {
 			try {
@@ -214,7 +214,11 @@ const cronMingguan = new cron.CronJob(
 				let obj = [];
 
 				for (let i = 0; i < listKelas.kelas.length; i++) {
-					let datas = await getDataLaporan(listKelas.kelas[i]);
+					let datas = await getDataLaporan(
+						listKelas.kelas[i],
+						true,
+						instanceId
+					);
 					if (datas.empty) return;
 
 					obj.push(datas);
@@ -243,7 +247,7 @@ const cronMingguan = new cron.CronJob(
 					files: [
 						{
 							attachment: f,
-							name: `Statistik_Absensi_${d}.xlsx`,
+							name: `Statistik_Absensi_Mingguan_${d}.xlsx`,
 						},
 					],
 				});
@@ -276,7 +280,11 @@ const cronBulanan = new cron.CronJob(
 				let obj = [];
 
 				for (let i = 0; i < listKelas.kelas.length; i++) {
-					let datas = await getDataLaporan(listKelas.kelas[i]);
+					let datas = await getDataLaporan(
+						listKelas.kelas[i],
+						false,
+						instanceId
+					);
 					if (datas.empty) return;
 
 					obj.push(datas);
@@ -305,7 +313,7 @@ const cronBulanan = new cron.CronJob(
 					files: [
 						{
 							attachment: f,
-							name: `Statistik_Absensi_${d}.xlsx`,
+							name: `Statistik_Absensi_Bulanan_${d}.xlsx`,
 						},
 					],
 				});
