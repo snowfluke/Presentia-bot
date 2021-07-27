@@ -195,7 +195,7 @@ const getDataLaporan = async (kelas, weekly = true) => {
 const cronMingguan = new cron.CronJob(
 	"0 20 * * 0",
 	() => {
-		client.guilds.cache.forEach((g) => {
+		client.guilds.cache.forEach(async (g) => {
 			try {
 				let server = await serverRef.doc(g.id.toString()).get();
 				if (!server.exists) return;
@@ -257,7 +257,7 @@ const cronMingguan = new cron.CronJob(
 const cronBulanan = new cron.CronJob(
 	"0 20 30 * *",
 	() => {
-		client.guilds.cache.forEach((g) => {
+		client.guilds.cache.forEach(async (g) => {
 			try {
 				let server = await serverRef.doc(g.id.toString()).get();
 				if (!server.exists) return;
