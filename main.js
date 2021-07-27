@@ -162,7 +162,9 @@ const getDataLaporan = async (kelas, weekly, instanceId) => {
 				} else {
 					tempObj[statRef[0]] += 1;
 				}
-				tempObj["Total Pertemuan"] += 1;
+				if (el.length != 0) {
+					tempObj["Total Pertemuan"] += 1;
+				}
 				return;
 			}
 
@@ -196,7 +198,7 @@ const getDataLaporan = async (kelas, weekly, instanceId) => {
 };
 
 const cronMingguan = new cron.CronJob(
-	"59 16 * * 2",
+	"03 17 * * 2",
 	() => {
 		client.guilds.cache.forEach(async (g) => {
 			try {
