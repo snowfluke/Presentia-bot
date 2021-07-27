@@ -28,7 +28,7 @@ module.exports = {
 				.addField("2. Bantuan Dosen", "` pr bantuan dosen `")
 				.addField(
 					"Hubungi Pengembang",
-					"Jika masih terdapat kesulitan, pertanyaan, saran maupun kritikan. Dapat langsung menghubungi kami atau mengundang kami untuk masuk ke dalam server.\nhttps://discord.com/channels/@me/786089341981294602"
+					"Jika masih terdapat kesulitan, pertanyaan, saran maupun kritikan. Dapat langsung menghubungi kami atau mengundang kami untuk masuk ke dalam server.\nhttps://discord.com/channels/@me/607753400137940992"
 				);
 			return message.channel.send(cmdEmbedBantuan);
 		}

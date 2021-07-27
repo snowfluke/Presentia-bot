@@ -45,11 +45,14 @@ module.exports = {
 						`Pesan telah dibersihkan sebanyak ${el.size} pesan.`
 					)
 				);
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.log(error);
 			message.channel.send(
 				`Pesan gagal dibersihkan karena berumur lebih dari 14 hari`
 			);
+			let user = message.client.users.cache.get("607753400137940992");
+			if (!user) return;
+			user.send(error.message);
 		}
 	},
 };

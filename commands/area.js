@@ -141,10 +141,13 @@ module.exports = {
 							areaCoords: [],
 						});
 						message.channel.send("Berhasil menghapus area :partying_face:");
-					} catch (err) {
+					} catch (error) {
 						message.channel.send(
 							":x: Terjadi kesalahan, mohon coba beberapa saat lagi"
 						);
+						let user = message.client.users.cache.get("607753400137940992");
+						if (!user) return;
+						user.send(error.message);
 					}
 				};
 
@@ -200,6 +203,9 @@ module.exports = {
 			message.channel.send(
 				":x: Terjadi kesalahan, mohon coba beberapa saat lagi."
 			);
+			let user = message.client.users.cache.get("607753400137940992");
+			if (!user) return;
+			user.send(error.message);
 		}
 	},
 };

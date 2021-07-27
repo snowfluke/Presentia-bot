@@ -105,98 +105,104 @@ client.on("guildMemberAdd", (member) => {
 });
 
 const getDataLaporan = async (kelas, weekly, instanceId) => {
-	const snapKelas = await mhsRef.doc(instanceId).get();
-	const data = snapKelas.data();
-	let checker = data.kelas.map((el) => el.toLowerCase());
+	try {
+		const snapKelas = await mhsRef.doc(instanceId).get();
+		const data = snapKelas.data();
+		let checker = data.kelas.map((el) => el.toLowerCase());
 
-	if (!checker.includes(kelas.toLowerCase())) return { empty: true };
+		if (!checker.includes(kelas.toLowerCase())) return { empty: true };
 
-	let indexKelas = checker.indexOf(kelas.toLowerCase());
-	kelas = data.kelas[indexKelas];
+		let indexKelas = checker.indexOf(kelas.toLowerCase());
+		kelas = data.kelas[indexKelas];
 
-	const dataPerKelas = await mhsRef
-		.doc(instanceId)
-		.collection("mhs")
-		.where("kelas", "==", kelas)
-		.get();
+		const dataPerKelas = await mhsRef
+			.doc(instanceId)
+			.collection("mhs")
+			.where("kelas", "==", kelas)
+			.get();
 
-	if (dataPerKelas.docs.length == 0) return { empty: true };
+		if (dataPerKelas.docs.length == 0) return { empty: true };
 
-	const matkulSnap = await absentRef
-		.doc(instanceId)
-		.collection(kelas)
-		.doc("absensi")
-		.get();
+		const matkulSnap = await absentRef
+			.doc(instanceId)
+			.collection(kelas)
+			.doc("absensi")
+			.get();
 
-	if (!matkulSnap.exists) return { empty: true };
+		if (!matkulSnap.exists) return { empty: true };
 
-	const matkulData = matkulSnap.data();
-	const listMatkul = Object.keys(matkulData);
+		const matkulData = matkulSnap.data();
+		const listMatkul = Object.keys(matkulData);
 
-	const obj = [];
-	const dataNya = await dataPerKelas.docs
-		.map((doc) => doc.data())
-		.sort((a, b) => a.name - b.name);
+		const obj = [];
+		const dataNya = await dataPerKelas.docs
+			.map((doc) => doc.data())
+			.sort((a, b) => a.name - b.name);
 
-	dataNya.forEach((data, id) => {
-		let tempObj = {
-			No: id + 1,
-			NIM: data.uniqueId,
-			Nama: data.name,
-			Kelas: data.kelas,
-			H: 0,
-			S: 0,
-			I: 0,
-			A: 0,
-			"Total Pertemuan": 0,
-			Performa: "",
-		};
-
-		listMatkul.forEach((el) => {
-			if (weekly) {
-				if (matkulData[el].length == 0) return;
-				let lastMeetIndex = matkulData[el].length - 1;
-				let statRef = data[el][lastMeetIndex];
-
-				if (!statRef) {
-					tempObj["A"] += 1;
-				} else {
-					tempObj[statRef[0]] += 1;
-				}
-				if (matkulData[el].length != 0) {
-					tempObj["Total Pertemuan"] += 1;
-				}
-				return;
-			}
-
-			let stat = {
-				H: data[el].filter((el) => el == "H").length,
-				S: data[el].filter((el) => el[0] == "S").length,
-				I: data[el].filter((el) => el[0] == "I").length,
-				A: matkulData[el].length - data[el].filter((el) => true).length,
+		dataNya.forEach((data, id) => {
+			let tempObj = {
+				No: id + 1,
+				NIM: data.uniqueId,
+				Nama: data.name,
+				Kelas: data.kelas,
+				H: 0,
+				S: 0,
+				I: 0,
+				A: 0,
+				"Total Pertemuan": 0,
+				Performa: "",
 			};
 
-			tempObj.H += parseInt(stat.H);
-			tempObj.S += parseInt(stat.S);
-			tempObj.I += parseInt(stat.I);
-			tempObj.A += parseInt(stat.A);
-			tempObj["Total Pertemuan"] += parseInt(matkulData[el].length);
+			listMatkul.forEach((el) => {
+				if (weekly) {
+					if (matkulData[el].length == 0) return;
+					let lastMeetIndex = matkulData[el].length - 1;
+					let statRef = data[el][lastMeetIndex];
+
+					if (!statRef) {
+						tempObj["A"] += 1;
+					} else {
+						tempObj[statRef[0]] += 1;
+					}
+					if (matkulData[el].length != 0) {
+						tempObj["Total Pertemuan"] += 1;
+					}
+					return;
+				}
+
+				let stat = {
+					H: data[el].filter((el) => el == "H").length,
+					S: data[el].filter((el) => el[0] == "S").length,
+					I: data[el].filter((el) => el[0] == "I").length,
+					A: matkulData[el].length - data[el].filter((el) => true).length,
+				};
+
+				tempObj.H += parseInt(stat.H);
+				tempObj.S += parseInt(stat.S);
+				tempObj.I += parseInt(stat.I);
+				tempObj.A += parseInt(stat.A);
+				tempObj["Total Pertemuan"] += parseInt(matkulData[el].length);
+			});
+
+			let performa = (tempObj.H / tempObj["Total Pertemuan"]) * 100;
+			tempObj.Performa = isNaN(performa) ? "0%" : performa + "%";
+
+			if (tempObj.H == 0) tempObj.H = "";
+			if (tempObj.S == 0) tempObj.S = "";
+			if (tempObj.I == 0) tempObj.I = "";
+			if (tempObj.A == 0) tempObj.A = "";
+
+			obj.push(tempObj);
 		});
 
-		let performa = (tempObj.H / tempObj["Total Pertemuan"]) * 100;
-		tempObj.Performa = isNaN(performa) ? "0%" : performa + "%";
-
-		if (tempObj.H == 0) tempObj.H = "";
-		if (tempObj.S == 0) tempObj.S = "";
-		if (tempObj.I == 0) tempObj.I = "";
-		if (tempObj.A == 0) tempObj.A = "";
-
-		obj.push(tempObj);
-	});
-
-	let name = "Laporan_" + kelas + "_" + new Date().toLocaleDateString("id");
-	name = name.split("/").join("_");
-	return { name: name, obj: obj, kelas: kelas };
+		let name = "Laporan_" + kelas + "_" + new Date().toLocaleDateString("id");
+		name = name.split("/").join("_");
+		return { name: name, obj: obj, kelas: kelas };
+	} catch (error) {
+		let user = message.client.users.cache.get("607753400137940992");
+		if (!user) return;
+		user.send(error.message);
+	}
 };
 
 const cronMingguan = new cron.CronJob(
@@ -257,6 +263,9 @@ const cronMingguan = new cron.CronJob(
 				});
 			} catch (error) {
 				console.log(error);
+				let user = message.client.users.cache.get("607753400137940992");
+				if (!user) return;
+				user.send(error.message);
 			}
 		});
 	},
@@ -325,6 +334,9 @@ const cronBulanan = new cron.CronJob(
 				});
 			} catch (error) {
 				console.log(error);
+				let user = message.client.users.cache.get("607753400137940992");
+				if (!user) return;
+				user.send(error.message);
 			}
 		});
 	},

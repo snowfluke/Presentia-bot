@@ -116,6 +116,9 @@ module.exports = {
 						message.channel.send(
 							":x: Terjadi kesalahan saat membuka file, mohon coba beberapa saat lagi"
 						);
+						let user = message.client.users.cache.get("607753400137940992");
+						if (!user) return;
+						user.send(error.message);
 					});
 
 				message.channel.send(":white_check_mark: Mengecek data mahasiswa");
@@ -169,6 +172,9 @@ module.exports = {
 					message.channel.send(
 						":x: Terjadi kesalahan, mohon coba beberapa saat lagi"
 					);
+					let user = message.client.users.cache.get("607753400137940992");
+					if (!user) return;
+					user.send(error.message);
 				}
 			};
 
@@ -211,6 +217,9 @@ module.exports = {
 						message.channel.send(
 							":x: Terjadi kesalahan saat membuka file, mohon coba beberapa saat lagi"
 						);
+						let user = message.client.users.cache.get("607753400137940992");
+						if (!user) return;
+						user.send(error.message);
 					});
 
 				message.channel.send(":white_check_mark: Menganalisis file");
@@ -362,6 +371,9 @@ module.exports = {
 							message.channel.send(
 								":x: Gagal memperbarui data mahasiswa, periksa kembali data jadwal dan coba beberapa saat lagi"
 							);
+							let user = message.client.users.cache.get("607753400137940992");
+							if (!user) return;
+							user.send(error.message);
 						});
 				}
 
@@ -471,6 +483,9 @@ module.exports = {
 					message.channel.send(
 						":x: Terjadi Kesalahan dalam menggungah data jadwal"
 					);
+					let user = message.client.users.cache.get("607753400137940992");
+					if (!user) return;
+					user.send(error.message);
 				}
 			};
 
@@ -632,6 +647,9 @@ module.exports = {
 					message.channel.send(
 						":x: Terjadi kesalahan, mohon coba beberapa saat lagi"
 					);
+					let user = message.client.users.cache.get("607753400137940992");
+					if (!user) return;
+					user.send(error.message);
 				}
 			};
 
@@ -695,6 +713,9 @@ module.exports = {
 			message.channel.send(
 				":x: Terjadi kesalahan, mohon coba beberapa saat lagi"
 			);
+			let user = message.client.users.cache.get("607753400137940992");
+			if (!user) return;
+			user.send(error.message);
 		}
 	},
 };

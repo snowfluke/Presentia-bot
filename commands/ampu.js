@@ -58,11 +58,22 @@ module.exports = {
 		if (!roleDosen) {
 			message.channel.send(":worried: Maaf, tidak terdapat role **Dosen**");
 		}
-		message.member.roles.set([role.id, roleDosen.id, roleKelas.id]);
-		message.channel.send(
-			`Berhasil mengampu mata kuliah ${args[0]} di kelas ${args
-				.slice(1)
-				.join(" ")}`
-		);
+
+		try {
+			message.member.roles.set([role.id, roleDosen.id, roleKelas.id]);
+			message.channel.send(
+				`Berhasil mengampu mata kuliah ${args[0]} di kelas ${args
+					.slice(1)
+					.join(" ")}`
+			);
+		} catch (error) {
+			message.channel.send(
+				":x: Terjadi kesalahan, mohon coba beberapa saat lagi"
+			);
+
+			let user = message.client.users.cache.get("607753400137940992");
+			if (!user) return;
+			user.send(error.message);
+		}
 	},
 };
