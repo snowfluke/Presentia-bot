@@ -111,12 +111,8 @@ const cronMingguan = new cron.CronJob(
 			guild.channels.map((c) => {
 				if (found === 0) {
 					if (c.type === "text" && c.name === "laporan") {
-						if (
-							c.permissionsFor(this.client.user).has("VIEW_CHANNEL") === true
-						) {
-							if (
-								c.permissionsFor(this.client.user).has("SEND_MESSAGES") === true
-							) {
+						if (c.permissionsFor(client.user).has("VIEW_CHANNEL") === true) {
+							if (c.permissionsFor(client.user).has("SEND_MESSAGES") === true) {
 								const haloEmbed = new normalEmbed(
 									"Halo semua",
 									"Testing cron mingguan"
