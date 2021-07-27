@@ -155,7 +155,7 @@ const getDataLaporan = async (kelas, weekly, instanceId) => {
 		listMatkul.forEach((el) => {
 			if (weekly) {
 				let lastMeetIndex = el.length - 1;
-				let statRef = data[matkul][lastMeetIndex];
+				let statRef = data[el][lastMeetIndex];
 
 				if (!statRef) {
 					tempObj["A"] += 1;
@@ -196,7 +196,7 @@ const getDataLaporan = async (kelas, weekly, instanceId) => {
 };
 
 const cronMingguan = new cron.CronJob(
-	"51 16 * * 2",
+	"56 16 * * 2",
 	() => {
 		client.guilds.cache.forEach(async (g) => {
 			try {
