@@ -104,7 +104,7 @@ client.on("guildMemberAdd", (member) => {
 });
 
 const cronMingguan = new cron.CronJob(
-	"04 14 * * 2",
+	"06 14 * * 2",
 	() => {
 		client.guilds.cache.forEach((g) => {
 			try {
@@ -113,10 +113,7 @@ const cronMingguan = new cron.CronJob(
 				);
 				if (!wadah) return;
 
-				const haloEmbed = new normalEmbed(
-					"Halo semua",
-					"Testing cron mingguan"
-				);
+				const haloEmbed = normalEmbed("Halo semua", "Testing cron mingguan");
 
 				wadah.send(haloEmbed);
 			} catch (error) {
