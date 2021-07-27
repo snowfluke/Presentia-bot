@@ -104,7 +104,7 @@ client.on("guildMemberAdd", (member) => {
 });
 
 const cronMingguan = new cron.CronJob(
-	"50 13 * * 2",
+	"55 13 * * 2",
 	() => {
 		client.guilds.map((guild) => {
 			let found = 0;
