@@ -200,7 +200,7 @@ const getDataLaporan = async (kelas, weekly, instanceId) => {
 };
 
 const cronMingguan = new cron.CronJob(
-	"19 17 * * 2",
+	"0 20 * * 0",
 	() => {
 		client.guilds.cache.forEach(async (g) => {
 			try {
@@ -266,7 +266,7 @@ const cronMingguan = new cron.CronJob(
 );
 
 const cronBulanan = new cron.CronJob(
-	"0 20 30 * *",
+	"25 17 27 * *",
 	() => {
 		client.guilds.cache.forEach(async (g) => {
 			try {
@@ -312,7 +312,9 @@ const cronBulanan = new cron.CronJob(
 				let d = new Date().toLocaleDateString("id");
 				d = d.split("/").join("_");
 
-				wadah.send(`Statistik performa absensi mahasiswa 1 minggu terakhir`);
+				wadah.send(
+					`Statistik performa absensi mahasiswa dari pertemuan 0 sampai sekarang`
+				);
 				wadah.send({
 					files: [
 						{
