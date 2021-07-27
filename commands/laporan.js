@@ -119,7 +119,7 @@ module.exports = {
 
 			if (!checker.includes(kelas.toLowerCase())) {
 				message.channel.send(`:worried: Maaf, kelas ${kelas} tidak ditemukan`);
-				return;
+				return { empty: true };
 			}
 
 			let indexKelas = checker.indexOf(kelas.toLowerCase());
@@ -135,7 +135,7 @@ module.exports = {
 				message.channel.send(
 					`:worried: Maaf, data kelas **${kelas}** tidak ditemukan`
 				);
-				return;
+				return { empty: true };
 			}
 
 			const matkulSnap = await absentRef
@@ -146,7 +146,7 @@ module.exports = {
 
 			if (!matkulSnap.exists) {
 				message.channel.send(`:worried: Maaf, data absensi tidak ditemukan`);
-				return;
+				return { empty: true };
 			}
 
 			const matkulData = matkulSnap.data();
@@ -198,6 +198,8 @@ module.exports = {
 			let kelas = args.slice(1).join(" ");
 			try {
 				const lap = await getDataLaporan(kelas);
+				if (lap.empty) return;
+
 				generateLaporan(`kelas ${lap.kelas}`, lap.name, lap.obj);
 
 				return;
@@ -286,7 +288,7 @@ module.exports = {
 					if (!statRef) {
 						tempObj["A"] = 1;
 					} else {
-						tempObj[statRef[0]] = "1";
+						tempObj[statRef[0]] = 1;
 						if (statRef.length > 1) {
 							tempObj["Bukti Pendukung"] = statRef.split(":")[1];
 						}
@@ -369,7 +371,6 @@ module.exports = {
 						S: "",
 						I: "",
 						A: "",
-						Total: "",
 					};
 
 					if (id == 0) {
@@ -390,12 +391,6 @@ module.exports = {
 					tempData.S = stat.S;
 					tempData.I = stat.I;
 					tempData.A = stat.A;
-
-					tempData.Total =
-						parseInt(stat.H) +
-						parseInt(stat.S) +
-						parseInt(stat.I) +
-						parseInt(stat.A);
 
 					obj.push(tempData);
 				});
@@ -422,9 +417,13 @@ module.exports = {
 
 				for (let i = 0; i < data.kelas.length; i++) {
 					let datas = await getDataLaporan(data.kelas[i]);
+
+					if (datas.empty) return;
+
 					obj.push(datas);
 				}
 
+				if (obj.length == 0) return;
 				generateLaporan(``, ``, obj, true);
 
 				return;

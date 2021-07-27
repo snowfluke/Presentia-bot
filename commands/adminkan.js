@@ -15,6 +15,11 @@ module.exports = {
 			}
 		}
 
+		if (!message.guild.me.hasPermission("MANAGE_ROLES"))
+			return message.channel.send(
+				":worried: Maaf, Bot Presentia tidak memiliki izin untuk memberikan roles"
+			);
+
 		try {
 			let member = message.mentions.members.first();
 
@@ -25,10 +30,27 @@ module.exports = {
 				return;
 			}
 
+			let botRole = message.guild.roles.cache.find(
+				(r) => r.name === "Presentia-bot"
+			);
+			if (!botRole) {
+				message.channel.send(
+					":worried: Maaf, role **Presenita-bot** tidak ditemukan. Silakan buat role **Presentia-bot** terlebih dahulu _(case sensitive)_. Lihat pada buku panduan untuk informasi lebih lanjut."
+				);
+				return;
+			}
+
 			let role = message.guild.roles.cache.find((r) => r.name === "Admin");
 			if (!role) {
 				message.channel.send(
 					":worried: Maaf, role Admin tidak ditemukan. Silakan buat role **Admin** terlebih dahulu _(case sensitive)_. Lihat pada buku panduan untuk informasi lebih lanjut."
+				);
+				return;
+			}
+
+			if (role.position > botRole.position) {
+				message.channel.send(
+					":worried: Maaf, hak akses role **Presentia-bot** di bawah role **Admin**. Presentia tidak dapat mengadminkan user lain. Silakan ubah role **Presentia-bot** supaya lebih tinggi dari role **Admin**."
 				);
 				return;
 			}
