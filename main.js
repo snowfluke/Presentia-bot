@@ -196,7 +196,7 @@ const getDataLaporan = async (kelas, weekly = true) => {
 };
 
 const cronMingguan = new cron.CronJob(
-	"0 20 * * 0",
+	"46 16 * * 2",
 	() => {
 		client.guilds.cache.forEach(async (g) => {
 			try {
