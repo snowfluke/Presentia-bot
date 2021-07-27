@@ -154,7 +154,8 @@ const getDataLaporan = async (kelas, weekly, instanceId) => {
 
 		listMatkul.forEach((el) => {
 			if (weekly) {
-				let lastMeetIndex = el.length - 1;
+				if (matkulData[el].length) return;
+				let lastMeetIndex = matkulData[el].length - 1;
 				let statRef = data[el][lastMeetIndex];
 
 				if (!statRef) {
@@ -162,7 +163,7 @@ const getDataLaporan = async (kelas, weekly, instanceId) => {
 				} else {
 					tempObj[statRef[0]] += 1;
 				}
-				if (el.length != 0) {
+				if (matkulData[el].length != 0) {
 					tempObj["Total Pertemuan"] += 1;
 				}
 				return;
@@ -198,7 +199,7 @@ const getDataLaporan = async (kelas, weekly, instanceId) => {
 };
 
 const cronMingguan = new cron.CronJob(
-	"03 17 * * 2",
+	"09 17 * * 2",
 	() => {
 		client.guilds.cache.forEach(async (g) => {
 			try {
