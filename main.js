@@ -104,27 +104,24 @@ client.on("guildMemberAdd", (member) => {
 });
 
 const cronMingguan = new cron.CronJob(
-	"55 13 * * 2",
+	"01 14 * * 2",
 	() => {
-		client.guilds.map((guild) => {
-			let found = 0;
-			guild.channels.map((c) => {
-				if (found === 0) {
-					if (c.type === "text" && c.name === "laporan") {
-						if (c.permissionsFor(client.user).has("VIEW_CHANNEL") === true) {
-							if (c.permissionsFor(client.user).has("SEND_MESSAGES") === true) {
-								const haloEmbed = new normalEmbed(
-									"Halo semua",
-									"Testing cron mingguan"
-								);
+		client.guilds.cache.forEach((guild) => {
+			try {
+				let wadah = message.guild.channels.cache.find(
+					(channel) => channel.name === "laporan"
+				);
+				if (!wadah) return;
 
-								c.send(haloEmbed);
-								found = 1;
-							}
-						}
-					}
-				}
-			});
+				const haloEmbed = new normalEmbed(
+					"Halo semua",
+					"Testing cron mingguan"
+				);
+
+				wadah.send(haloEmbed);
+			} catch (error) {
+				console.log(error);
+			}
 		});
 	},
 	null,
