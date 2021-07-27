@@ -104,11 +104,11 @@ client.on("guildMemberAdd", (member) => {
 });
 
 const cronMingguan = new cron.CronJob(
-	"01 14 * * 2",
+	"04 14 * * 2",
 	() => {
-		client.guilds.cache.forEach((guild) => {
+		client.guilds.cache.forEach((g) => {
 			try {
-				let wadah = message.guild.channels.cache.find(
+				let wadah = g.channels.cache.find(
 					(channel) => channel.name === "laporan"
 				);
 				if (!wadah) return;
