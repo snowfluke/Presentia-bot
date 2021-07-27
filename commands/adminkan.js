@@ -55,6 +55,12 @@ module.exports = {
 				return;
 			}
 
+			if (member.roles.cache.find((r) => r.name === "Admin")) {
+				await member.roles.remove(role).catch(console.error);
+				message.channel.send(`Berhasil mencopot role admin <@!${member.id}>`);
+				return;
+			}
+
 			await member.roles.add(role).catch(console.error);
 			message.channel.send(
 				`Berhasil menjadikan <@!${member.id}> sebagai admin`
