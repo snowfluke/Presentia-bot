@@ -50,7 +50,7 @@ module.exports = {
 
 			if (role.position > botRole.position) {
 				message.channel.send(
-					":worried: Maaf, hak akses role **Presentia-bot** di bawah role **Admin**. Presentia tidak dapat mengadminkan user lain. Silakan ubah role **Presentia-bot** supaya lebih tinggi dari role **Admin**."
+					":worried: Maaf, hak akses role **Presentia-bot** di bawah role **Admin**. Presentia tidak dapat mengadminkan user lain. Silakan ubah urutan role **Presentia-bot** supaya lebih tinggi dari role **Admin**. Lihat Buku Panduan Admin."
 				);
 				return;
 			}

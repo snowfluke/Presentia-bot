@@ -261,6 +261,13 @@ module.exports = {
 				const matkulData = matkulSnap.data();
 				const currentMatkul = matkulData[matkul];
 
+				if (currentMatkul.length == 0) {
+					message.channel.send(
+						`:worried: Maaf, belum terdapat pertemuan di mata kuliah ${matkul}`
+					);
+					return;
+				}
+
 				const dataNya = await dataPerKelas.docs
 					.map((doc) => doc.data())
 					.sort((a, b) => a.name - b.name);

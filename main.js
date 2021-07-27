@@ -149,6 +149,7 @@ const getDataLaporan = async (kelas, weekly = true) => {
 			I: 0,
 			A: 0,
 			"Total Pertemuan": 0,
+			Performa: "",
 		};
 
 		listMatkul.forEach((el) => {
@@ -178,6 +179,8 @@ const getDataLaporan = async (kelas, weekly = true) => {
 			tempObj.A += parseInt(stat.A);
 			tempObj["Total Pertemuan"] += parseInt(matkulData[el].length);
 		});
+
+		tempObj.Performa = (tempObj.H / tempObj["Total Pertemuan"]) * 100 + "%";
 
 		if (tempObj.H == 0) tempObj.H = "";
 		if (tempObj.S == 0) tempObj.S = "";

@@ -210,7 +210,7 @@ module.exports = {
 				await admin.messaging().send(msg);
 
 				message.channel.send(
-					"Berhasil memulai absensi :partying_face:\nSilakan melihat laporan dengan `pr laporan ` setelah jam mata kuliah selesai."
+					"Berhasil memulai absensi :partying_face:\nSilakan melihat laporan dengan ` pr laporan matkul ` setelah jam mata kuliah selesai."
 				);
 				return;
 			};
