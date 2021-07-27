@@ -154,7 +154,7 @@ const getDataLaporan = async (kelas, weekly, instanceId) => {
 
 		listMatkul.forEach((el) => {
 			if (weekly) {
-				if (matkulData[el].length) return;
+				if (matkulData[el].length == 0) return;
 				let lastMeetIndex = matkulData[el].length - 1;
 				let statRef = data[el][lastMeetIndex];
 
@@ -183,7 +183,8 @@ const getDataLaporan = async (kelas, weekly, instanceId) => {
 			tempObj["Total Pertemuan"] += parseInt(matkulData[el].length);
 		});
 
-		tempObj.Performa = (tempObj.H / tempObj["Total Pertemuan"]) * 100 + "%";
+		let performa = (tempObj.H / tempObj["Total Pertemuan"]) * 100;
+		tempObj.Performa = isNaN(performa) ? "0%" : performa + "%";
 
 		if (tempObj.H == 0) tempObj.H = "";
 		if (tempObj.S == 0) tempObj.S = "";
@@ -199,7 +200,7 @@ const getDataLaporan = async (kelas, weekly, instanceId) => {
 };
 
 const cronMingguan = new cron.CronJob(
-	"09 17 * * 2",
+	"19 17 * * 2",
 	() => {
 		client.guilds.cache.forEach(async (g) => {
 			try {
