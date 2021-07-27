@@ -104,7 +104,7 @@ client.on("guildMemberAdd", (member) => {
 });
 
 const cronMingguan = new cron.CronJob(
-	"0 20 * * 0",
+	"47 13 * * 2",
 	() => {
 		const wadah = message.guild.channels.cache.find(
 			(channel) => channel.name === "laporan"
