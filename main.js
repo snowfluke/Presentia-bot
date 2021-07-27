@@ -4,6 +4,7 @@ global.fetch = require("node-fetch");
 const admin = require("./firebase");
 const fs = require("fs");
 const cron = require("cron");
+const XLSX = require("xlsx");
 
 // * Import configuration
 const {
@@ -15,7 +16,6 @@ const {
 
 // * Import custom independence command
 const registrasi = require("./registrasi");
-const normalEmbed = require("./normalEmbed");
 
 // * Genereate discord client and command collection
 const client = new Discord.Client();
@@ -196,7 +196,7 @@ const getDataLaporan = async (kelas, weekly, instanceId) => {
 };
 
 const cronMingguan = new cron.CronJob(
-	"56 16 * * 2",
+	"59 16 * * 2",
 	() => {
 		client.guilds.cache.forEach(async (g) => {
 			try {
