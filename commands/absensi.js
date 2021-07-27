@@ -9,7 +9,7 @@ module.exports = {
 	name: "absensi",
 	description:
 		"Perintah untuk melihat riwayat absensi mahasiswa.\n` pr absensi `",
-	type: "all",
+	type: "dosen",
 	async execute(message, args, instanceId) {
 		if (
 			!message.member.roles.cache.find(
@@ -17,7 +17,7 @@ module.exports = {
 			)
 		) {
 			message.channel.send(
-				":worried: Maaf, Anda bukan admin, tidak boleh mengakses perintah"
+				":worried: Maaf, Anda bukan Dosen, tidak boleh mengakses perintah"
 			);
 			return;
 		}

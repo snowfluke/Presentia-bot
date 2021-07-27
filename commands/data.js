@@ -650,7 +650,7 @@ module.exports = {
 
 				message.channel
 					.send(
-						"**Apakah anda yakin ingin menghapus seluruh data? (termasuk catatan absensi)**"
+						"**Apakah anda yakin ingin menghapus seluruh data?\n(termasuk data mahasiswa, jadwal, catatan absensi, channel mata kuliah, dan role)**"
 					)
 					.then((m) => {
 						m.react("🇾");
