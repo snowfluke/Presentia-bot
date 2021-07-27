@@ -266,7 +266,7 @@ const cronMingguan = new cron.CronJob(
 );
 
 const cronBulanan = new cron.CronJob(
-	"25 17 27 * *",
+	"0 20 30 * *",
 	() => {
 		client.guilds.cache.forEach(async (g) => {
 			try {
@@ -319,7 +319,7 @@ const cronBulanan = new cron.CronJob(
 					files: [
 						{
 							attachment: f,
-							name: `Statistik_Absensi_Bulanan_${d}.xlsx`,
+							name: `Statistik_Absensi_Lengkap_${d}.xlsx`,
 						},
 					],
 				});
