@@ -171,7 +171,7 @@ module.exports = {
 			newAbsentTypeArr[index] = onlineAbsent;
 
 			if (!(start < todayTime && todayTime < end)) {
-				message.channel.send(todayTime);
+				message.channel.send(`Waktu sekarang: ${todayTime}`);
 				message.channel.send(
 					`:worried: Maaf, di luar jam mata kuliah ${matkul}(${start}-${end})`
 				);
