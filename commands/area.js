@@ -92,7 +92,7 @@ module.exports = {
 
 				message.channel.send(":white_check_mark: Mempersiapkan area baru");
 
-				const points = args[1].split("x");
+				const points = args[1].split("x").filter((el) => el != "");
 				if (points.length < 3 || points.length > 8)
 					return message.reply(
 						":x: Untuk membuat sebuah area, diperlukan minimal 3 buah titik dan maksimal 8 titik"
