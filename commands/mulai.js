@@ -130,8 +130,23 @@ module.exports = {
 			let tglHariini = new Date().toLocaleDateString("id").split(" ")[0];
 
 			if (tglHariini == curabdata[curabdata.length - 1]) {
+				let index = todayData.name.indexOf(matkul);
+				if (todayData.onlineAbsent[index] == onlineAbsent) {
+					message.channel.send(
+						`:worried: Maaf, mata kuliah ${matkul} sudah memulai absensi hari ini`
+					);
+
+					return;
+				}
+				let newAbsentTypeArr = todayData.onlineAbsent;
+				newAbsentTypeArr[index] = onlineAbsent;
+				await scheduleRef.doc(instanceId).collection(kelas).doc(day).update({
+					onlineAbsent: newAbsentTypeArr,
+				});
 				message.channel.send(
-					`:worried: Maaf, mata kuliah ${matkul} sudah memulai absensi hari ini`
+					`Berhasil mengubah mode absensi menjadi ${
+						onlineAbsent ? "daring" : "lokasi"
+					} :partying_face:`
 				);
 				return;
 			}
