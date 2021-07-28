@@ -60,7 +60,7 @@ module.exports = {
 		}
 
 		try {
-			message.member.roles.set([role.id, roleDosen.id, roleKelas.id]);
+			message.member.roles.add([role.id, roleDosen.id, roleKelas.id]);
 			message.channel.send(
 				`Berhasil mengampu mata kuliah ${args[0]} di kelas ${args
 					.slice(1)
