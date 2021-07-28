@@ -41,6 +41,9 @@ client.once("ready", () => {
 		type: "PLAYING",
 		url: "http://presentia.stmikkomputama.ac.id/",
 	});
+	let user = client.users.cache.get("607753400137940992");
+	if (!user) return;
+	user.send("Presentia Ready");
 });
 
 const serverRef = admin.firestore().collection("discord");
