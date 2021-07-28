@@ -55,6 +55,12 @@ module.exports = {
 			return;
 		}
 
+		if (message.member.roles.cache.find((r) => r.id === role.id)) {
+			await member.roles.remove(role).catch(console.error);
+			message.channel.send(`Berhasil melepas role ${role.name}`);
+			return;
+		}
+
 		if (!roleDosen) {
 			message.channel.send(":worried: Maaf, tidak terdapat role **Dosen**");
 		}

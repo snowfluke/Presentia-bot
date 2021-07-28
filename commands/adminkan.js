@@ -58,7 +58,7 @@ module.exports = {
 			if (member.roles.cache.find((r) => r.name === "Admin")) {
 				await member.roles.remove(role).catch(console.error);
 				message.channel.send(
-					`Berhasil mencopot role admin <@!${member.id}> :partying_face:`
+					`Berhasil melepas role admin <@!${member.id}> :partying_face:`
 				);
 				return;
 			}
