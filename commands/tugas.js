@@ -176,16 +176,6 @@ module.exports = {
 									channelId: "presentia",
 								},
 							},
-							apns: {
-								headers: {
-									"apns-priority": "10",
-								},
-							},
-							webpush: {
-								headers: {
-									Urgency: "high",
-								},
-							},
 						};
 
 						let docPrep = {
@@ -209,6 +199,7 @@ module.exports = {
 
 						await tugasRef.doc(idTugas).set(docPrep);
 						await admin.messaging().send(msg);
+						message.channel.send(topic);
 
 						message.channel.send("Berhasil mengirimkan tugas :partying_face:");
 					} catch (error) {

@@ -99,16 +99,6 @@ module.exports = {
 									channelId: "presentia",
 								},
 							},
-							apns: {
-								headers: {
-									"apns-priority": "10",
-								},
-							},
-							webpush: {
-								headers: {
-									Urgency: "high",
-								},
-							},
 						};
 
 						let docPrep = {
