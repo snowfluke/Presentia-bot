@@ -56,13 +56,24 @@ module.exports = {
 		}
 
 		if (message.member.roles.cache.find((r) => r.name === role.name)) {
-			await message.member.roles.remove(role).catch(console.error);
-			message.channel.send(`Berhasil melepas role ${role.name}`);
-			return;
+			try {
+				await message.member.roles.remove(role).catch(console.error);
+				message.channel.send(`Berhasil melepas role ${role.name}`);
+				return;
+			} catch (error) {
+				console.log(error);
+				message.channel.send(
+					":x: Terjadi kesalahan, mohon coba beberapa saat lagi"
+				);
+				let user = message.client.users.cache.get("607753400137940992");
+				if (!user) return;
+				user.send(`Terjadi error ${error.message}`);
+			}
 		}
 
 		if (!roleDosen) {
 			message.channel.send(":worried: Maaf, tidak terdapat role **Dosen**");
+			return;
 		}
 
 		try {
@@ -73,6 +84,7 @@ module.exports = {
 					.join(" ")}`
 			);
 		} catch (error) {
+			console.log(error);
 			message.channel.send(
 				":x: Terjadi kesalahan, mohon coba beberapa saat lagi"
 			);
