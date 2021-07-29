@@ -172,6 +172,9 @@ module.exports = {
 				message.channel.send(
 					`:worried: Maaf, terjadi kesalahan. Silakan mencoba beberapa saat lagi`
 				);
+				let user = message.client.users.cache.get("607753400137940992");
+				if (!user) return;
+				user.send(`Terjadi error ${error.message}`);
 			}
 		};
 
@@ -333,6 +336,9 @@ module.exports = {
 				message.channel.send(
 					`:worried: Maaf, terjadi kesalahan. Silakan mencoba beberapa saat lagi`
 				);
+				let user = message.client.users.cache.get("607753400137940992");
+				if (!user) return;
+				user.send(`Terjadi error ${error.message}`);
 			}
 		};
 

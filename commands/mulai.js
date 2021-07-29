@@ -263,7 +263,7 @@ module.exports = {
 			console.log(error);
 			let user = message.client.users.cache.get("607753400137940992");
 			if (!user) return;
-			user.send(error.message);
+			user.send(`Terjadi error ${error.message}`);
 		}
 	},
 };
