@@ -56,7 +56,7 @@ module.exports = {
 		}
 
 		if (message.member.roles.cache.find((r) => r.name === role.name)) {
-			await member.roles.remove(role).catch(console.error);
+			await message.member.roles.remove(role).catch(console.error);
 			message.channel.send(`Berhasil melepas role ${role.name}`);
 			return;
 		}
