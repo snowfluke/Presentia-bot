@@ -186,12 +186,14 @@ module.exports = {
 				let date = new Date()
 					.toLocaleString("id", { timeZone: "Asia/Jakarta" })
 					.split(" ")[0];
+				let topic = (instanceId + kelas).substring(0, 20);
+
 				const msg = {
 					notification: {
 						title: "Absensi Dimulai!",
 						body: `Dosen mata kuliah ${matkul} sudah memulai absensi terbaru. Jangan lupa untuk menyegarkan layar absensi!`,
 					},
-					topic: kelas,
+					topic: topic,
 					android: {
 						priority: "high",
 						notification: {

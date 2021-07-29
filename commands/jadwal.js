@@ -272,12 +272,13 @@ module.exports = {
 						onlineAbsent: redestinationData.onlineAbsent,
 					});
 
+					let topic = (instanceId + kelas).substring(0, 20);
 					const msg = {
 						notification: {
 							title: `Pergantian Jadwal Hari ${hariAsal}`,
 							body: `Mata kuliah ${matkul} di pindah ke hari ${hari}. Pastikan untuk menyegarkan halaman jadwal.`,
 						},
-						topic: kelas,
+						topic: topic,
 						android: {
 							priority: "high",
 							notification: {

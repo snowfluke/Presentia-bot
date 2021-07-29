@@ -161,12 +161,13 @@ module.exports = {
 
 				const execPost = async () => {
 					try {
+						let topic = (instanceId + kelasTugas).substring(0, 20);
 						const msg = {
 							notification: {
 								title: judulTugas.substring(0, 100),
 								body: isiTugas.substring(0, 200),
 							},
-							topic: kelasTugas,
+							topic: topic,
 							android: {
 								priority: "high",
 								notification: {
