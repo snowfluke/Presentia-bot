@@ -276,7 +276,7 @@ module.exports = {
 					const msg = {
 						notification: {
 							title: `Pergantian Jadwal Hari ${hariAsal}`,
-							body: `Mata kuliah ${matkul} di pindah ke hari ${hari}. Pastikan untuk menyegarkan halaman jadwal.`,
+							body: `Mata kuliah ${matkul} dipindahkan ke hari ${hari} (${waktuMulai}-${waktuBerakhir}). Pastikan untuk menyegarkan halaman jadwal.`,
 						},
 						topic: topic,
 						android: {
