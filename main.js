@@ -255,14 +255,8 @@ const cronMingguan = new cron.CronJob(
 				let d = new Date().toLocaleDateString("id");
 				d = d.split("/").join("_");
 
-				let dosenRole = message.guild.roles.cache.find(
-					(r) => r.name === "Dosen"
-				);
-
 				wadah.send(
-					`Statistik performa absensi mahasiswa 1 minggu terakhir ${
-						dosenRole ? "<@&" + dosenRole.id + ">" : ""
-					}`
+					`Statistik performa absensi mahasiswa 1 minggu terakhir.`
 				);
 				wadah.send({
 					files: [
@@ -332,18 +326,8 @@ const cronBulanan = new cron.CronJob(
 				let d = new Date().toLocaleDateString("id");
 				d = d.split("/").join("_");
 
-				let adminRole = message.guild.roles.cache.find(
-					(r) => r.name === "Admin"
-				);
-
-				let dosenRole = message.guild.roles.cache.find(
-					(r) => r.name === "Dosen"
-				);
-
 				wadah.send(
-					`Statistik performa absensi mahasiswa dari pertemuan 0 sampai sekarang ${
-						adminRole ? "<@&" + adminRole.id + ">" : ""
-					}, ${dosenRole ? "<@&" + dosenRole.id + ">" : ""}`
+					`Statistik performa absensi mahasiswa dari pertemuan 1 sampai sekarang`
 				);
 				wadah.send({
 					files: [
