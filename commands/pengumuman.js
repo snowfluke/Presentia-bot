@@ -21,7 +21,7 @@ module.exports = {
 		if (args.length == 0) {
 			const cmdEmbedPengumuman = cmdEmbed(
 				"Pengumuman",
-				"Presentia dapat membuat pengumuman yang langsung tersampaikan ke seluruh mahasiswa."
+				"Presenqoo dapat membuat pengumuman yang langsung tersampaikan ke seluruh mahasiswa."
 			)
 				.addField("1. Membuat Pengumuman", "` pr pengumuman tambah `")
 				.addField("2. Menghapus Pengumuman", "` pr pengumuman hapus `");
@@ -44,19 +44,25 @@ module.exports = {
 				const filter = (m) => m.author.id == message.author.id;
 
 				message.channel.send("**Masukkan judul pengumuman:**");
-				const titlePengumuman = await message.channel.awaitMessages(filter, {
-					max: 1,
-					time: 60 * 1000,
-					errors: ["time"],
-				});
+				const titlePengumuman = await message.channel.awaitMessages(
+					filter,
+					{
+						max: 1,
+						time: 60 * 1000,
+						errors: ["time"],
+					}
+				);
 
 				message.channel.send("**Masukkan isi pengumuman:**");
 
-				const rawPengumuman = await message.channel.awaitMessages(filter, {
-					max: 1,
-					time: 60 * 1000,
-					errors: ["time"],
-				});
+				const rawPengumuman = await message.channel.awaitMessages(
+					filter,
+					{
+						max: 1,
+						time: 60 * 1000,
+						errors: ["time"],
+					}
+				);
 
 				message.channel.send(
 					"**Masukkan judul dan URL dokumen pendukung\n(Isi titik jika tidak ada):**\nContoh: `Surat keputusan BEM https://www.bem.org`"
@@ -71,7 +77,9 @@ module.exports = {
 				let judulPengumuman = titlePengumuman.first().content;
 				let isiPengumuman = rawPengumuman.first().content;
 				let isiFile =
-					rawFile.first().content.length > 5 ? rawFile.first().content : false;
+					rawFile.first().content.length > 5
+						? rawFile.first().content
+						: false;
 				let id = nanoid(10);
 
 				const normalEmbedPengumuman = normalEmbed(
@@ -103,13 +111,17 @@ module.exports = {
 
 						let docPrep = {
 							content: isiPengumuman,
-							created: new Date().toLocaleString("id").split(" ")[0],
+							created: new Date()
+								.toLocaleString("id")
+								.split(" ")[0],
 							title: judulPengumuman,
 						};
 
 						if (isiFile) {
 							let bedah = isiFile.split(" ");
-							docPrep.file = bedah.slice(0, bedah.length - 1).join(" ");
+							docPrep.file = bedah
+								.slice(0, bedah.length - 1)
+								.join(" ");
 							docPrep.url = bedah[bedah.length - 1];
 							docPrep.type = "URL";
 						}
@@ -125,7 +137,10 @@ module.exports = {
 						message.channel.send(
 							`:worried: Maaf, terjadi kesalahan. Silakan mencoba beberapa saat lagi`
 						);
-						let user = message.client.users.cache.get("607753400137940992");
+						let user =
+							message.client.users.cache.get(
+								"607753400137940992"
+							);
 						if (!user) return;
 						user.send(`Terjadi error ${error.message}`);
 					}
@@ -188,7 +203,10 @@ module.exports = {
 				).setAuthor(`id: ${args[1]}`);
 
 				if (data.file) {
-					normalEmbedPengumuman.addField("Dokumen", `${data.file} ${data.url}`);
+					normalEmbedPengumuman.addField(
+						"Dokumen",
+						`${data.file} ${data.url}`
+					);
 				}
 
 				const filter2 = (reaction, user) => {
@@ -209,7 +227,10 @@ module.exports = {
 						message.channel.send(
 							":x: Terjadi kesalahan, silakan coba beberapa saat lagi."
 						);
-						let user = message.client.users.cache.get("607753400137940992");
+						let user =
+							message.client.users.cache.get(
+								"607753400137940992"
+							);
 						if (!user) return;
 						user.send(`Terjadi error ${error.message}`);
 					}
@@ -247,7 +268,9 @@ module.exports = {
 					execHapus();
 					break;
 				default:
-					message.channel.send(":worried: Maaf, perintah tidak dikenali");
+					message.channel.send(
+						":worried: Maaf, perintah tidak dikenali"
+					);
 					break;
 			}
 		} catch (error) {

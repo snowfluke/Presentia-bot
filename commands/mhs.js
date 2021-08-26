@@ -21,7 +21,7 @@ module.exports = {
 		if (args.length != 2) {
 			const cmdEmbedMhs = cmdEmbed(
 				"Mhs",
-				"Presentia ingin menjangkau semua mahasiswa yang terkendala perangkat"
+				"Presenqoo ingin menjangkau semua mahasiswa yang terkendala perangkat"
 			)
 				.addField(
 					"1. Mempercayakan Mahasiswa Untuk Menerima Titipan Absen",
@@ -76,7 +76,11 @@ module.exports = {
 			if (tipe == "terpercaya") {
 				mhsData.trouble = false;
 				mhsData.trusted = !mhsData.trusted;
-				await mhsRef.doc(instanceId).collection("mhs").doc(NIM).set(mhsData);
+				await mhsRef
+					.doc(instanceId)
+					.collection("mhs")
+					.doc(NIM)
+					.set(mhsData);
 
 				if (mhsData.trusted) {
 					message.channel.send(
@@ -95,7 +99,11 @@ module.exports = {
 			if (tipe == "terkendala") {
 				mhsData.trusted = false;
 				mhsData.trouble = !mhsData.trouble;
-				await mhsRef.doc(instanceId).collection("mhs").doc(NIM).set(mhsData);
+				await mhsRef
+					.doc(instanceId)
+					.collection("mhs")
+					.doc(NIM)
+					.set(mhsData);
 				if (mhsData.trouble) {
 					message.channel.send(
 						`Berhasil menandai **${mhsData.name}** sebagai mahasiswa terkendala perangkat :worried:`
@@ -110,7 +118,9 @@ module.exports = {
 
 			if (tipe == "reset") {
 				if (mhsData.device.length == 0) {
-					message.channel.send(`Perangkat ${mhsData.name} belum teregistrasi`);
+					message.channel.send(
+						`Perangkat ${mhsData.name} belum teregistrasi`
+					);
 					return;
 				}
 				const deviceRef = admin.firestore().collection("devices");

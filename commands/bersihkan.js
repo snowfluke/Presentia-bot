@@ -4,13 +4,13 @@ module.exports = {
 		"Perintah untuk membersihkan pesan pada channel Discord.\n` pr bersihkan <2-100> `",
 	type: "admin",
 	async execute(message, args) {
-		if (!message.member.hasPermission("MANAGE_MESSAGES"))
-			return message.reply(
-				":worried: Maaf, Anda tidak memiliki izin menghapus pesan"
-			);
+		// if (!message.member.hasPermission("MANAGE_MESSAGES"))
+		// 	return message.reply(
+		// 		":worried: Maaf, Anda tidak memiliki izin menghapus pesan"
+		// 	);
 		if (!message.guild.me.hasPermission("MANAGE_MESSAGES"))
 			return message.channel.send(
-				":worried: Maaf, Bot Presentia tidak memiliki izin menghapus pesan"
+				":worried: Maaf, Bot Presenqoo tidak memiliki izin menghapus pesan"
 			);
 
 		if (!args[0])

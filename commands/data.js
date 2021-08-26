@@ -8,7 +8,7 @@ module.exports = {
 	type: "admin",
 	config: true,
 	description:
-		"Perintah untuk mengunggah data keperluan konfigurasi Presentia.\n` pr data `",
+		"Perintah untuk mengunggah data keperluan konfigurasi Presenqoo.\n` pr data `",
 	async execute(message, args, instanceId) {
 		// parameter:
 		// 1. message: message object
@@ -23,7 +23,7 @@ module.exports = {
 		if (args.length != 1) {
 			const cmdEmbedLokasi = cmdEmbed(
 				"Data",
-				"Presentia membutuhkan data agar bisa berjalan untuk mengatur jadwal, pengumuman, tugas kelas dan pencatatan kehadiran mahasiswa."
+				"Presenqoo membutuhkan data agar bisa berjalan untuk mengatur jadwal, pengumuman, tugas kelas dan pencatatan kehadiran mahasiswa."
 			)
 				.addField("1. Menambahkan Data Mahasiswa", "` pr data mhs `")
 				.addField("2. Menambahkan Data Jadwal", "` pr data jadwal `")
@@ -39,7 +39,9 @@ module.exports = {
 			const tugasRef = admin.firestore().collection("task");
 			const umumRef = admin.firestore().collection("announcement");
 			const jadwalRef = admin.firestore().collection("schedule");
-			const jadwalSnap = await jadwalRef.doc(instanceId).listCollections();
+			const jadwalSnap = await jadwalRef
+				.doc(instanceId)
+				.listCollections();
 			const isJadwalExist = jadwalSnap.length > 0 ? true : false;
 			const absentRef = admin.firestore().collection("absent");
 
@@ -56,7 +58,9 @@ module.exports = {
 					// * Return if it's not xlsx
 					const urlAttachment = msgAttachmentFirst?.url;
 					if (!urlAttachment) {
-						message.channel.send(":x: Gagal mendapatkan file yang diunggah");
+						message.channel.send(
+							":x: Gagal mendapatkan file yang diunggah"
+						);
 						return false;
 					}
 
@@ -72,7 +76,9 @@ module.exports = {
 					}
 
 					urlFile = urlAttachment;
-					message.channel.send(":white_check_mark: Mengubah format data");
+					message.channel.send(
+						":white_check_mark: Mengubah format data"
+					);
 					return true;
 				}
 				message.channel.send(":x: File tidak ada");
@@ -89,7 +95,9 @@ module.exports = {
 						":worried: Maaf, gagal mengunggah data. Silakan mencoba kembali"
 					);
 
-				message.channel.send(":white_check_mark: Membuat database mahasiswa");
+				message.channel.send(
+					":white_check_mark: Membuat database mahasiswa"
+				);
 				let mhsList;
 				await fetch(urlFile)
 					.then(async (response) => {
@@ -116,12 +124,17 @@ module.exports = {
 						message.channel.send(
 							":x: Terjadi kesalahan saat membuka file, mohon coba beberapa saat lagi"
 						);
-						let user = message.client.users.cache.get("607753400137940992");
+						let user =
+							message.client.users.cache.get(
+								"607753400137940992"
+							);
 						if (!user) return;
 						user.send(`Terjadi error ${error.message}`);
 					});
 
-				message.channel.send(":white_check_mark: Mengecek data mahasiswa");
+				message.channel.send(
+					":white_check_mark: Mengecek data mahasiswa"
+				);
 				let kelasList = [...new Set(mhsList.map((el) => el.Kelas))];
 				if (
 					mhsList.length == 0 ||
@@ -150,7 +163,10 @@ module.exports = {
 				let batch = db.batch();
 
 				mhsList.forEach((el) => {
-					let mhsEachRef = mhsRef.doc(instanceId).collection("mhs").doc(el.NIM);
+					let mhsEachRef = mhsRef
+						.doc(instanceId)
+						.collection("mhs")
+						.doc(el.NIM);
 					batch.set(mhsEachRef, {
 						device: "",
 						kelas: el.Kelas,
@@ -172,7 +188,8 @@ module.exports = {
 					message.channel.send(
 						":x: Terjadi kesalahan, mohon coba beberapa saat lagi"
 					);
-					let user = message.client.users.cache.get("607753400137940992");
+					let user =
+						message.client.users.cache.get("607753400137940992");
 					if (!user) return;
 					user.send(`Terjadi error ${error.message}`);
 				}
@@ -189,7 +206,9 @@ module.exports = {
 					return message.channel.send(
 						":worried: Maaf, gagal mengunggah data. Silakan coba lagi"
 					);
-				message.channel.send(":white_check_mark: Mengecek kelengkapan data");
+				message.channel.send(
+					":white_check_mark: Mengecek kelengkapan data"
+				);
 
 				let jadwalList;
 				await fetch(urlFile)
@@ -217,14 +236,19 @@ module.exports = {
 						message.channel.send(
 							":x: Terjadi kesalahan saat membuka file, mohon coba beberapa saat lagi"
 						);
-						let user = message.client.users.cache.get("607753400137940992");
+						let user =
+							message.client.users.cache.get(
+								"607753400137940992"
+							);
 						if (!user) return;
 						user.send(`Terjadi error ${error.message}`);
 					});
 
 				message.channel.send(":white_check_mark: Menganalisis file");
 
-				const daftarKelas = [...new Set(jadwalList.map((el) => el.Kelas))];
+				const daftarKelas = [
+					...new Set(jadwalList.map((el) => el.Kelas)),
+				];
 				const dataMhs = mhsSnap.data();
 				const daftarKelasMhs = dataMhs.kelas;
 
@@ -234,8 +258,12 @@ module.exports = {
 					let list = daftarKelas.join(", ");
 					let list2 = daftarKelasMhs.join(", ");
 
-					message.channel.send("Daftar kelas dalam data mahasiswa: " + list);
-					message.channel.send("Daftar kelas dalam data jadwal: " + list2);
+					message.channel.send(
+						"Daftar kelas dalam data mahasiswa: " + list
+					);
+					message.channel.send(
+						"Daftar kelas dalam data jadwal: " + list2
+					);
 
 					return;
 				}
@@ -249,11 +277,15 @@ module.exports = {
 
 				if (isSync.length != 0) {
 					message.channel.send(
-						`:x: Kelas ${isSync.join(", ")} tidak terdapat dalam data jadwal.`
+						`:x: Kelas ${isSync.join(
+							", "
+						)} tidak terdapat dalam data jadwal.`
 					);
 					return;
 				}
-				message.channel.send(":white_check_mark: Sinkronisasi data kelas");
+				message.channel.send(
+					":white_check_mark: Sinkronisasi data kelas"
+				);
 
 				const validate =
 					/^(0?[0-9]|1[0-9]|2[0-3])\.([0-5][0-9])+-(0?[0-9]|1[0-9]|2[0-3])\.([0-5][0-9])+:[a-zA-Z ]+$/i;
@@ -269,21 +301,34 @@ module.exports = {
 
 								for (let perMatkul of jadwal) {
 									if (!validate.test(perMatkul)) {
-										return { isValid: false, data: perMatkul };
+										return {
+											isValid: false,
+											data: perMatkul,
+										};
 									}
 
-									let perWaktu = perMatkul.split(":")[0].split("-");
+									let perWaktu = perMatkul
+										.split(":")[0]
+										.split("-");
 									if (perWaktu[0] > perWaktu[1]) {
-										return { isValid: false, data: perMatkul };
+										return {
+											isValid: false,
+											data: perMatkul,
+										};
 									}
 								}
 
 								let waktu = jadwal
-									.map((perMatkul) => perMatkul.split(":")[0].split("-"))
+									.map((perMatkul) =>
+										perMatkul.split(":")[0].split("-")
+									)
 									.flat();
 								waktu.forEach((el, id, arr) => {
 									if (el > arr[id + 1]) {
-										return { isValid: false, data: obj[key] };
+										return {
+											isValid: false,
+											data: obj[key],
+										};
 									}
 								});
 							}
@@ -294,7 +339,9 @@ module.exports = {
 
 				const validation = isValidSchedule(jadwalList);
 				if (!validation.isValid) {
-					message.channel.send(`:worried: ${validation.data} tidak valid`);
+					message.channel.send(
+						`:worried: ${validation.data} tidak valid`
+					);
 				}
 				message.channel.send(":white_check_mark: Validasi data jadwal");
 
@@ -320,7 +367,8 @@ module.exports = {
 										.slice(0, 6)
 										.map((e) =>
 											e.length >= 3
-												? e[0].toUpperCase() + e.substring(1)
+												? e[0].toUpperCase() +
+												  e.substring(1)
 												: e.toUpperCase()
 										)
 										.join(" ")
@@ -338,7 +386,9 @@ module.exports = {
 					};
 				});
 
-				message.channel.send(":white_check_mark: Mengekstrak data mata kuliah");
+				message.channel.send(
+					":white_check_mark: Mengekstrak data mata kuliah"
+				);
 
 				let batch = db.batch();
 				let copyObj = {};
@@ -371,7 +421,10 @@ module.exports = {
 							message.channel.send(
 								":x: Gagal memperbarui data mahasiswa, periksa kembali data jadwal dan coba beberapa saat lagi"
 							);
-							let user = message.client.users.cache.get("607753400137940992");
+							let user =
+								message.client.users.cache.get(
+									"607753400137940992"
+								);
 							if (!user) return;
 							user.send(`Terjadi error ${error.message}`);
 						});
@@ -391,7 +444,9 @@ module.exports = {
 					batch.set(xRef, copyObj[e.Kelas]);
 				}
 
-				message.channel.send(":white_check_mark: Membuat database absensi");
+				message.channel.send(
+					":white_check_mark: Membuat database absensi"
+				);
 
 				let jadwalRef = admin.firestore().collection("schedule");
 				let comparator = [
@@ -430,7 +485,8 @@ module.exports = {
 									.slice(0, 6)
 									.map((e) =>
 										e.length >= 3
-											? e[0].toUpperCase() + e.substring(1)
+											? e[0].toUpperCase() +
+											  e.substring(1)
 											: e.toUpperCase()
 									)
 									.join(" ")
@@ -467,11 +523,16 @@ module.exports = {
 					.firestore()
 					.collection("announcement")
 					.doc(instanceId);
-				const taskRef = admin.firestore().collection("task").doc(instanceId);
+				const taskRef = admin
+					.firestore()
+					.collection("task")
+					.doc(instanceId);
 				batch.set(announcementRef, { init: "init" });
 				batch.set(taskRef, { init: "init" });
 
-				message.channel.send(":white_check_mark: Membuat database jadwal");
+				message.channel.send(
+					":white_check_mark: Membuat database jadwal"
+				);
 
 				try {
 					await batch.commit();
@@ -483,7 +544,8 @@ module.exports = {
 					message.channel.send(
 						":x: Terjadi Kesalahan dalam menggungah data jadwal"
 					);
-					let user = message.client.users.cache.get("607753400137940992");
+					let user =
+						message.client.users.cache.get("607753400137940992");
 					if (!user) return;
 					user.send(`Terjadi error ${error.message}`);
 				}
@@ -528,7 +590,9 @@ module.exports = {
 				if (!isJadwalExist)
 					return message.channel.send(":x: Data Jadwal belum ada");
 
-				message.channel.send(":white_check_mark: Mengecek kelengkapan data");
+				message.channel.send(
+					":white_check_mark: Mengecek kelengkapan data"
+				);
 
 				try {
 					let mhsData = mhsSnap.data();
@@ -546,7 +610,9 @@ module.exports = {
 								q.forEach((el) => {
 									let eData = el.data();
 									if (eData.device != "") {
-										batchDevice.delete(deviceRef.doc(eData.device));
+										batchDevice.delete(
+											deviceRef.doc(eData.device)
+										);
 									}
 								});
 							});
@@ -558,13 +624,17 @@ module.exports = {
 						":white_check_mark: Menghapus seluruh data perangkat"
 					);
 
-					await deleteCollection(mhsRef.doc(instanceId).collection("mhs"));
+					await deleteCollection(
+						mhsRef.doc(instanceId).collection("mhs")
+					);
 					await mhsRef.doc(instanceId).delete();
 					message.channel.send(
 						":white_check_mark: Menghapus seluruh data mahasiswa"
 					);
 
-					await deleteCollection(tugasRef.doc(instanceId).collection("tugas"));
+					await deleteCollection(
+						tugasRef.doc(instanceId).collection("tugas")
+					);
 					await deleteCollection(
 						umumRef.doc(instanceId).collection("pengumuman")
 					);
@@ -573,8 +643,12 @@ module.exports = {
 					);
 
 					for (let k of kelas) {
-						await deleteCollection(absentRef.doc(instanceId).collection(k));
-						await deleteCollection(jadwalRef.doc(instanceId).collection(k));
+						await deleteCollection(
+							absentRef.doc(instanceId).collection(k)
+						);
+						await deleteCollection(
+							jadwalRef.doc(instanceId).collection(k)
+						);
 					}
 
 					await absentRef.doc(instanceId).delete();
@@ -597,12 +671,20 @@ module.exports = {
 						":white_check_mark: Menghapus seluruh data pengumuman"
 					);
 
-					await admin.firestore().collection("task").doc(instanceId).delete();
+					await admin
+						.firestore()
+						.collection("task")
+						.doc(instanceId)
+						.delete();
 					message.channel.send(
 						":white_check_mark: Menghapus seluruh data tugas"
 					);
 
-					let blacklistRoles = ["Admin", "Presentia-bot", "@everyone"];
+					let blacklistRoles = [
+						"Admin",
+						"Presentia-bot",
+						"@everyone",
+					];
 					await message.guild.roles.fetch().then((roles) => {
 						roles.cache.forEach((el) => {
 							if (!blacklistRoles.includes(el.name)) {
@@ -612,7 +694,9 @@ module.exports = {
 							}
 						});
 					});
-					message.channel.send(":white_check_mark: Menghapus semua role");
+					message.channel.send(
+						":white_check_mark: Menghapus semua role"
+					);
 
 					let blacklistChannels = [
 						"publik",
@@ -633,21 +717,30 @@ module.exports = {
 
 					await message.guild.fetch().then((guild) => {
 						guild.channels.cache.forEach((el) => {
-							if (!blacklistChannels.includes(el.name.toLowerCase())) {
+							if (
+								!blacklistChannels.includes(
+									el.name.toLowerCase()
+								)
+							) {
 								console.log(el.name);
 								el.delete();
 							}
 						});
 					});
-					message.channel.send(":white_check_mark: Menghapus semua channel");
+					message.channel.send(
+						":white_check_mark: Menghapus semua channel"
+					);
 
-					message.channel.send("Berhasil menghapus semua data :partying_face:");
+					message.channel.send(
+						"Berhasil menghapus semua data :partying_face:"
+					);
 				} catch (error) {
 					console.log(error);
 					message.channel.send(
 						":x: Terjadi kesalahan, mohon coba beberapa saat lagi"
 					);
-					let user = message.client.users.cache.get("607753400137940992");
+					let user =
+						message.client.users.cache.get("607753400137940992");
 					if (!user) return;
 					user.send(`Terjadi error ${error.message}`);
 				}
@@ -684,7 +777,9 @@ module.exports = {
 									return execDeleteAll();
 								}
 
-								return m.channel.send(":x: Perintah dibatalkan");
+								return m.channel.send(
+									":x: Perintah dibatalkan"
+								);
 							})
 							.catch((collected) => {
 								message.channel.send(
@@ -705,7 +800,9 @@ module.exports = {
 					upReset();
 					break;
 				default:
-					message.channel.send(":worried: Maaf, perintah tidak dikenali");
+					message.channel.send(
+						":worried: Maaf, perintah tidak dikenali"
+					);
 					break;
 			}
 		} catch (error) {

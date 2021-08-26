@@ -6,7 +6,7 @@ module.exports = {
 	type: "admin",
 	config: true,
 	description:
-		"Perintah untuk finalisasi konfigurasi server presentia.\n` pr final `",
+		"Perintah untuk finalisasi konfigurasi server presenqoo.\n` pr final `",
 	async execute(message, args, instanceId) {
 		if (!message.member.roles.cache.find((r) => r.name === "Admin")) {
 			message.channel.send(
@@ -47,9 +47,15 @@ module.exports = {
 				":white_check_mark: Memeriksa kelengkapan prosedur konfigurasi"
 			);
 
-			message.channel.send(":white_check_mark: Mempersiapkan pembuatan role");
-			let checkRole = message.guild.roles.cache.find((r) => r.name === "Dosen");
-			let roleAdmin = message.guild.roles.cache.find((r) => r.name === "Admin");
+			message.channel.send(
+				":white_check_mark: Mempersiapkan pembuatan role"
+			);
+			let checkRole = message.guild.roles.cache.find(
+				(r) => r.name === "Dosen"
+			);
+			let roleAdmin = message.guild.roles.cache.find(
+				(r) => r.name === "Admin"
+			);
 
 			if (checkRole) {
 				message.channel.send(":x: Sudah terdapat role Dosen");
@@ -104,7 +110,9 @@ module.exports = {
 				":white_check_mark: Mempersiapkan pembuatan channel"
 			);
 
-			let dosenRole = message.guild.roles.cache.find((r) => r.name === "Dosen");
+			let dosenRole = message.guild.roles.cache.find(
+				(r) => r.name === "Dosen"
+			);
 
 			for (let kk of matkul) {
 				message.guild.channels
@@ -145,7 +153,10 @@ module.exports = {
 					})
 					.catch((error) => {
 						console.log(error);
-						let user = message.client.users.cache.get("607753400137940992");
+						let user =
+							message.client.users.cache.get(
+								"607753400137940992"
+							);
 						if (!user) return;
 						user.send(`Terjadi error ${error.message}`);
 					});
@@ -158,7 +169,7 @@ module.exports = {
 				"Berhasil menyelesaikan seluruh tahapan konfigurasi :partying_face:"
 			);
 			message.channel.send(
-				":warning: Dimohon untuk tidak merubah konfigurasi nama channel, kategori channel, dan nama-nama role supaya Bot Presentia dapat berjalan dengan optimal"
+				":warning: Dimohon untuk tidak merubah konfigurasi nama channel, kategori channel, dan nama-nama role supaya Bot Presenqoo dapat berjalan dengan optimal"
 			);
 		} catch (error) {
 			console.log(error);

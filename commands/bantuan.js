@@ -36,7 +36,7 @@ module.exports = {
 		const tipe = args[0];
 
 		const helpEmbed = cmdEmbed(
-			`Bantuan Presentia [${args}]`,
+			`Bantuan Presenqoo [${args}]`,
 			`Daftar perintah yang dapat digunakan oleh ${tipe}`
 		).addField("Awalan", `\` ${botPrefix}<perintah> \``);
 
@@ -48,7 +48,10 @@ module.exports = {
 			// * Filter based on tipe & all
 			if (cmd.type == tipe || cmd.type == "all") {
 				if (!cmd.config) {
-					helpEmbed.addField(`${index}. ${cmd.name}`, cmd.description);
+					helpEmbed.addField(
+						`${index}. ${cmd.name}`,
+						cmd.description
+					);
 					index++;
 				}
 			}

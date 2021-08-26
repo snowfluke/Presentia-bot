@@ -42,8 +42,7 @@ client.once("ready", () => {
 		url: "http://presentia.stmikkomputama.ac.id/",
 	});
 	let user = client.users.cache.get("607753400137940992");
-	if (!user) return;
-	user.send("Presentia Ready");
+	if (user) user.send("Presentia Ready");
 });
 
 const serverRef = admin.firestore().collection("discord");
@@ -102,7 +101,10 @@ client.on("guildMemberAdd", (member) => {
 		)
 		.setThumbnail(member.user.displayAvatarURL())
 		.setColor("#119DA4")
-		.setFooter(`Dipersembahkan oleh. ${botAuthor} - ${botYear}`, botAuthorLogo);
+		.setFooter(
+			`Dipersembahkan oleh. ${botAuthor} - ${botYear}`,
+			botAuthorLogo
+		);
 
 	welcomeChannel.send(welcomeEmbed);
 });
@@ -177,7 +179,9 @@ const getDataLaporan = async (kelas, weekly, instanceId) => {
 					H: data[el].filter((el) => el == "H").length,
 					S: data[el].filter((el) => el[0] == "S").length,
 					I: data[el].filter((el) => el[0] == "I").length,
-					A: matkulData[el].length - data[el].filter((el) => true).length,
+					A:
+						matkulData[el].length -
+						data[el].filter((el) => true).length,
 				};
 
 				tempObj.H += parseInt(stat.H);
@@ -198,7 +202,8 @@ const getDataLaporan = async (kelas, weekly, instanceId) => {
 			obj.push(tempObj);
 		});
 
-		let name = "Laporan_" + kelas + "_" + new Date().toLocaleDateString("id");
+		let name =
+			"Laporan_" + kelas + "_" + new Date().toLocaleDateString("id");
 		name = name.split("/").join("_");
 		return { name: name, obj: obj, kelas: kelas };
 	} catch (error) {
@@ -248,7 +253,11 @@ const cronMingguan = new cron.CronJob(
 				obj.forEach((el, id) => {
 					let sheetname = el.kelas.substring(0, 30);
 					let ws = XLSX.utils.json_to_sheet(el.obj);
-					XLSX.utils.book_append_sheet(wb, ws, sheetname.replace("/", ""));
+					XLSX.utils.book_append_sheet(
+						wb,
+						ws,
+						sheetname.replace("/", "")
+					);
 				});
 
 				const f = XLSX.write(wb, { type: "buffer", bookType: "xlsx" });
@@ -319,7 +328,11 @@ const cronBulanan = new cron.CronJob(
 				obj.forEach((el, id) => {
 					let sheetname = el.kelas.substring(0, 30);
 					let ws = XLSX.utils.json_to_sheet(el.obj);
-					XLSX.utils.book_append_sheet(wb, ws, sheetname.replace("/", ""));
+					XLSX.utils.book_append_sheet(
+						wb,
+						ws,
+						sheetname.replace("/", "")
+					);
 				});
 
 				const f = XLSX.write(wb, { type: "buffer", bookType: "xlsx" });

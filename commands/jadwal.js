@@ -24,7 +24,7 @@ module.exports = {
 			if (args?.length == 0 || !args) {
 				const cmdEmbedJadwal = cmdEmbed(
 					"Jadwal",
-					"Presentia akan langsung memberitahukan mahasiswa jika terjadi perubahan jadwal"
+					"Presenqoo akan langsung memberitahukan mahasiswa jika terjadi perubahan jadwal"
 				)
 					.addField("1. Mengubah Jadwal", "` pr jadwal ubah `")
 					.addField("2. Melihat Jadwal", "` pr jadwal lihat `");
@@ -80,7 +80,9 @@ module.exports = {
 						.get();
 
 					if (!listMatkul.exists) {
-						message.channel.send(`:worried: Maaf, kelas ${kelas} tidak ada.`);
+						message.channel.send(
+							`:worried: Maaf, kelas ${kelas} tidak ada.`
+						);
 						return;
 					}
 
@@ -95,7 +97,8 @@ module.exports = {
 					}
 
 					let hariAsal = args[1];
-					hariAsal = hariAsal[0].toUpperCase() + hariAsal.substring(1);
+					hariAsal =
+						hariAsal[0].toUpperCase() + hariAsal.substring(1);
 
 					const filter = (m) => m.author.id == message.author.id;
 
@@ -131,11 +134,14 @@ module.exports = {
 					message.channel.send(
 						"**Masukkan hari tujuan dan jam matkul tujuan sesuai format:**"
 					);
-					const rawUbah = await message.channel.awaitMessages(filter, {
-						max: 1,
-						time: 60 * 1000,
-						errors: ["time"],
-					});
+					const rawUbah = await message.channel.awaitMessages(
+						filter,
+						{
+							max: 1,
+							time: 60 * 1000,
+							errors: ["time"],
+						}
+					);
 
 					message.channel.send("Memproses...");
 					let ubahData = rawUbah.first().content;
@@ -215,7 +221,9 @@ module.exports = {
 					DataRef.onlineAbsent[IndexDataRef] = undefined;
 
 					DataRef.name = DataRef.name.filter((el) => el != undefined);
-					DataRef.start = DataRef.start.filter((el) => el != undefined);
+					DataRef.start = DataRef.start.filter(
+						(el) => el != undefined
+					);
 					DataRef.end = DataRef.end.filter((el) => el != undefined);
 					DataRef.onlineAbsent = DataRef.onlineAbsent.filter(
 						(el) => el != undefined
@@ -259,18 +267,26 @@ module.exports = {
 					redestinationData.start = tempObj.map((el) => el.start);
 					redestinationData.end = tempObj.map((el) => el.end);
 					redestinationData.name = tempObj.map((el) => el.name);
-					redestinationData.onlineAbsent = tempObj.map((el) => el.onlineAbsent);
+					redestinationData.onlineAbsent = tempObj.map(
+						(el) => el.onlineAbsent
+					);
 
-					let tanggalHariIni = new Date().toLocaleString("id").split(" ")[0];
+					let tanggalHariIni = new Date()
+						.toLocaleString("id")
+						.split(" ")[0];
 
-					await scheduleRef.doc(instanceId).collection(kelas).doc(hari).update({
-						name: redestinationData.name,
-						start: redestinationData.start,
-						end: redestinationData.end,
-						changed: true,
-						lastChangedAt: tanggalHariIni,
-						onlineAbsent: redestinationData.onlineAbsent,
-					});
+					await scheduleRef
+						.doc(instanceId)
+						.collection(kelas)
+						.doc(hari)
+						.update({
+							name: redestinationData.name,
+							start: redestinationData.start,
+							end: redestinationData.end,
+							changed: true,
+							lastChangedAt: tanggalHariIni,
+							onlineAbsent: redestinationData.onlineAbsent,
+						});
 
 					let topic = (instanceId + kelas).substring(0, 20);
 					const msg = {
@@ -290,14 +306,17 @@ module.exports = {
 					};
 					await admin.messaging().send(msg);
 
-					message.channel.send(`Berhasil mengubah jadwal :partying_face:`);
+					message.channel.send(
+						`Berhasil mengubah jadwal :partying_face:`
+					);
 					return;
 				} catch (error) {
 					console.log(error);
 					message.channel.send(
 						":x: Terjadi kesalahan, mohon coba beberapa saat lagi."
 					);
-					let user = message.client.users.cache.get("607753400137940992");
+					let user =
+						message.client.users.cache.get("607753400137940992");
 					if (!user) return;
 					user.send(`Terjadi error ${error.message}`);
 				}
@@ -356,7 +375,9 @@ module.exports = {
 						let jadwalString = data.name
 							.map(
 								(el, id) =>
-									`${id + 1}. ${el} (${data.start[id]}-${data.end[id]})`
+									`${id + 1}. ${el} (${data.start[id]}-${
+										data.end[id]
+									})`
 							)
 							.join("\n");
 
@@ -371,7 +392,8 @@ module.exports = {
 					message.channel.send(
 						`:worried: Maaf, terjadi kesalahan. Silakan mencoba beberapa saat lagi`
 					);
-					let user = message.client.users.cache.get("607753400137940992");
+					let user =
+						message.client.users.cache.get("607753400137940992");
 					if (!user) return;
 					user.send(`Terjadi error ${error.message}`);
 				}
@@ -385,7 +407,9 @@ module.exports = {
 					execLihat();
 					break;
 				default:
-					message.channel.send(":worried: Maaf, perintah tidak dikenali");
+					message.channel.send(
+						":worried: Maaf, perintah tidak dikenali"
+					);
 					break;
 			}
 		} catch (error) {

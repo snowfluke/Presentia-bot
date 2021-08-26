@@ -25,7 +25,7 @@ module.exports = {
 		if (args.length == 0) {
 			const cmdEmbedTugas = cmdEmbed(
 				"Tugas",
-				"Presentia dapat membuat tugas yang langsung tersampaikan ke mahasiswa sesuai dengan kelasnya."
+				"Presenqoo dapat membuat tugas yang langsung tersampaikan ke mahasiswa sesuai dengan kelasnya."
 			)
 				.addField("1. Membuat Tugas", "` pr tugas tambah `")
 				.addField("2. Menghapus Tugas", "` pr tugas hapus `");
@@ -77,11 +77,14 @@ module.exports = {
 				message.channel.send(
 					"**Masukkan batas waktu tugas:**\n(Format: tanggal/bulan/tahun)"
 				);
-				const rawDeadline = await message.channel.awaitMessages(filter, {
-					max: 1,
-					time: 60 * 1000,
-					errors: ["time"],
-				});
+				const rawDeadline = await message.channel.awaitMessages(
+					filter,
+					{
+						max: 1,
+						time: 60 * 1000,
+						errors: ["time"],
+					}
+				);
 
 				let deadlineTugas = rawDeadline.first().content;
 				if (
@@ -107,12 +110,15 @@ module.exports = {
 				let judulTugas = rawJudul.first().content;
 				let isiTugas = rawIsi.first().content;
 				let fileTugas =
-					rawFile.first().content.length > 5 ? rawFile.first().content : false;
+					rawFile.first().content.length > 5
+						? rawFile.first().content
+						: false;
 				let idTugas = nanoid(10);
 
-				const normalEmbedTugas = normalEmbed(judulTugas, isiTugas).setAuthor(
-					`id: ${idTugas}`
-				);
+				const normalEmbedTugas = normalEmbed(
+					judulTugas,
+					isiTugas
+				).setAuthor(`id: ${idTugas}`);
 
 				if (fileTugas) {
 					normalEmbedTugas.addField("Dokumen", fileTugas);
@@ -132,7 +138,10 @@ module.exports = {
 						.join(" ")
 						.substring(0, 50);
 				} else {
-					matkulTugas = matkulTugas.split("-").join(" ").toUpperCase();
+					matkulTugas = matkulTugas
+						.split("-")
+						.join(" ")
+						.toUpperCase();
 				}
 				let kelasTugas = message.channel.parent.name;
 
@@ -182,14 +191,18 @@ module.exports = {
 							content: isiTugas,
 							category: matkulTugas,
 							kelas: kelasTugas,
-							created: new Date().toLocaleString("id").split(" ")[0],
+							created: new Date()
+								.toLocaleString("id")
+								.split(" ")[0],
 							title: judulTugas,
 							deadline: deadlineTugas,
 						};
 
 						if (fileTugas) {
 							let bedah = fileTugas.split(" ");
-							docPrep.file = bedah.slice(0, bedah.length - 1).join(" ");
+							docPrep.file = bedah
+								.slice(0, bedah.length - 1)
+								.join(" ");
 							docPrep.url = bedah[bedah.length - 1];
 							docPrep.type = "URL";
 							if (bedah.length == 1) {
@@ -200,13 +213,18 @@ module.exports = {
 						await tugasRef.doc(idTugas).set(docPrep);
 						await admin.messaging().send(msg);
 
-						message.channel.send("Berhasil mengirimkan tugas :partying_face:");
+						message.channel.send(
+							"Berhasil mengirimkan tugas :partying_face:"
+						);
 					} catch (error) {
 						console.log(error);
 						message.channel.send(
 							`:worried: Maaf, terjadi kesalahan. Silakan mencoba beberapa saat lagi`
 						);
-						let user = message.client.users.cache.get("607753400137940992");
+						let user =
+							message.client.users.cache.get(
+								"607753400137940992"
+							);
 						if (!user) return;
 						user.send(`Terjadi error ${error.message}`);
 					}
@@ -269,7 +287,10 @@ module.exports = {
 				).setAuthor(`id: ${args[1]}`);
 
 				if (data.file) {
-					normalEmbedTugas.addField("Dokumen", `${data.file} ${data.url}`);
+					normalEmbedTugas.addField(
+						"Dokumen",
+						`${data.file} ${data.url}`
+					);
 				}
 
 				const filter2 = (reaction, user) => {
@@ -282,13 +303,18 @@ module.exports = {
 				const execDeleteTugas = async () => {
 					try {
 						await tugasRef.doc(args[1]).delete();
-						message.channel.send("Berhasil menghapus tugas :partying_face:");
+						message.channel.send(
+							"Berhasil menghapus tugas :partying_face:"
+						);
 					} catch (error) {
 						console.log(error);
 						message.channel.send(
 							":x: Terjadi kesalahan, silakan coba beberapa saat lagi."
 						);
-						let user = message.client.users.cache.get("607753400137940992");
+						let user =
+							message.client.users.cache.get(
+								"607753400137940992"
+							);
 						if (!user) return;
 						user.send(`Terjadi error ${error.message}`);
 					}
@@ -326,7 +352,9 @@ module.exports = {
 					execHapus();
 					break;
 				default:
-					message.channel.send(":worried: Maaf, perintah tidak dikenali");
+					message.channel.send(
+						":worried: Maaf, perintah tidak dikenali"
+					);
 					break;
 			}
 		} catch (error) {

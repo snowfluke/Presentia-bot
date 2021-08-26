@@ -25,10 +25,16 @@ module.exports = {
 		if (args.length != 2) {
 			const cmdEmbedMhs = cmdEmbed(
 				"Mhs",
-				"Presentia ingin menjangkau semua mahasiswa yang terkendala perangkat"
+				"Presenqoo ingin menjangkau semua mahasiswa yang terkendala perangkat"
 			)
-				.addField("1. Melihat riwayat absensi", "` pr absensi lihat <NIM> `")
-				.addField("2. Mengubah riwayat absensi", "` pr absensi ubah <NIM> `");
+				.addField(
+					"1. Melihat riwayat absensi",
+					"` pr absensi lihat <NIM> `"
+				)
+				.addField(
+					"2. Mengubah riwayat absensi",
+					"` pr absensi ubah <NIM> `"
+				);
 
 			message.channel.send(cmdEmbedMhs);
 			return;
@@ -52,7 +58,9 @@ module.exports = {
 				.split("-")
 				.slice(0, 6)
 				.map((e) =>
-					e.length >= 3 ? e[0].toUpperCase() + e.substring(1) : e.toUpperCase()
+					e.length >= 3
+						? e[0].toUpperCase() + e.substring(1)
+						: e.toUpperCase()
 				)
 				.join(" ")
 				.substring(0, 50);
@@ -147,7 +155,8 @@ module.exports = {
 						statusString = currentMhsRecords[id];
 						if (statusString.length > 1) {
 							statusString =
-								statusString[0] + `\n**Bukti**: ${statusString.substring(2)}`;
+								statusString[0] +
+								`\n**Bukti**: ${statusString.substring(2)}`;
 						}
 					}
 
@@ -240,11 +249,14 @@ module.exports = {
 				const filter = (m) => m.author.id == message.author.id;
 
 				message.channel.send("**Pertemuan berapa yang ingin diubah?**");
-				const rawPertemuan = await message.channel.awaitMessages(filter, {
-					max: 1,
-					time: 60 * 1000,
-					errors: ["time"],
-				});
+				const rawPertemuan = await message.channel.awaitMessages(
+					filter,
+					{
+						max: 1,
+						time: 60 * 1000,
+						errors: ["time"],
+					}
+				);
 
 				let pertemuan = rawPertemuan.first().content;
 
@@ -269,11 +281,15 @@ module.exports = {
 					statusString = currentMhsRecords[pertemuan - 1];
 					if (statusString.length > 1) {
 						statusString =
-							statusString[0] + `\n**Bukti**: ${statusString.substring(2)}`;
+							statusString[0] +
+							`\n**Bukti**: ${statusString.substring(2)}`;
 					}
 				}
 
-				const normalEmbedUbah = normalEmbed(mhs.name, `**Kelas:** ${kelas}`)
+				const normalEmbedUbah = normalEmbed(
+					mhs.name,
+					`**Kelas:** ${kelas}`
+				)
 					.setAuthor(`NIM: ${NIM}`)
 					.addField(
 						`Pertemuan ke-${pertemuan}`,
@@ -305,8 +321,9 @@ module.exports = {
 
 				const filter2 = (reaction, user) => {
 					return (
-						["🇭", "🇸", "🇮", "🇦", "❎"].includes(reaction.emoji.name) &&
-						user.id === message.author.id
+						["🇭", "🇸", "🇮", "🇦", "❎"].includes(
+							reaction.emoji.name
+						) && user.id === message.author.id
 					);
 				};
 

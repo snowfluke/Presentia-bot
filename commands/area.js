@@ -25,7 +25,7 @@ module.exports = {
 		if (args?.length == 0 || !args) {
 			const cmdEmbedLokasi = cmdEmbed(
 				"Area",
-				"Presentia hanya menampung satu area absensi, jika ingin mengganti area maka perlu menghapus area lama terlebih dahulu."
+				"Presenqoo hanya menampung satu area absensi, jika ingin mengganti area maka perlu menghapus area lama terlebih dahulu."
 			)
 				.addField("1. Menambahkan Area", "` pr area tambah `")
 				.addField("2. Menghapus Area", "` pr area hapus `")
@@ -90,7 +90,9 @@ module.exports = {
 				if (!args[1] || args.length > 2)
 					return message.channel.send(exampleEmbedTambahLokasi);
 
-				message.channel.send(":white_check_mark: Mempersiapkan area baru");
+				message.channel.send(
+					":white_check_mark: Mempersiapkan area baru"
+				);
 
 				const points = args[1].split("x").filter((el) => el != "");
 				if (points.length < 3 || points.length > 8)
@@ -108,8 +110,12 @@ module.exports = {
 				);
 
 				if (!isOnlyNumber)
-					return message.reply(":x: Titik tidak boleh mengandung selain angka");
-				message.channel.send(":white_check_mark: Memperbarui database area");
+					return message.reply(
+						":x: Titik tidak boleh mengandung selain angka"
+					);
+				message.channel.send(
+					":white_check_mark: Memperbarui database area"
+				);
 				const newAreaCoords = pointsInPoint.map((el) => {
 					let temp = { point: el };
 					return temp;
@@ -119,7 +125,9 @@ module.exports = {
 					areaCoords: newAreaCoords,
 				});
 
-				message.channel.send("Berhasil menambahkan area baru :partying_face:");
+				message.channel.send(
+					"Berhasil menambahkan area baru :partying_face:"
+				);
 				return;
 			};
 
@@ -140,12 +148,17 @@ module.exports = {
 						await instanceRef.doc(instanceId).update({
 							areaCoords: [],
 						});
-						message.channel.send("Berhasil menghapus area :partying_face:");
+						message.channel.send(
+							"Berhasil menghapus area :partying_face:"
+						);
 					} catch (error) {
 						message.channel.send(
 							":x: Terjadi kesalahan, mohon coba beberapa saat lagi"
 						);
-						let user = message.client.users.cache.get("607753400137940992");
+						let user =
+							message.client.users.cache.get(
+								"607753400137940992"
+							);
 						if (!user) return;
 						user.send(`Terjadi error ${error.message}`);
 					}
@@ -174,7 +187,9 @@ module.exports = {
 									return execDeleteCoords();
 								}
 
-								return m.channel.send(":x: Perintah dibatalkan");
+								return m.channel.send(
+									":x: Perintah dibatalkan"
+								);
 							})
 							.catch((collected) => {
 								message.channel.send(
@@ -195,7 +210,9 @@ module.exports = {
 					coordsLihat();
 					break;
 				default:
-					message.channel.send(":worried: Maaf, perintah tidak dikenali");
+					message.channel.send(
+						":worried: Maaf, perintah tidak dikenali"
+					);
 					break;
 			}
 		} catch (error) {

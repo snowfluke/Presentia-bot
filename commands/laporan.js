@@ -41,7 +41,7 @@ module.exports = {
 		if (args.length == 0) {
 			const cmdEmbedLaporan = cmdEmbed(
 				"Laporan",
-				"Presentia akan membuatkan laporan dalam bentuk file excel (.xlsx). Selain itu mengirimkan statistik absensi mahasiswa per minggu pukul 20.00 dan per bulan tanggal 30 pukul 20.00"
+				"Presenqoo akan membuatkan laporan dalam bentuk file excel (.xlsx). Selain itu mengirimkan statistik absensi mahasiswa per minggu pukul 20.00 dan per bulan tanggal 30 pukul 20.00"
 			)
 				.addField("1. Laporan per kelas", ` pr laporan kelas `)
 				.addField("2. Laporan per mata kuliah", ` pr laporan matkul `)
@@ -75,7 +75,10 @@ module.exports = {
 					dataSheet,
 					filename.replace("/", "")
 				);
-				const f = XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
+				const f = XLSX.write(workbook, {
+					type: "buffer",
+					bookType: "xlsx",
+				});
 
 				wadah.send(`<@!${message.author.id}> Laporan ${pesanFile}.`);
 				wadah.send({
@@ -93,7 +96,11 @@ module.exports = {
 			dataFile.forEach((el, id) => {
 				let sheetname = el.kelas.substring(0, 30);
 				let ws = XLSX.utils.json_to_sheet(el.obj);
-				XLSX.utils.book_append_sheet(wb, ws, sheetname.replace("/", ""));
+				XLSX.utils.book_append_sheet(
+					wb,
+					ws,
+					sheetname.replace("/", "")
+				);
 			});
 
 			const f = XLSX.write(wb, { type: "buffer", bookType: "xlsx" });
@@ -118,7 +125,9 @@ module.exports = {
 			let checker = data.kelas.map((el) => el.toLowerCase());
 
 			if (!checker.includes(kelas.toLowerCase())) {
-				message.channel.send(`:worried: Maaf, kelas ${kelas} tidak ditemukan`);
+				message.channel.send(
+					`:worried: Maaf, kelas ${kelas} tidak ditemukan`
+				);
 				return { empty: true };
 			}
 
@@ -145,7 +154,9 @@ module.exports = {
 				.get();
 
 			if (!matkulSnap.exists) {
-				message.channel.send(`:worried: Maaf, data absensi tidak ditemukan`);
+				message.channel.send(
+					`:worried: Maaf, data absensi tidak ditemukan`
+				);
 				return { empty: true };
 			}
 
@@ -170,7 +181,9 @@ module.exports = {
 						H: data[el].filter((el) => el == "H").length,
 						S: data[el].filter((el) => el[0] == "S").length,
 						I: data[el].filter((el) => el[0] == "I").length,
-						A: matkulData[el].length - data[el].filter((el) => true).length,
+						A:
+							matkulData[el].length -
+							data[el].filter((el) => true).length,
 					};
 
 					let kehadiranString = `H:${stat.H} - S:${stat.S} - I:${stat.I} - A:${stat.A} `;
@@ -180,7 +193,8 @@ module.exports = {
 				obj.push(tempObj);
 			});
 
-			let name = "Laporan_" + kelas + "_" + new Date().toLocaleDateString("id");
+			let name =
+				"Laporan_" + kelas + "_" + new Date().toLocaleDateString("id");
 			name = name.split("/").join("_");
 			return { name: name, obj: obj, kelas: kelas };
 		};
@@ -316,7 +330,11 @@ module.exports = {
 					new Date().toLocaleDateString("id");
 				name = name.split("/").join("_");
 
-				generateLaporan(`mata kuliah ${matkul}, kelas ${kelas}`, name, obj);
+				generateLaporan(
+					`mata kuliah ${matkul}, kelas ${kelas}`,
+					name,
+					obj
+				);
 
 				return;
 			} catch (error) {
@@ -367,7 +385,9 @@ module.exports = {
 					.get();
 
 				if (!matkulSnap.exists) {
-					message.channel.send(`:worried: Maaf, data absensi tidak ditemukan`);
+					message.channel.send(
+						`:worried: Maaf, data absensi tidak ditemukan`
+					);
 					return;
 				}
 
@@ -397,7 +417,9 @@ module.exports = {
 						H: mhs[el].filter((el) => el == "H").length,
 						S: mhs[el].filter((el) => el[0] == "S").length,
 						I: mhs[el].filter((el) => el[0] == "I").length,
-						A: matkulData[el].length - mhs[el].filter((el) => true).length,
+						A:
+							matkulData[el].length -
+							mhs[el].filter((el) => true).length,
 					};
 
 					tempData.H = stat.H;
@@ -408,7 +430,8 @@ module.exports = {
 					obj.push(tempData);
 				});
 
-				let name = "Laporan_" + NIM + new Date().toLocaleDateString("id");
+				let name =
+					"Laporan_" + NIM + new Date().toLocaleDateString("id");
 				name = name.split("/").join("_");
 
 				generateLaporan(`mahasiswa ${mhs.name}`, name, obj);

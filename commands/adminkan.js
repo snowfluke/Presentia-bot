@@ -17,7 +17,7 @@ module.exports = {
 
 		if (!message.guild.me.hasPermission("MANAGE_ROLES"))
 			return message.channel.send(
-				":worried: Maaf, Bot Presentia tidak memiliki izin untuk memberikan roles"
+				":worried: Maaf, Bot Presenqoo tidak memiliki izin untuk memberikan roles"
 			);
 
 		try {
@@ -31,16 +31,18 @@ module.exports = {
 			}
 
 			let botRole = message.guild.roles.cache.find(
-				(r) => r.name === "Presentia-bot"
+				(r) => r.name === "Presenqoo-bot"
 			);
 			if (!botRole) {
 				message.channel.send(
-					":worried: Maaf, role **Presenita-bot** tidak ditemukan. Silakan buat role **Presentia-bot** terlebih dahulu _(case sensitive)_. Lihat pada buku panduan untuk informasi lebih lanjut."
+					":worried: Maaf, role **Presenqoo-bot** tidak ditemukan. Silakan buat role **Presenqoo-bot** terlebih dahulu _(case sensitive)_. Lihat pada buku panduan untuk informasi lebih lanjut."
 				);
 				return;
 			}
 
-			let role = message.guild.roles.cache.find((r) => r.name === "Admin");
+			let role = message.guild.roles.cache.find(
+				(r) => r.name === "Admin"
+			);
 			if (!role) {
 				message.channel.send(
 					":worried: Maaf, role Admin tidak ditemukan. Silakan buat role **Admin** terlebih dahulu _(case sensitive)_. Lihat pada buku panduan untuk informasi lebih lanjut."
@@ -50,7 +52,7 @@ module.exports = {
 
 			if (role.position > botRole.position) {
 				message.channel.send(
-					":worried: Maaf, hak akses role **Presentia-bot** di bawah role **Admin**. Presentia tidak dapat mengadminkan user lain. Silakan ubah urutan role **Presentia-bot** supaya lebih tinggi dari role **Admin**. Lihat Buku Panduan Admin."
+					":worried: Maaf, hak akses role **Presenqoo-bot** di bawah role **Admin**. Presenqoo tidak dapat mengadminkan user lain. Silakan ubah urutan role **Presenqoo-bot** supaya lebih tinggi dari role **Admin**. Lihat Buku Panduan Admin."
 				);
 				return;
 			}

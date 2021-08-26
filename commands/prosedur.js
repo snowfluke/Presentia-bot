@@ -5,7 +5,7 @@ module.exports = {
 	name: "prosedur",
 	type: "admin",
 	description:
-		"Perintah untuk melihat prosedur konfigurasi server Presentia.\n` pr prosedur `",
+		"Perintah untuk melihat prosedur konfigurasi server Presenqoo.\n` pr prosedur `",
 	async execute(message, args, instanceId) {
 		if (!message.member.roles.cache.find((r) => r.name === "Admin")) {
 			message.channel.send(
@@ -20,12 +20,17 @@ module.exports = {
 			const instanceData = instanceSnap.data();
 
 			const absentRef = admin.firestore().collection("absent");
-			const absentSnap = await absentRef.doc(instanceId).listCollections();
+			const absentSnap = await absentRef
+				.doc(instanceId)
+				.listCollections();
 
-			const absentStatus = absentSnap.length > 0 ? ":white_check_mark:" : ":x:";
+			const absentStatus =
+				absentSnap.length > 0 ? ":white_check_mark:" : ":x:";
 
 			const locationStatus =
-				instanceData.areaCoords.length >= 3 ? ":white_check_mark:" : ":x:";
+				instanceData.areaCoords.length >= 3
+					? ":white_check_mark:"
+					: ":x:";
 
 			const finalStatus = message.guild.roles.cache.find(
 				(r) => r.name === "Dosen"
@@ -41,7 +46,10 @@ module.exports = {
 					"1. Registrasi Server",
 					":white_check_mark: ` pr registrasi `"
 				)
-				.addField("2. Menambahkan Area", locationStatus + " ` pr area `")
+				.addField(
+					"2. Menambahkan Area",
+					locationStatus + " ` pr area `"
+				)
 				.addField("3. Menambahkan Data", absentStatus + "` pr data `")
 				.addField("4. Finalisasi", finalStatus + " ` pr final `");
 
