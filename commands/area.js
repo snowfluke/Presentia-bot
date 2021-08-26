@@ -3,6 +3,7 @@ const admin = require("../firebase");
 const cmdEmbed = require("../cmdEmbed");
 const exampleEmbed = require("../exampleEmbed");
 const normalEmbed = require("../normalEmbed");
+const { botName } = require("../config.json");
 
 module.exports = {
 	name: "area",
@@ -25,7 +26,8 @@ module.exports = {
 		if (args?.length == 0 || !args) {
 			const cmdEmbedLokasi = cmdEmbed(
 				"Area",
-				"Presenqoo hanya menampung satu area absensi, jika ingin mengganti area maka perlu menghapus area lama terlebih dahulu."
+				botName +
+					" hanya menampung satu area absensi, jika ingin mengganti area maka perlu menghapus area lama terlebih dahulu."
 			)
 				.addField("1. Menambahkan Area", "` pr area tambah `")
 				.addField("2. Menghapus Area", "` pr area hapus `")

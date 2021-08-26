@@ -1,3 +1,5 @@
+const { botName } = require("../config.json");
+
 module.exports = {
 	name: "bersihkan",
 	description:
@@ -10,7 +12,9 @@ module.exports = {
 		// 	);
 		if (!message.guild.me.hasPermission("MANAGE_MESSAGES"))
 			return message.channel.send(
-				":worried: Maaf, Bot Presenqoo tidak memiliki izin menghapus pesan"
+				":worried: Maaf, Bot " +
+					botName +
+					" tidak memiliki izin menghapus pesan"
 			);
 
 		if (!args[0])

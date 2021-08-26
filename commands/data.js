@@ -2,13 +2,16 @@
 const XLSX = require("xlsx");
 const admin = require("../firebase");
 const cmdEmbed = require("../cmdEmbed");
+const { botName } = require("../config.json");
 
 module.exports = {
 	name: "data",
 	type: "admin",
 	config: true,
 	description:
-		"Perintah untuk mengunggah data keperluan konfigurasi Presenqoo.\n` pr data `",
+		"Perintah untuk mengunggah data keperluan konfigurasi " +
+		botName +
+		".\n` pr data `",
 	async execute(message, args, instanceId) {
 		// parameter:
 		// 1. message: message object

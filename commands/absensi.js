@@ -3,7 +3,12 @@ const check3 = require("../check3");
 const cmdEmbed = require("../cmdEmbed");
 const { PaginatedEmbed } = require("embed-paginator");
 const normalEmbed = require("../normalEmbed");
-const { botAuthor, botAuthorLogo, botYear } = require("../config.json");
+const {
+	botAuthor,
+	botAuthorLogo,
+	botYear,
+	botName,
+} = require("../config.json");
 
 module.exports = {
 	name: "absensi",
@@ -25,7 +30,8 @@ module.exports = {
 		if (args.length != 2) {
 			const cmdEmbedMhs = cmdEmbed(
 				"Mhs",
-				"Presenqoo ingin menjangkau semua mahasiswa yang terkendala perangkat"
+				botName +
+					" ingin menjangkau semua mahasiswa yang terkendala perangkat"
 			)
 				.addField(
 					"1. Melihat riwayat absensi",

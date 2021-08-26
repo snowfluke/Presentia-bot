@@ -1,11 +1,14 @@
 const normalEmbed = require("../normalEmbed");
 const admin = require("../firebase");
+const { botName } = require("../config.json");
 
 module.exports = {
 	name: "prosedur",
 	type: "admin",
 	description:
-		"Perintah untuk melihat prosedur konfigurasi server Presenqoo.\n` pr prosedur `",
+		"Perintah untuk melihat prosedur konfigurasi server " +
+		botName +
+		".\n` pr prosedur `",
 	async execute(message, args, instanceId) {
 		if (!message.member.roles.cache.find((r) => r.name === "Admin")) {
 			message.channel.send(

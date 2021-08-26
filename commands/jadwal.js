@@ -3,6 +3,7 @@ const admin = require("../firebase");
 const normalEmbed = require("../normalEmbed");
 const cmdEmbed = require("../cmdEmbed");
 const check3 = require("../check3");
+const { botName } = require("../config.json");
 
 module.exports = {
 	name: "jadwal",
@@ -24,7 +25,8 @@ module.exports = {
 			if (args?.length == 0 || !args) {
 				const cmdEmbedJadwal = cmdEmbed(
 					"Jadwal",
-					"Presenqoo akan langsung memberitahukan mahasiswa jika terjadi perubahan jadwal"
+					botName +
+						" akan langsung memberitahukan mahasiswa jika terjadi perubahan jadwal"
 				)
 					.addField("1. Mengubah Jadwal", "` pr jadwal ubah `")
 					.addField("2. Melihat Jadwal", "` pr jadwal lihat `");

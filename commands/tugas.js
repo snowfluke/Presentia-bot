@@ -4,6 +4,7 @@ const normalEmbed = require("../normalEmbed");
 const exampleEmbed = require("../exampleEmbed");
 const { nanoid } = require("nanoid");
 const check3 = require("../check3");
+const { botName } = require("../config.json");
 
 module.exports = {
 	name: "tugas",
@@ -25,7 +26,8 @@ module.exports = {
 		if (args.length == 0) {
 			const cmdEmbedTugas = cmdEmbed(
 				"Tugas",
-				"Presenqoo dapat membuat tugas yang langsung tersampaikan ke mahasiswa sesuai dengan kelasnya."
+				botName +
+					" dapat membuat tugas yang langsung tersampaikan ke mahasiswa sesuai dengan kelasnya."
 			)
 				.addField("1. Membuat Tugas", "` pr tugas tambah `")
 				.addField("2. Menghapus Tugas", "` pr tugas hapus `");

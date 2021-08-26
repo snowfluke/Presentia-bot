@@ -3,6 +3,7 @@ const check3 = require("../check3");
 const XLSX = require("xlsx");
 const exampleEmbed = require("../exampleEmbed");
 const cmdEmbed = require("../cmdEmbed");
+const { botName } = require("../config.json");
 
 module.exports = {
 	name: "laporan",
@@ -41,7 +42,8 @@ module.exports = {
 		if (args.length == 0) {
 			const cmdEmbedLaporan = cmdEmbed(
 				"Laporan",
-				"Presenqoo akan membuatkan laporan dalam bentuk file excel (.xlsx). Selain itu mengirimkan statistik absensi mahasiswa per minggu pukul 20.00 dan per bulan tanggal 30 pukul 20.00"
+				botName +
+					" akan membuatkan laporan dalam bentuk file excel (.xlsx). Selain itu mengirimkan statistik absensi mahasiswa per minggu pukul 20.00 dan per bulan tanggal 30 pukul 20.00"
 			)
 				.addField("1. Laporan per kelas", ` pr laporan kelas `)
 				.addField("2. Laporan per mata kuliah", ` pr laporan matkul `)

@@ -1,12 +1,15 @@
 const check3 = require("../check3");
 const admin = require("../firebase");
+const { botName } = require("../config.json");
 
 module.exports = {
 	name: "final",
 	type: "admin",
 	config: true,
 	description:
-		"Perintah untuk finalisasi konfigurasi server presenqoo.\n` pr final `",
+		"Perintah untuk finalisasi konfigurasi server " +
+		botName +
+		".\n` pr final `",
 	async execute(message, args, instanceId) {
 		if (!message.member.roles.cache.find((r) => r.name === "Admin")) {
 			message.channel.send(
@@ -169,7 +172,9 @@ module.exports = {
 				"Berhasil menyelesaikan seluruh tahapan konfigurasi :partying_face:"
 			);
 			message.channel.send(
-				":warning: Dimohon untuk tidak merubah konfigurasi nama channel, kategori channel, dan nama-nama role supaya Bot Presenqoo dapat berjalan dengan optimal"
+				":warning: Dimohon untuk tidak merubah konfigurasi nama channel, kategori channel, dan nama-nama role supaya Bot " +
+					botName +
+					" dapat berjalan dengan optimal"
 			);
 		} catch (error) {
 			console.log(error);

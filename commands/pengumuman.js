@@ -4,6 +4,7 @@ const normalEmbed = require("../normalEmbed");
 const exampleEmbed = require("../exampleEmbed");
 const { nanoid } = require("nanoid");
 const check3 = require("../check3");
+const { botName } = require("../config.json");
 
 module.exports = {
 	name: "pengumuman",
@@ -21,7 +22,8 @@ module.exports = {
 		if (args.length == 0) {
 			const cmdEmbedPengumuman = cmdEmbed(
 				"Pengumuman",
-				"Presenqoo dapat membuat pengumuman yang langsung tersampaikan ke seluruh mahasiswa."
+				botName +
+					" dapat membuat pengumuman yang langsung tersampaikan ke seluruh mahasiswa."
 			)
 				.addField("1. Membuat Pengumuman", "` pr pengumuman tambah `")
 				.addField("2. Menghapus Pengumuman", "` pr pengumuman hapus `");

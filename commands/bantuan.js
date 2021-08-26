@@ -2,7 +2,7 @@
 const fs = require("fs");
 
 // * Import config file
-const { botPrefix } = require("../config.json");
+const { botPrefix, botName } = require("../config.json");
 
 // * Import command file from commands folder
 const commandFiles = fs
@@ -36,7 +36,7 @@ module.exports = {
 		const tipe = args[0];
 
 		const helpEmbed = cmdEmbed(
-			`Bantuan Presenqoo [${args}]`,
+			`Bantuan ${botName} [${args}]`,
 			`Daftar perintah yang dapat digunakan oleh ${tipe}`
 		).addField("Awalan", `\` ${botPrefix}<perintah> \``);
 

@@ -1,4 +1,4 @@
-const admin = require("../firebase");
+const { botName } = require("../config.json");
 
 module.exports = {
 	name: "adminkan",
@@ -17,7 +17,9 @@ module.exports = {
 
 		if (!message.guild.me.hasPermission("MANAGE_ROLES"))
 			return message.channel.send(
-				":worried: Maaf, Bot Presenqoo tidak memiliki izin untuk memberikan roles"
+				":worried: Maaf, Bot " +
+					botName +
+					" tidak memiliki izin untuk memberikan roles"
 			);
 
 		try {
@@ -31,11 +33,15 @@ module.exports = {
 			}
 
 			let botRole = message.guild.roles.cache.find(
-				(r) => r.name === "Presenqoo-bot"
+				(r) => r.name === botName + "-bot"
 			);
 			if (!botRole) {
 				message.channel.send(
-					":worried: Maaf, role **Presenqoo-bot** tidak ditemukan. Silakan buat role **Presenqoo-bot** terlebih dahulu _(case sensitive)_. Lihat pada buku panduan untuk informasi lebih lanjut."
+					":worried: Maaf, role **" +
+						botName +
+						"-bot** tidak ditemukan. Silakan buat role **" +
+						botName +
+						"-bot** terlebih dahulu _(case sensitive)_. Lihat pada buku panduan untuk informasi lebih lanjut."
 				);
 				return;
 			}
@@ -52,7 +58,13 @@ module.exports = {
 
 			if (role.position > botRole.position) {
 				message.channel.send(
-					":worried: Maaf, hak akses role **Presenqoo-bot** di bawah role **Admin**. Presenqoo tidak dapat mengadminkan user lain. Silakan ubah urutan role **Presenqoo-bot** supaya lebih tinggi dari role **Admin**. Lihat Buku Panduan Admin."
+					":worried: Maaf, hak akses role **" +
+						botName +
+						"-bot** di bawah role **Admin**. " +
+						botName +
+						" tidak dapat mengadminkan user lain. Silakan ubah urutan role **" +
+						botName +
+						"-bot** supaya lebih tinggi dari role **Admin**. Lihat Buku Panduan Admin."
 				);
 				return;
 			}

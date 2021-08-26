@@ -1,6 +1,7 @@
 const admin = require("../firebase");
 const check3 = require("../check3");
 const cmdEmbed = require("../cmdEmbed");
+const { botName } = require("../config.json");
 
 module.exports = {
 	name: "mhs",
@@ -21,7 +22,8 @@ module.exports = {
 		if (args.length != 2) {
 			const cmdEmbedMhs = cmdEmbed(
 				"Mhs",
-				"Presenqoo ingin menjangkau semua mahasiswa yang terkendala perangkat"
+				botName +
+					" ingin menjangkau semua mahasiswa yang terkendala perangkat"
 			)
 				.addField(
 					"1. Mempercayakan Mahasiswa Untuk Menerima Titipan Absen",
