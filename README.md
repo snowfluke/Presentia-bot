@@ -1,5 +1,5 @@
-# Alel
-Bot discord khusus untuk mahasiswa Teknik Informatika Angkatan 2019 STMIK Komputama Majenang
+# Presentia
+Bot untuk integrasi Instance Server Presentia dengan Client Presentia
 
 ## Kebutuhan (untuk local)
 1. Akun di Discord DevPortal
@@ -29,9 +29,9 @@ Buka folder melalui cmd
 ### Deployment
 Heroku
 
-### Cronjobs
-- Arisan
-  Berjalan setiap jam 07:00
+### Dokumentasi
+
+[Presentia](http://presentia.stmikkomputama.ac.id/)
 
 ## Bantuan & Kepemilikan
 
